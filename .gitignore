@@ -1,0 +1,13 @@
+# Niet nodig om de website te draaien (blijft lokaal)
+pitch-videos/
+scripts/
+brouwproces.jpeg
+
+# Gereedschap
+node_modules/
+package-lock.json
+
+# Systeem
+.DS_Store
+Thumbs.db
+desktop.ini

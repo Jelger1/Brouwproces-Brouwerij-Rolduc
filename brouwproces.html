@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="nl" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>De Brouwreis | Brouwerij Rolduc — van graankorrel tot glas</title>
+    <meta name="description" content="Reis mee door de brouwzaal van Brouwerij Rolduc: van mout tot hergisting op fles in 9 stappen. Kijk mee, probeer het zelf en brouw je eigen abdijbier in de Brouwmeester-game.">
+    <link rel="canonical" href="https://www.brouwerij-rolduc.nl/brouwproces.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="De Brouwreis — Het Vloeibare Goud van Rolduc">
+    <meta property="og:description" content="Van graankorrel tot glas in 9 stappen. Kijk mee, probeer het zelf en word Brouwmeester van Rolduc.">
+    <meta property="og:url" content="https://www.brouwerij-rolduc.nl/brouwproces.html">
+    <meta property="og:image" content="https://www.brouwerij-rolduc.nl/assets/brouwproces/brouwschema.jpg">
+    <meta property="og:locale" content="nl_NL">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/Brouwerij-Rolduc.svg?v=2">
+    <meta name="theme-color" content="#12261A">
+    <!-- Als app op het beginscherm van de iPad: schermvullend, zonder browserbalk. -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Brouwreis">
+
+    <script>
+        /* Vóór de eerste weergave: modus (proeflokaal of web), schermmaat en
+           of het startscherm meteen moet staan. Zie js/brouwproces-app.js. */
+        (function () {
+            var d = document.documentElement;
+            d.className = d.className.replace('no-js', 'js');
+            d.style.setProperty('--vw', d.clientWidth + 'px');
+            d.style.setProperty('--vh', window.innerHeight + 'px');
+            try {
+                var zoek = new URLSearchParams(location.search);
+                var modus = zoek.get('modus');
+                if (modus === 'proeflokaal') localStorage.setItem('rolduc-brouwproces-modus', 'proeflokaal');
+                if (modus === 'web') localStorage.removeItem('rolduc-brouwproces-modus');
+                if (localStorage.getItem('rolduc-brouwproces-modus') === 'proeflokaal') d.classList.add('is-kiosk');
+                if (localStorage.getItem('rolduc-brouwreis-hand') === 'links') d.classList.add('is-linkshandig');
+                var datum = localStorage.getItem('ageVerificationDate');
+                var leeftijdOk = datum && (Date.now() - new Date(datum).getTime()) / 36e5 <= 24;
+                if (!(location.hash && leeftijdOk)) d.classList.add('is-start');
+            } catch (e) { d.classList.add('is-start'); }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+    <link rel="preload" href="assets/MATURASC_1.TTF" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="css/brouwproces.css?v=20261014d">
+    <link rel="stylesheet" href="css/brouwproces-wereld.css?v=20261014d">
+    <link rel="stylesheet" href="css/brouwproces-doen-1.css?v=20261014d">
+    <link rel="stylesheet" href="css/brouwproces-doen-2.css?v=20261014d">
+    <link rel="stylesheet" href="css/brouwproces-doen-3.css?v=20261014d">
+    <link rel="stylesheet" href="css/brouwproces-spel.css?v=20261014d">
+</head>
+<body class="bp-app">
+
+    <!-- hopdecor:start (gegenereerd door scripts/genereer-hopdecor.mjs, niet met de hand wijzigen) -->
+    <svg class="bp-symbolen" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="bp-sym-hopbel" viewBox="-50 -70 100 140" overflow="visible"><path d="M0 -42C1 -50 -2 -57 -8 -64" fill="none" stroke="#E9BE78" stroke-width="1.8" stroke-linecap="round"/><path d="M-1 -45C-12 -52 -22 -48 -27 -41C-16 -38 -7 -40 -1 -45Z" fill="#27332D" stroke="#E9BE78" stroke-width="1"/><path d="M-10 34Q-10.2 44.8 0 52Q10.2 44.8 10 34Q0 30 -10 34Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-6.7 33.3Q-8.5 44.4 -1.1 49.8M-3.3 31.9Q-4.3 44.4 -0.5 49.8M0 31.4Q0 44.4 0 49.8M3.3 31.9Q4.3 44.4 0.5 49.8M6.7 33.3Q8.5 44.4 1.1 49.8" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-26.8 21Q-27 34.2 -21.7 43Q-11.4 34.2 -11.5 21Q-19.2 16.1 -26.8 21Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-24.3 19.9Q-25.7 33.7 -22.5 40.8M-21.7 18.2Q-22.4 33.7 -22.1 40.8M-19.2 17.6Q-19.2 33.7 -21.7 40.8M-16.6 18.2Q-15.9 33.7 -21.3 40.8M-14.1 19.9Q-12.6 33.7 -20.9 40.8" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M11.5 21Q11.4 34.2 21.7 43Q27 34.2 26.8 21Q19.2 16.1 11.5 21Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M14.1 19.9Q12.6 33.7 20.9 40.8M16.6 18.2Q15.9 33.7 21.3 40.8M19.2 17.6Q19.2 33.7 21.7 40.8M21.7 18.2Q22.4 33.7 22.1 40.8M24.3 19.9Q25.7 33.7 22.5 40.8" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-10.8 21Q-11.1 34.2 0 43Q11.1 34.2 10.9 21Q0 16.1 -10.8 21Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-7.2 19.9Q-9.3 33.7 -1.2 40.8M-3.6 18.2Q-4.6 33.7 -0.6 40.8M0 17.6Q0 33.7 0 40.8M3.6 18.2Q4.6 33.7 0.6 40.8M7.2 19.9Q9.3 33.7 1.2 40.8" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-34.4 6.5Q-34.5 21.5 -29.1 31.5Q-18.4 21.5 -18.6 6.5Q-26.5 0.9 -34.4 6.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-31.7 5.1Q-33.2 20.9 -29.9 29.3M-29.1 3.2Q-29.8 20.9 -29.5 29.3M-26.5 2.5Q-26.5 20.9 -29.1 29.3M-23.8 3.2Q-23.1 20.9 -28.6 29.3M-21.2 5.1Q-19.7 20.9 -28.2 29.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M18.6 6.5Q18.4 21.5 29.1 31.5Q34.5 21.5 34.4 6.5Q26.5 0.9 18.6 6.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M21.2 5.1Q19.7 20.9 28.2 29.3M23.8 3.2Q23.1 20.9 28.6 29.3M26.5 2.5Q26.5 20.9 29.1 29.3M29.1 3.2Q29.8 20.9 29.5 29.3M31.7 5.1Q33.2 20.9 29.9 29.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-21.7 6.5Q-21.9 21.5 -12.3 31.5Q0.2 21.5 0 6.5Q-10.8 0.9 -21.7 6.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-18.1 5.1Q-20.1 20.9 -13.5 29.3M-14.5 3.2Q-15.5 20.9 -12.9 29.3M-10.8 2.5Q-10.8 20.9 -12.3 29.3M-7.2 3.2Q-6.2 20.9 -11.7 29.3M-3.6 5.1Q-1.6 20.9 -11.1 29.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M0 6.5Q-0.2 21.5 12.3 31.5Q21.9 21.5 21.7 6.5Q10.8 0.9 0 6.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M3.6 5.1Q1.6 20.9 11.1 29.3M7.2 3.2Q6.2 20.9 11.7 29.3M10.8 2.5Q10.8 20.9 12.3 29.3M14.5 3.2Q15.5 20.9 12.9 29.3M18.1 5.1Q20.1 20.9 13.5 29.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-42.1 -8.5Q-42.4 7.7 -34.1 18.5Q-17.9 7.7 -18.1 -8.5Q-30.1 -14.6 -42.1 -8.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-38.1 -10.1Q-40.4 7 -35.3 16.3M-34.1 -12.2Q-35.2 7 -34.7 16.3M-30.1 -13Q-30.1 7 -34.1 16.3M-26.1 -12.2Q-25 7 -33.4 16.3M-22.1 -10.1Q-19.9 7 -32.8 16.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M18.1 -8.5Q17.9 7.7 34.1 18.5Q42.4 7.7 42.1 -8.5Q30.1 -14.6 18.1 -8.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M22.1 -10.1Q19.9 7 32.8 16.3M26.1 -12.2Q25 7 33.4 16.3M30.1 -13Q30.1 7 34.1 16.3M34.1 -12.2Q35.2 7 34.7 16.3M38.1 -10.1Q40.4 7 35.3 16.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-17 -8.5Q-17.4 7.7 0 18.5Q17.4 7.7 17.1 -8.5Q0 -14.6 -17 -8.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-11.4 -10.1Q-14.5 7 -1.8 16.3M-5.7 -12.2Q-7.3 7 -0.9 16.3M0 -13Q0 7 0 16.3M5.7 -12.2Q7.3 7 0.9 16.3M11.4 -10.1Q14.5 7 1.8 16.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-39.1 -22.5Q-39.3 -6.3 -33.1 4.5Q-20.9 -6.3 -21.1 -22.5Q-30.1 -28.6 -39.1 -22.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-36.1 -24.1Q-37.8 -7 -34 2.3M-33.1 -26.2Q-34 -7 -33.6 2.3M-30.1 -27Q-30.1 -7 -33.1 2.3M-27.1 -26.2Q-26.3 -7 -32.6 2.3M-24.1 -24.1Q-22.4 -7 -32.1 2.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M21.1 -22.5Q20.9 -6.3 33.1 4.5Q39.3 -6.3 39.1 -22.5Q30.1 -28.6 21.1 -22.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M24.1 -24.1Q22.4 -7 32.1 2.3M27.1 -26.2Q26.3 -7 32.6 2.3M30.1 -27Q30.1 -7 33.1 2.3M33.1 -26.2Q34 -7 33.6 2.3M36.1 -24.1Q37.8 -7 34 2.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-24.7 -22.5Q-24.9 -6.3 -14 4.5Q0.2 -6.3 0 -22.5Q-12.3 -28.6 -24.7 -22.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-20.6 -24.1Q-22.9 -7 -15.3 2.3M-16.5 -26.2Q-17.6 -7 -14.7 2.3M-12.3 -27Q-12.3 -7 -14 2.3M-8.2 -26.2Q-7.1 -7 -13.3 2.3M-4.1 -24.1Q-1.8 -7 -12.7 2.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M0 -22.5Q-0.2 -6.3 14 4.5Q24.9 -6.3 24.7 -22.5Q12.3 -28.6 0 -22.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M4.1 -24.1Q1.8 -7 12.7 2.3M8.2 -26.2Q7.1 -7 13.3 2.3M12.3 -27Q12.3 -7 14 2.3M16.5 -26.2Q17.6 -7 14.7 2.3M20.6 -24.1Q22.9 -7 15.3 2.3" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-33.2 -35.5Q-33.4 -20.5 -26.8 -10.5Q-14.1 -20.5 -14.3 -35.5Q-23.7 -41.1 -33.2 -35.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-30 -36.9Q-31.8 -21.1 -27.8 -12.7M-26.9 -38.8Q-27.8 -21.1 -27.3 -12.7M-23.7 -39.5Q-23.7 -21.1 -26.8 -12.7M-20.6 -38.8Q-19.7 -21.1 -26.3 -12.7M-17.4 -36.9Q-15.7 -21.1 -25.8 -12.7" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M14.3 -35.5Q14.1 -20.5 26.8 -10.5Q33.4 -20.5 33.2 -35.5Q23.7 -41.1 14.3 -35.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M17.4 -36.9Q15.7 -21.1 25.8 -12.7M20.6 -38.8Q19.7 -21.1 26.3 -12.7M23.7 -39.5Q23.7 -21.1 26.8 -12.7M26.9 -38.8Q27.8 -21.1 27.3 -12.7M30 -36.9Q31.8 -21.1 27.8 -12.7" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-13.4 -35.5Q-13.7 -20.5 0 -10.5Q13.7 -20.5 13.4 -35.5Q0 -41.1 -13.4 -35.5Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-9 -36.9Q-11.5 -21.1 -1.4 -12.7M-4.5 -38.8Q-5.7 -21.1 -0.7 -12.7M0 -39.5Q0 -21.1 0 -12.7M4.5 -38.8Q5.7 -21.1 0.7 -12.7M9 -36.9Q11.5 -21.1 1.4 -12.7" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M-21.9 -44Q-22 -32 -16.4 -24Q-5.3 -32 -5.5 -44Q-13.7 -48.5 -21.9 -44Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M-19.1 -44.9Q-20.7 -32.5 -17.3 -26.2M-16.4 -46.4Q-17.2 -32.5 -16.8 -26.2M-13.7 -47Q-13.7 -32.5 -16.4 -26.2M-11 -46.4Q-10.2 -32.5 -15.9 -26.2M-8.2 -44.9Q-6.7 -32.5 -15.5 -26.2" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/><path d="M5.5 -44Q5.3 -32 16.4 -24Q22 -32 21.9 -44Q13.7 -48.5 5.5 -44Z" fill="#27332D" stroke="#E9BE78" stroke-width="1.2" stroke-linejoin="round"/><path d="M8.2 -44.9Q6.7 -32.5 15.5 -26.2M11 -46.4Q10.2 -32.5 15.9 -26.2M13.7 -47Q13.7 -32.5 16.4 -26.2M16.4 -46.4Q17.2 -32.5 16.8 -26.2M19.1 -44.9Q20.7 -32.5 17.3 -26.2" fill="none" stroke="#C99A55" stroke-width=".7" stroke-linecap="round" opacity=".95"/></symbol><symbol id="bp-sym-hopblad" viewBox="-60 -60 120 120" overflow="visible"><path d="M0 28L-1.4 28.4L-2.8 29.6L-4.1 31.4L-5.5 33.4L-6.9 35.5L-8.4 37.4L-10.1 39L-16.1 36L-14.2 40.5L-16.6 40.8L-19.2 40.9L-23.8 35.4L-24.6 40.4L-27.2 39.8L-29.7 39L-31.7 32.3L-34.1 36.7L-36.1 35.1L-38 33.2L-37.4 26L-41.6 28.9L-43.2 26.6L-44.7 24.3L-42.6 17.4L-47.1 19.7L-48.1 17.5L-48.9 15.1L-45.2 9.1L-50.2 10.3L-50.8 7.7L-51.4 4.9L-47.4 -1.4L-52.8 -1.3L-53.7 -5.2L-54.7 -9.4L-51 -17L-56.3 -17.6L-56.7 -21.2L-56.7 -24.1L-50.4 -24.8L-54.6 -26.8L-52.5 -26.8L-49.9 -26.1L-46.9 -19.1L-44 -23.5L-41 -22L-38.3 -20.8L-35.3 -14.3L-34 -19.4L-32.1 -18.7L-30.3 -18L-27.9 -11.7L-27.1 -17L-25.8 -16.9L-24.8 -17.2L-18.3 -17.9L-23.7 -19.5L-23.8 -21.6L-24.3 -24.1L-20.4 -30.4L-25.6 -29.9L-26.1 -32.8L-26.3 -35.6L-20.4 -39.2L-25.3 -40.1L-24.3 -42.2L-23 -44.2L-16 -44.7L-20 -47.9L-18.3 -49.6L-16.7 -51.4L-9.6 -51L-13.3 -54.7L-11.5 -56.5L-9.7 -58.4L-2.6 -57.7L-5.8 -61.7L-3.8 -62.9L-1.9 -63.7L2.4 -58.8L1.9 -63.7L3.8 -62.9L5.8 -61.7L6.2 -54.6L9.7 -58.4L11.5 -56.5L13.3 -54.7L13 -47.6L16.7 -51.4L18.3 -49.6L20 -47.9L19 -40.9L23 -44.2L24.3 -42.2L25.3 -40.1L21.4 -34.5L26.3 -35.6L26.1 -32.8L25.6 -29.9L19.3 -25.7L24.3 -24.1L23.8 -21.6L23.7 -19.5L20.3 -13.6L24.8 -17.2L25.8 -16.9L27.1 -17L32.5 -13.2L30.3 -18L32.1 -18.7L34 -19.4L39.9 -15.8L38.3 -20.8L41 -22L44 -23.5L51.3 -21.1L49.9 -26.1L52.5 -26.8L54.6 -26.8L53.3 -21L56.7 -24.1L56.7 -21.2L56.3 -17.6L50.1 -12.3L54.7 -9.4L53.7 -5.2L52.8 -1.3L46.4 3.2L51.4 4.9L50.8 7.7L50.2 10.3L44 13.7L48.9 15.1L48.1 17.5L47.1 19.7L40.3 21.6L44.7 24.3L43.2 26.6L41.6 28.9L34.3 29.7L38 33.2L36.1 35.1L34.1 36.7L27.4 34.5L29.7 39L27.2 39.8L24.6 40.4L19 35.8L19.2 40.9L16.6 40.8L14.2 40.5L11.6 34.3L10.1 39L8.4 37.4L6.9 35.5L5.5 33.4L4.1 31.4L2.8 29.6L1.4 28.4Z" fill="#59635F" stroke="#F4F6F2" stroke-width="1.5" stroke-linejoin="round"/><path d="M-1.1 23.5Q-13.5 17.3 -24.4 6.8M1.1 23.5Q13.5 17.3 24.4 6.8M-1.1 17.7Q-13.5 11.6 -24.4 1.1M1.1 17.7Q13.5 11.6 24.4 1.1M-1.1 12.1Q-13.5 5.9 -24.4 -4.6M1.1 12.1Q13.5 5.9 24.4 -4.6M-1.1 6.4Q-13.5 0.3 -24.4 -10.2M1.1 6.4Q13.5 0.3 24.4 -10.2M-1.1 0.8Q-13.5 -5.3 -24.4 -15.8M1.1 0.8Q13.5 -5.3 24.4 -15.8M-1.1 -4.8Q-12.6 -10.3 -22.6 -20.2M1.1 -4.8Q12.6 -10.3 22.6 -20.2M-1.1 -10.4Q-13.2 -16.3 -23.9 -26.6M1.1 -10.4Q13.2 -16.3 23.9 -26.6M-1.1 -15.9Q-13.5 -22 -24.4 -32.5M1.1 -15.9Q13.5 -22 24.4 -32.5M-1.1 -21.4Q-13.5 -27.5 -24.4 -38M1.1 -21.4Q13.5 -27.5 24.4 -38M-1.1 -26.9Q-12.6 -32.3 -22.6 -42.2M1.1 -26.9Q12.6 -32.3 22.6 -42.2M-1.1 -32.3Q-11.3 -36.8 -20 -45.8M1.1 -32.3Q11.3 -36.8 20 -45.8M-1.1 -37.7Q-9.8 -41.2 -17 -49.1M1.1 -37.7Q9.8 -41.2 17 -49.1M-1.1 -43.1Q-8.2 -45.5 -13.8 -52.2M1.1 -43.1Q8.2 -45.5 13.8 -52.2M-1.1 -48.5Q-6.7 -49.7 -10.8 -55.4M1.1 -48.5Q6.7 -49.7 10.8 -55.4M-1.1 -53.8Q-5.1 -53.9 -7.6 -58.4M1.1 -53.8Q5.1 -53.9 7.6 -58.4M-4.3 27.5Q-17.3 32.2 -32.4 32.9M-2.8 25.8Q1.3 12.7 1.2 -2.5M-7.3 24.6Q-20.3 29.2 -35.5 29.7M-5.7 23Q-1.6 9.8 -1.5 -5.3M-10.4 21.6Q-23.4 26.1 -38.5 26.6M-8.8 20Q-4.5 6.9 -4.3 -8.3M-13.4 18.6Q-26.5 23 -41.6 23.3M-11.8 17Q-7.4 3.9 -7.2 -11.3M-16.5 15.5Q-29.6 19.8 -44.8 20M-14.9 13.9Q-10.4 0.8 -10.1 -14.3M-19.7 12.2Q-32.3 16.4 -47 16.4M-18 10.7Q-13.5 -2.3 -13 -17.5M-22.8 9Q-34.5 12.9 -48.2 12.7M-21.2 7.4Q-16.6 -5.6 -16 -20.7M-26.1 5.6Q-36.6 9.3 -49.1 8.8M-24.4 4Q-19.7 -8.9 -19 -24.1M-29.3 2.1Q-38.7 5.6 -50 4.9M-27.7 0.6Q-22.8 -12.3 -22.1 -27.5M-32.6 -1.4Q-40.7 1.9 -50.8 0.9M-30.9 -2.9Q-27.6 -8.3 -28.3 -15.8M-35.9 -5Q-42.9 -2 -51.8 -3.1M-34.2 -6.6Q-31.1 -10.7 -32 -17.2M-39.3 -8.7Q-45.1 -5.8 -52.7 -7.2M-37.6 -10.2Q-34.7 -13.2 -35.8 -18.5M-42.7 -12.5Q-47.2 -9.8 -53.7 -11.3M-41 -14Q-38.3 -15.8 -39.7 -19.9M-46.1 -16.3Q-49.4 -13.8 -54.5 -15.5M-44.4 -17.9Q-42 -18.6 -43.5 -21.7M-49.6 -20.3Q-51.5 -17.9 -55.2 -19.7M-47.9 -21.8Q-45.7 -21.5 -47.5 -23.6M2.8 25.8Q-1.3 12.7 -1.2 -2.5M4.3 27.5Q17.3 32.2 32.4 32.9M5.7 23Q1.6 9.8 1.5 -5.3M7.3 24.6Q20.3 29.2 35.5 29.7M8.8 20Q4.5 6.9 4.3 -8.3M10.4 21.6Q23.4 26.1 38.5 26.6M11.8 17Q7.4 3.9 7.2 -11.3M13.4 18.6Q26.5 23 41.6 23.3M14.9 13.9Q10.4 0.8 10.1 -14.3M16.5 15.5Q29.6 19.8 44.8 20M18 10.7Q13.5 -2.3 13 -17.5M19.7 12.2Q32.3 16.4 47 16.4M21.2 7.4Q16.6 -5.6 16 -20.7M22.8 9Q34.5 12.9 48.2 12.7M24.4 4Q19.7 -8.9 19 -24.1M26.1 5.6Q36.6 9.3 49.1 8.8M27.7 0.6Q22.8 -12.3 22.1 -27.5M29.3 2.1Q38.7 5.6 50 4.9M30.9 -2.9Q27.6 -8.3 28.3 -15.8M32.6 -1.4Q40.7 1.9 50.8 0.9M34.2 -6.6Q31.1 -10.7 32 -17.2M35.9 -5Q42.9 -2 51.8 -3.1M37.6 -10.2Q34.7 -13.2 35.8 -18.5M39.3 -8.7Q45.1 -5.8 52.7 -7.2M41 -14Q38.3 -15.8 39.7 -19.9M42.7 -12.5Q47.2 -9.8 53.7 -11.3M44.4 -17.9Q42 -18.6 43.5 -21.7M46.1 -16.3Q49.4 -13.8 54.5 -15.5M47.9 -21.8Q45.7 -21.5 47.5 -23.6M49.6 -20.3Q51.5 -17.9 55.2 -19.7" fill="none" stroke="#F4F6F2" stroke-width=".5" stroke-linecap="round" opacity=".82"/><path d="M0 30Q0 -16 0 -58.3M0 30Q-23.5 8 -51.7 -24.4M0 30Q23.5 8 51.7 -24.4" fill="none" stroke="#F4F6F2" stroke-width="1.5" stroke-linecap="round"/><path d="M0 30V54" stroke="#F4F6F2" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="bp-sym-rank" viewBox="0 0 300 1000" overflow="visible"><path class="bp-rank__stengel" d="M-10 -20C70 80 30 170 92 250C150 330 70 420 120 520C160 600 90 690 60 780C40 850 70 920 40 1010" fill="none" stroke="#F4F6F2" stroke-opacity=".55" stroke-width="2"/><path class="bp-rank__stengel" d="M92 250C130 230 170 236 200 200M120 520C160 500 200 520 230 492M60 780C100 770 128 790 150 760" fill="none" stroke="#F4F6F2" stroke-opacity=".45" stroke-width="1.5"/><path d="M200 200c14-10 26-2 22 10s-18 10-18 0 10-12 16-4M230 492c16-6 24 6 18 16s-18 6-14-4M150 760c12-12 26-6 22 6s-16 8-14-2" fill="none" stroke="#F4F6F2" stroke-opacity=".5" stroke-width="1.2" stroke-linecap="round"/><g transform="translate(30 30) rotate(-35) scale(1.6)"><g class="bp-zwaai bp-zwaai--1"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(175 60) rotate(25) scale(1.25)"><g class="bp-zwaai bp-zwaai--2"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(115 175) rotate(6) scale(1.1)"><g class="bp-zwaai bp-zwaai--3"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(10 255) rotate(-80) scale(1.5)"><g class="bp-zwaai bp-zwaai--2"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(185 285) rotate(-8) scale(1)"><g class="bp-zwaai bp-zwaai--1"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(210 410) rotate(70) scale(1.15)"><g class="bp-zwaai bp-zwaai--3"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(62 410) rotate(10) scale(1.15)"><g class="bp-zwaai bp-zwaai--2"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(18 560) rotate(-95) scale(1.4)"><g class="bp-zwaai bp-zwaai--1"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(170 590) rotate(-10) scale(1.05)"><g class="bp-zwaai bp-zwaai--3"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(160 700) rotate(110) scale(1)"><g class="bp-zwaai bp-zwaai--2"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(50 700) rotate(6) scale(0.95)"><g class="bp-zwaai bp-zwaai--1"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(22 850) rotate(-70) scale(1.3)"><g class="bp-zwaai bp-zwaai--3"><use href="#bp-sym-hopblad" x="-60" y="-60" width="120" height="120"/></g></g><g transform="translate(130 870) rotate(-4) scale(1)"><g class="bp-zwaai bp-zwaai--2"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g><g transform="translate(40 985) rotate(10) scale(0.85)"><g class="bp-zwaai bp-zwaai--1"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></g></g></symbol></defs></svg>
+    <!-- hopdecor:end -->
+
+    <!-- Gedeelde verlopen, filters en het Rolduc-beeldmerk voor alle illustraties. -->
+    <svg class="bp-symbolen" aria-hidden="true" focusable="false" width="0" height="0">
+        <defs>
+            <linearGradient id="bp-grad-goud" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F7E59D"/>
+                <stop offset=".55" stop-color="#E2BC52"/>
+                <stop offset="1" stop-color="#B98A2E"/>
+            </linearGradient>
+            <linearGradient id="bp-grad-wort" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F6D77E"/>
+                <stop offset="1" stop-color="#D59A35"/>
+            </linearGradient>
+            <linearGradient id="bp-grad-beslag" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#E1C690"/>
+                <stop offset="1" stop-color="#A8874B"/>
+            </linearGradient>
+            <linearGradient id="bp-grad-bier" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F3C24F"/>
+                <stop offset="1" stop-color="#C47F17"/>
+            </linearGradient>
+            <linearGradient id="bp-grad-bruinglas" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#2A160A"/>
+                <stop offset=".35" stop-color="#5A3214"/>
+                <stop offset="1" stop-color="#24120A"/>
+            </linearGradient>
+            <linearGradient id="bp-grad-mout" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F0D48A"/>
+                <stop offset="1" stop-color="#C79A48"/>
+            </linearGradient>
+            <radialGradient id="bp-grad-gloed">
+                <stop offset="0" stop-color="#F7E59D" stop-opacity=".55"/>
+                <stop offset="1" stop-color="#F7E59D" stop-opacity="0"/>
+            </radialGradient>
+            <symbol id="bp-sym-r" viewBox="40 30 210 220">
+                <path fill="currentColor" d="M63.690,110.040l16.990-29.620c17.400-13.260,35.250-22.580,53.540-27.960,18.370-5.320,34.180-7.970,47.430-7.970,10.560,0,20.750,2.280,30.550,6.840,9.940,4.630,17.330,10.460,22.160,17.500,4.830,7.110,7.250,13.600,7.250,19.470,0,6.630-2.660,14.570-7.970,23.820-5.450,9.390-16.470,18.570-33.040,27.550-16.780,9.180-37.630,15.670-62.560,19.470,20.920,12.430,37.110,25.820,48.570,40.180-1.380,4.830-6.180,18.060-14.400,39.670-5.180-4.760-10.700-9.680-16.570-14.760-5.870-5.070-11.910-10.190-18.120-15.330-6.210-5.140-16.850-13.830-31.900-26.050-16.640,23.610-29.760,35.420-39.360,35.420-5.390,0-11.290-3.490-17.710-10.460-1.800-2-4.040-3.970-6.730-5.900,1.450-3.040,3.870-7.600,7.250-13.670,2.690-4.900,4.830-9.010,6.420-12.320l28.270,14.600c5.590-6.490,12.810-15.740,21.650-27.750,8.010-10.910,16.670-23.540,26-37.910l28.580-44.530-7.770-.21c-6.560,0-13.360.66-20.400,1.970-7.040,1.310-14.400,3.210-22.060,5.700-15.540,5.110-30.900,12.530-46.090,22.270ZM183.830,84.560c-11.670,11.880-29.210,33.040-52.610,63.490,22.160-2.420,45.740-17.500,70.740-45.260-3.450-7.870-9.490-13.950-18.120-18.230Z"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <a class="bp-skip" href="#stap-1">Direct naar stap 1</a>
+
+    <!-- =============================================================
+         HUD: zwevende app-balk. Logo = opnieuw beginnen; de routeknop met
+         de S-curve van de poster (tik = routekaart); ⓘ = uitleg; geluid.
+         Op de telefoon: daarboven een verhalenbalk van 10 segmenten.
+         ============================================================= -->
+    <header class="bp-hud" data-hud>
+        <div class="bp-hud__verhalen" aria-hidden="true"><i data-segment="1"></i><i data-segment="2"></i><i data-segment="3"></i><i data-segment="4"></i><i data-segment="5"></i><i data-segment="6"></i><i data-segment="7"></i><i data-segment="8"></i><i data-segment="9"></i><i data-segment="10"></i></div>
+        <button type="button" class="bp-hud__merk" data-reset-vraag aria-label="Brouwerij Rolduc: opnieuw beginnen">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><use href="#bp-sym-r" x="10" y="9" width="20" height="22"/></svg>
+            <span class="logo-font">Brouwerij Rolduc</span>
+        </button>
+
+        <button type="button" class="bp-hud__route" data-kiezer aria-haspopup="dialog">
+            <svg class="bp-hud__kaart" viewBox="0 0 112 38" aria-hidden="true">
+                <path class="bp-hud__kaart-lijn" d="M10 7H86Q100 7 100 13Q100 19 86 19H26Q12 19 12 25Q12 31 26 31H92"/>
+                <path class="bp-hud__kaart-goud" data-route-goud pathLength="100" d="M10 7H86Q100 7 100 13Q100 19 86 19H26Q12 19 12 25Q12 31 26 31H92"/>
+                <g data-route-punten><circle data-punt="1" cx="10" cy="7" r="2.6"/><circle data-punt="2" cx="34" cy="7" r="2.6"/><circle data-punt="3" cx="58" cy="7" r="2.6"/><circle data-punt="4" cx="100" cy="13" r="2.6"/><circle data-punt="5" cx="74" cy="19" r="2.6"/><circle data-punt="6" cx="46" cy="19" r="2.6"/><circle data-punt="7" cx="12" cy="25" r="2.6"/><circle data-punt="8" cx="38" cy="31" r="2.6"/><circle data-punt="9" cx="64" cy="31" r="2.6"/><circle data-punt="10" cx="92" cy="31" r="2.6"/></g>
+            </svg>
+            <span class="bp-hud__route-tekst"><small data-hud-van>Intro</small><strong data-hud-naam>De Brouwreis</strong></span>
+            <span class="bp-hud__modus" data-hud-modus hidden></span>
+            <i class="fas fa-chevron-down bp-hud__route-pijl" aria-hidden="true"></i>
+            <span class="sr-only">Open de routekaart</span>
+        </button>
+        <span data-hud-nummer hidden></span>
+
+        <div class="bp-hud__acties">
+            <button type="button" class="bp-hud__knop bp-hud__knop--uitleg" data-tour-open aria-label="Hoe werkt deze reis?"><i class="fas fa-circle-info" aria-hidden="true"></i></button>
+            <button type="button" class="bp-hud__knop" data-geluid-knop aria-pressed="false" aria-label="Geluid aanzetten"><i class="fas fa-volume-xmark" aria-hidden="true"></i></button>
+        </div>
+    </header>
+
+    <!-- =============================================================
+         DE WERELD: één kaart van de brouwzaal, zoals de poster. Elke cel
+         is precies één scherm; de camera reist langs de S-curve.
+         js/brouwproces-scenes.js
+         ============================================================= -->
+    <main id="bp-inhoud" class="bp-main bp-camera" data-camera>
+        <div class="bp-diepte bp-diepte--ver" data-diepte="0.35" data-decor aria-hidden="true"></div>
+
+        <div class="bp-wereld" data-wereld>
+            <svg class="bp-leiding" aria-hidden="true" focusable="false">
+                <defs>
+                    <linearGradient id="bp-leiding-goud" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="240" y2="0" spreadMethod="reflect">
+                        <stop offset="0" stop-color="#F7E59D"/>
+                        <stop offset=".5" stop-color="#D4AF37"/>
+                        <stop offset="1" stop-color="#FFF1B8"/>
+                    </linearGradient>
+                </defs>
+                <g data-banen></g>
+                <circle class="bp-leiding__kop is-verborgen" r="7" cx="-20" cy="-20"/>
+            </svg>
+
+            <!-- ============================ INTRO ============================ -->
+            <section class="bp-cel bp-cel--intro" id="intro" data-cel="intro" data-x="-1" data-y="0" aria-label="Intro">
+                <div class="bp-cel__decor" data-decor aria-hidden="true">
+                    <svg class="bp-rank bp-rank--links" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+                    <svg class="bp-rank bp-rank--rechts" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+                    <svg class="bp-intro__abdij" data-decor viewBox="0 0 1200 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                        <g class="bp-abdij-lijn">
+                            <path d="M0 168H1200"/>
+                            <path d="M70 168V112H300V168M70 112L92 92H278L300 112"/>
+                            <path d="M300 168V96H360V168M300 96L330 70L360 96"/>
+                            <path d="M360 168V118H520V168M360 118L380 102H500L520 118"/>
+                            <path d="M520 168V60H580V168M520 60L550 14L580 60M550 14V2M544 8H556"/>
+                            <path d="M580 168V104H700V168M580 104L600 84H680L700 104"/>
+                            <path d="M700 168V120H760A30 30 0 0 1 820 120V168"/>
+                            <path d="M820 168V110H1060V168M820 110L840 92H1040L1060 110"/>
+                            <path d="M1060 168V96H1110V168M1060 96L1085 76L1110 96"/>
+                        </g>
+                        <g class="bp-abdij-ramen">
+                            <path d="M96 150v-16a6 6 0 0 1 12 0v16M126 150v-16a6 6 0 0 1 12 0v16M156 150v-16a6 6 0 0 1 12 0v16M186 150v-16a6 6 0 0 1 12 0v16M216 150v-16a6 6 0 0 1 12 0v16M246 150v-16a6 6 0 0 1 12 0v16"/>
+                            <path d="M322 150v-26a8 8 0 0 1 16 0v26"/>
+                            <path d="M384 150v-14a5 5 0 0 1 10 0v14M410 150v-14a5 5 0 0 1 10 0v14M436 150v-14a5 5 0 0 1 10 0v14M462 150v-14a5 5 0 0 1 10 0v14M488 150v-14a5 5 0 0 1 10 0v14"/>
+                            <path d="M540 120v-22a10 10 0 0 1 20 0v22M544 76a6 6 0 0 1 12 0v8h-12z"/>
+                            <path d="M604 150v-18a7 7 0 0 1 14 0v18M632 150v-18a7 7 0 0 1 14 0v18M660 150v-18a7 7 0 0 1 14 0v18"/>
+                            <path d="M778 150v-14a12 12 0 0 1 24 0v14"/>
+                            <path d="M846 150v-16a6 6 0 0 1 12 0v16M876 150v-16a6 6 0 0 1 12 0v16M906 150v-16a6 6 0 0 1 12 0v16M936 150v-16a6 6 0 0 1 12 0v16M966 150v-16a6 6 0 0 1 12 0v16M996 150v-16a6 6 0 0 1 12 0v16M1026 150v-16a6 6 0 0 1 12 0v16"/>
+                            <path d="M1078 150v-20a7 7 0 0 1 14 0v20"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="bp-scherm bp-scherm--intro" data-scene="intro" aria-label="Intro: het vloeibare goud van Rolduc">
+                    <div class="bp-intro__inhoud">
+                        <div class="bp-oogje">De Brouwreis · 9 stappen</div>
+                        <h1 class="bp-intro__titel" id="bp-intro-titel" data-scene-kop>
+                            <span class="logo-font bp-intro__titel-goud">Het Vloeibare Goud</span>
+                            <span class="logo-font bp-intro__titel-sub">van Rolduc</span>
+                        </h1>
+                        <p class="bp-intro__lead">Binnen de eeuwenoude muren van Abdij Rolduc brouwen wij sinds 2013 ons abdijbier. Wat ooit in de abdijen begon als een noodzaak voor de monniken, is uitgegroeid tot een ambacht waarin geduld, wetenschap en passie samenkomen.</p>
+                        <p class="bp-intro__tekst">Maar hoe verander je een handvol stugge graankorrels en wat bloemige hopbellen in een karaktervol glas speciaalbier?</p>
+                        <p class="bp-intro__uitnodiging">Volg de gouden leiding door onze brouwzaal. Kijk rustig mee, of draai onderweg zelf aan de knoppen.</p>
+                    </div>
+                    <div class="bp-bron">
+                        <span class="bp-bron__kraan" data-nav="volgende" aria-hidden="true">
+                            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26"/><path d="M32 6v10M32 48v10M6 32h10M48 32h10M14 14l7 7M43 43l7 7M14 50l7-7M43 21l7-7"/><circle cx="32" cy="32" r="8"/></svg>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r"></span>
+                        </span>
+                        <p class="bp-bron__tekst">Hier begint de leiding. <span>Veeg, scroll of tik op de gouden knop om te beginnen.</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ STAP 1 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-1" data-cel="1" data-stap="1" data-kort="Mout" data-x="0" data-y="0" data-compositie="links" aria-label="Stap 1: Mout">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="1a" aria-labelledby="stap-1-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: een openstaande jutezak vol moutkorrels, met opvliegende graantjes en een gerstaar">
+                                <defs>
+                                    <clipPath id="bp-clip-zak"><path d="M96 132C78 168 60 226 66 272C70 300 96 310 160 310C224 310 250 300 254 272C260 226 242 168 224 132Z"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V108"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V108"/>
+                                <ellipse class="bp-schaduw" cx="160" cy="312" rx="104" ry="8"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M96 132C78 168 60 226 66 272C70 300 96 310 160 310C224 310 250 300 254 272C260 226 242 168 224 132Z"/>
+                                <g class="bp-jute" clip-path="url(#bp-clip-zak)">
+                                    <path d="M70 150H250M70 162H250M70 174H250M70 186H250M70 198H250M70 210H250M70 222H250M70 234H250M70 246H250M70 258H250M70 270H250M70 282H250M70 294H250"/>
+                                    <path d="M84 130V310M96 130V310M108 130V310M120 130V310M132 130V310M144 130V310M156 130V310M168 130V310M180 130V310M192 130V310M204 130V310M216 130V310M228 130V310M240 130V310"/>
+                                </g>
+                                <path class="bp-lf" d="M112 168C122 204 112 244 122 290M206 172C198 208 210 250 200 292"/>
+                                <g class="bp-zak-stempel">
+                                    <rect class="bp-v bp-lf" x="118" y="204" width="84" height="50" rx="6"/>
+                                    <rect class="bp-lf" x="123" y="209" width="74" height="40" rx="4"/>
+                                    <text class="bp-svg-klein" x="160" y="225">Rolduc</text>
+                                    <text class="bp-svg-label" x="160" y="243">Mout</text>
+                                </g>
+                                <path class="bp-v bp-l" d="M90 128C88 112 112 104 160 104C208 104 232 112 230 128C228 144 204 152 160 152C116 152 92 144 90 128Z"/>
+                                <path class="bp-lf" d="M96 136C118 146 202 146 224 136"/>
+                                <ellipse class="bp-zak-opening" cx="160" cy="125" rx="58" ry="12"/>
+                                <path class="bp-mouthoop" d="M104 126C112 100 208 100 216 126Z"/>
+                                <g class="bp-korrels-hoop">
+                                    <ellipse cx="128" cy="116" rx="5" ry="2.6" transform="rotate(-20 128 116)"/>
+                                    <ellipse cx="142" cy="110" rx="5" ry="2.6" transform="rotate(15 142 110)"/>
+                                    <ellipse cx="158" cy="107" rx="5" ry="2.6" transform="rotate(-8 158 107)"/>
+                                    <ellipse cx="174" cy="109" rx="5" ry="2.6" transform="rotate(25 174 109)"/>
+                                    <ellipse cx="190" cy="114" rx="5" ry="2.6" transform="rotate(-30 190 114)"/>
+                                    <ellipse cx="150" cy="118" rx="5" ry="2.6" transform="rotate(40 150 118)"/>
+                                    <ellipse cx="168" cy="118" rx="5" ry="2.6" transform="rotate(-45 168 118)"/>
+                                    <ellipse cx="200" cy="121" rx="5" ry="2.6" transform="rotate(10 200 121)"/>
+                                    <ellipse cx="118" cy="122" rx="5" ry="2.6" transform="rotate(30 118 122)"/>
+                                </g>
+                                <!-- gerstaar -->
+                                <g transform="translate(206 120) rotate(34)">
+                                    <path class="bp-lf" d="M0 0V-100"/>
+                                    <g class="bp-aar">
+                                        <ellipse cx="-4.5" cy="-52" rx="3.4" ry="6.5" transform="rotate(-20 -4.5 -52)"/>
+                                        <ellipse cx="4.5" cy="-60" rx="3.4" ry="6.5" transform="rotate(20 4.5 -60)"/>
+                                        <ellipse cx="-4.5" cy="-68" rx="3.4" ry="6.5" transform="rotate(-20 -4.5 -68)"/>
+                                        <ellipse cx="4.5" cy="-76" rx="3.4" ry="6.5" transform="rotate(20 4.5 -76)"/>
+                                        <ellipse cx="-4.5" cy="-84" rx="3.2" ry="6" transform="rotate(-20 -4.5 -84)"/>
+                                        <ellipse cx="4.5" cy="-92" rx="3" ry="5.6" transform="rotate(20 4.5 -92)"/>
+                                        <ellipse cx="0" cy="-100" rx="2.8" ry="5.2"/>
+                                    </g>
+                                    <path class="bp-baard" d="M-7 -56L-16 -96M7 -64L16 -104M-7 -72L-15 -110M7 -80L14 -118M-6 -88L-12 -124M6 -96L11 -130M0 -105V-136"/>
+                                </g>
+                                <!-- opvliegende korrels -->
+                                <g class="bp-vlieg">
+                                    <ellipse style="--d:0s;--x:-18px" cx="132" cy="92" rx="5.5" ry="2.8"/>
+                                    <ellipse style="--d:.6s;--x:12px" cx="150" cy="80" rx="5.5" ry="2.8"/>
+                                    <ellipse style="--d:1.2s;--x:-8px" cx="170" cy="86" rx="5.5" ry="2.8"/>
+                                    <ellipse style="--d:1.8s;--x:16px" cx="186" cy="94" rx="5.5" ry="2.8"/>
+                                    <ellipse style="--d:.9s;--x:-14px" cx="122" cy="74" rx="5.5" ry="2.8"/>
+                                    <ellipse style="--d:2.3s;--x:10px" cx="162" cy="66" rx="5.5" ry="2.8"/>
+                                </g>
+                                <g class="bp-korrels-grond">
+                                    <ellipse cx="54" cy="314" rx="5" ry="2.6" transform="rotate(20 54 314)"/>
+                                    <ellipse cx="70" cy="320" rx="5" ry="2.6" transform="rotate(-15 70 320)"/>
+                                    <ellipse cx="262" cy="318" rx="5" ry="2.6" transform="rotate(35 262 318)"/>
+                                </g>
+                                <path class="bp-buis" d="M160 312V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 312V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">1</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-1-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 1 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Mout">Mout</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">De ziel van het bier</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Gerst wordt eerst gemout: geweekt, gekiemd en gedroogd. Mout geeft bier zijn suikers, body en kleur.</p>
+                        <p class="bp-verhaalkaart__verhaal">Alles begint bij de basis: mout. Veel mensen denken dat bier direct van vers graan van het veld wordt gemaakt, maar daar kan een brouwer nog vrij weinig mee. De gerst moet eerst worden 'gemout': het graan wordt kort geweekt zodat het ontkiemt en daarna gedroogd met warme lucht. Mout geeft het bier zijn body, zijn natuurlijke suikers én zijn kleur. Hoe donkerder de korrel is geroosterd, hoe donkerder en krachtiger je bier.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-1">Alles begint bij mout. Met vers graan van het veld kan een brouwer weinig. De gerst wordt eerst geweekt tot hij kiemt en daarna gedroogd met warme lucht. Mout geeft het bier body, suikers én kleur: hoe donkerder geroosterd, hoe donkerder je bier.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-1"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="1b" aria-labelledby="doen-1-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 1</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-1-titel" data-scene-kop>Kleur de mout</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Houd de trommel aan en kleur de mout.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="rooster" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-geheim="1" aria-label="Brouwersgeheim: Kiemen &amp; eesten"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 2 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-2" data-cel="2" data-stap="2" data-kort="Schroten" data-x="1" data-y="0" data-compositie="rechts" aria-label="Stap 2: Schroten">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="2a" aria-labelledby="stap-2-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de schrootmolen, een trechter op poten met draaiende walsen waar moutkorrels in vallen">
+                                <path class="bp-buis" d="M160 0V22"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V22"/>
+                                <g class="bp-val">
+                                    <ellipse style="--d:0s" cx="150" cy="22" rx="4.5" ry="2.4"/>
+                                    <ellipse style="--d:.45s" cx="166" cy="20" rx="4.5" ry="2.4"/>
+                                    <ellipse style="--d:.9s" cx="158" cy="24" rx="4.5" ry="2.4"/>
+                                    <ellipse style="--d:1.3s" cx="144" cy="18" rx="4.5" ry="2.4"/>
+                                </g>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M98 40H222V52H98Z"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M104 52H216L186 116H134Z"/>
+                                <path class="bp-mouthoop" d="M112 56C130 44 190 44 208 56Z"/>
+                                <path class="bp-lf" d="M120 62L146 112M200 62L174 112"/>
+                                <!-- behuizing met tikband en klinknagels -->
+                                <rect class="bp-v bp-l bp-teken" x="108" y="116" width="104" height="68" rx="4" pathLength="1"/>
+                                <path class="bp-lf" d="M108 124H212M108 134H212"/>
+                                <path class="bp-tik" d="M114 124v10M120 124v10M126 124v10M132 124v10M138 124v10M144 124v10M150 124v10M156 124v10M162 124v10M168 124v10M174 124v10M180 124v10M186 124v10M192 124v10M198 124v10M204 124v10"/>
+                                <g class="bp-nagels"><circle cx="114" cy="176" r="1.8"/><circle cx="206" cy="176" r="1.8"/><circle cx="114" cy="142" r="1.8"/><circle cx="206" cy="142" r="1.8"/></g>
+                                <rect class="bp-venster" x="126" y="140" width="68" height="36" rx="4"/>
+                                <g class="bp-tandwiel bp-draai"><circle class="bp-tanden" cx="146" cy="158" r="12"/><circle class="bp-lf" cx="146" cy="158" r="6"/><circle class="bp-naaf" cx="146" cy="158" r="2"/></g>
+                                <g class="bp-tandwiel bp-draai bp-draai--terug"><circle class="bp-tanden" cx="174" cy="158" r="12"/><circle class="bp-lf" cx="174" cy="158" r="6"/><circle class="bp-naaf" cx="174" cy="158" r="2"/></g>
+                                <!-- slinger met wiel -->
+                                <path class="bp-lf" d="M212 150H226"/>
+                                <g class="bp-tandwiel bp-draai bp-draai--traag">
+                                    <circle class="bp-tanden bp-tanden--groot" cx="240" cy="150" r="20"/>
+                                    <circle class="bp-lf" cx="240" cy="150" r="12"/>
+                                    <path class="bp-lf" d="M240 138V162M228 150H252"/>
+                                    <circle class="bp-naaf" cx="240" cy="150" r="3"/>
+                                </g>
+                                <!-- trechter onder -->
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M136 184H184L172 214H148Z"/>
+                                <g class="bp-val bp-val--schroot">
+                                    <path style="--d:0s" d="M156 218l4-2 2 3z"/>
+                                    <path style="--d:.35s" d="M162 222l3 3-4 1z"/>
+                                    <path style="--d:.7s" d="M154 226l3-3 2 4z"/>
+                                </g>
+                                <!-- poten -->
+                                <path class="bp-l bp-teken" pathLength="1" d="M112 184L90 304M124 184L104 304M208 184L230 304M196 184L216 304"/>
+                                <path class="bp-lf" d="M100 256H220"/>
+                                <path class="bp-lf" d="M82 304H112M208 304H238"/>
+                                <path class="bp-buis" d="M160 216V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 216V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">2</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-2-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 2 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Schroten">Schroten</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">Breken, niet malen</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">De moutkorrels worden opengebroken, niet fijngemalen. Zo komt het zetmeel vrij en blijft het kafje heel.</p>
+                        <p class="bp-verhaalkaart__verhaal">De waardevolle zetmelen zitten nog veilig opgesloten in de harde moutkorrel. Daarom gaan de korrels door de schrootmolen. Let op: we malen er géén bloem van! Bij het schroten pletten we de korrel net ver genoeg open zodat het binnenste bloot komt te liggen, terwijl het buitenste vliesje – het kaf – zo heel mogelijk blijft. Waarom dat vliesje straks onze redding is? Dat zie je bij stap 4.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-2">Het zetmeel zit nog opgesloten in de harde moutkorrel. Daarom gaat de mout door de schrootmolen. Let op: we malen géén bloem! We breken de korrel net ver genoeg open, terwijl het kafvliesje zo heel mogelijk blijft. Waarom? Dat zie je bij stap 4.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-2"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="2b" aria-labelledby="doen-2-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 2</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-2-titel" data-scene-kop>Plet de korrel</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Draai aan het wiel tot de korrel openbreekt.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="molen" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-video="2" aria-label="Bekijk de video: De schrootmolen in actie"><i class="fas fa-play" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-geheim="2" aria-label="Brouwersgeheim: De perfecte spleet"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 3 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-3" data-cel="3" data-stap="3" data-kort="Maischen" data-x="2" data-y="0" data-compositie="links" aria-label="Stap 3: Maischen">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="3a" aria-labelledby="stap-3-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de maischketel met roerwerk achter een kijkvenster, leidingen en een temperatuurmeter aan de linkerkant">
+                                <defs>
+                                    <clipPath id="bp-clip-maischvenster"><rect x="120" y="124" width="80" height="110" rx="10"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V14H190Q198 14 198 22V64"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V14H190Q198 14 198 22V64"/>
+                                <g class="bp-stoom">
+                                    <path style="--d:0s" d="M128 44c-6-8 6-12 0-20s6-12 0-18"/>
+                                    <path style="--d:1.4s" d="M226 56c-6-8 6-12 0-20s6-12 0-18"/>
+                                </g>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M100 94C100 66 124 50 160 50C196 50 220 66 220 94Z"/>
+                                <rect class="bp-v bp-l" x="148" y="30" width="24" height="20" rx="3"/>
+                                <path class="bp-lf" d="M153 36H167M153 41H167M153 46H167"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M100 94H220V252Q220 262 210 262H110Q100 262 100 252Z"/>
+                                <path class="bp-lf" d="M100 104H220"/>
+                                <path class="bp-tik" d="M106 94v10M112 94v10M118 94v10M124 94v10M130 94v10M136 94v10M142 94v10M148 94v10M154 94v10M160 94v10M166 94v10M172 94v10M178 94v10M184 94v10M190 94v10M196 94v10M202 94v10M208 94v10M214 94v10"/>
+                                <g class="bp-nagels"><circle cx="108" cy="112" r="1.8"/><circle cx="120" cy="112" r="1.8"/><circle cx="132" cy="112" r="1.8"/><circle cx="144" cy="112" r="1.8"/><circle cx="156" cy="112" r="1.8"/><circle cx="168" cy="112" r="1.8"/><circle cx="180" cy="112" r="1.8"/><circle cx="192" cy="112" r="1.8"/><circle cx="204" cy="112" r="1.8"/><circle cx="214" cy="112" r="1.8"/><circle cx="108" cy="252" r="1.8"/><circle cx="212" cy="252" r="1.8"/></g>
+                                <rect class="bp-venster" x="120" y="124" width="80" height="110" rx="10"/>
+                                <g clip-path="url(#bp-clip-maischvenster)">
+                                    <g class="bp-vloeistof-niveau"><path class="bp-beslag-golf" d="M100 150Q115 144 130 150T160 150T190 150T220 150T250 150V240H100Z"/></g>
+                                    <path class="bp-l" d="M160 50V214"/>
+                                    <g class="bp-roer"><path class="bp-roerblad" d="M134 206H186V214H134Z"/></g>
+                                    <g class="bp-roer bp-roer--twee"><path class="bp-roerblad" d="M138 176H182V183H138Z"/></g>
+                                </g>
+                                <rect class="bp-l" x="120" y="124" width="80" height="110" rx="10"/>
+                                <!-- handgreep -->
+                                <rect class="bp-v bp-lf" x="206" y="182" width="40" height="10" rx="5"/>
+                                <circle class="bp-naaf" cx="214" cy="187" r="2"/>
+                                <!-- meters links -->
+                                <path class="bp-lf" d="M100 150H72V128M100 196H76"/>
+                                <g class="bp-meter">
+                                    <circle class="bp-v bp-l" cx="64" cy="114" r="17"/>
+                                    <path class="bp-tik" d="M52 114h3M64 102v3M76 114h-3M55.5 105.5l2 2M72.5 105.5l-2 2"/>
+                                    <path class="bp-meter__naald" d="M64 114L72 104"/>
+                                    <circle class="bp-naaf" cx="64" cy="114" r="2"/>
+                                </g>
+                                <text class="bp-ketel__temp" x="64" y="89" data-ketel-temp></text>
+                                <circle class="bp-v bp-l" cx="64" cy="196" r="13"/>
+                                <path class="bp-lf" d="M58 190a8 8 0 0 1 10-2"/>
+                                <path class="bp-lf" d="M64 209V224H78M78 220V228M74 220H82"/>
+                                <!-- poten en uitloop -->
+                                <path class="bp-l bp-teken" pathLength="1" d="M110 262V310M210 262V310"/>
+                                <path class="bp-lf" d="M100 310H120M200 310H220"/>
+                                <circle class="bp-v bp-lf bp-buis-deel" cx="160" cy="288" r="7"/>
+                                <path class="bp-lf bp-buis-deel" d="M160 281L160 295M160 288H176"/>
+                                <path class="bp-buis" d="M160 262V281M160 295V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 295V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">3</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-3-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 3 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Maischen">Maischen</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">De magie van temperatuur</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Geschroot graan en warm water worden een zoete pap: het beslag. Bij precieze temperaturen knippen enzymen het zetmeel in suikers.</p>
+                        <p class="bp-verhaalkaart__verhaal">Nu mengen we het geschrote graan met warm brouwwater: het maischen. Er ontstaat een dikke, zoet geurende graanpap die we het 'beslag' noemen. Gist kan straks geen zetmeel eten, maar wél suiker. Door het beslag volgens een precies tijdschema naar verschillende temperaturen te verwarmen, worden natuurlijke enzymen wakker. Zij knippen de lange zetmeelketens in hapklare suikers.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-3">Nu mengen we het geschrote graan met warm brouwwater: het maischen. Zo ontstaat een dikke, zoet geurende pap, het 'beslag'. Gist eet geen zetmeel, wél suiker. Bij precieze temperaturen worden natuurlijke enzymen wakker die het zetmeel in hapklare suikers knippen.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-3"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="3b" aria-labelledby="doen-3-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 3</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-3-titel" data-scene-kop>Wek de enzymen</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Sleep het kwik naar 62 °C, daarna naar 72 °C.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="maisch" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-video="3" aria-label="Bekijk de video: Het beslag ontwaakt"><i class="fas fa-play" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-geheim="3" aria-label="Brouwersgeheim: Twee microscopische scharen"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 4 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-4" data-cel="4" data-stap="4" data-kort="Filtratie" data-x="3" data-y="0.5" data-compositie="links" aria-label="Stap 4: Filtratie">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="4a" aria-labelledby="stap-4-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de filterkuip met zeefbodem. De leiding splitst: rechts een mijnwagentje vol bostel, onderaan loopt het heldere wort door naar stap 5">
+                                <defs>
+                                    <clipPath id="bp-clip-filter"><rect x="88" y="74" width="144" height="108" rx="8"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V58"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V58"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M72 58H248V66H72Z"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M76 66H244V196Q244 204 236 204H84Q76 204 76 196Z"/>
+                                <g class="bp-nagels"><circle cx="84" cy="72" r="1.8"/><circle cx="236" cy="72" r="1.8"/><circle cx="84" cy="196" r="1.8"/><circle cx="236" cy="196" r="1.8"/></g>
+                                <rect class="bp-venster" x="88" y="74" width="144" height="108" rx="8"/>
+                                <g clip-path="url(#bp-clip-filter)">
+                                    <g class="bp-filter-vloeistof"><rect class="bp-filter-troebel" x="88" y="84" width="144" height="50"/></g>
+                                    <g class="bp-filter-bed">
+                                        <rect x="88" y="132" width="144" height="38"/>
+                                        <path d="M96 140l6-3M110 150l6 2M126 138l5 4M140 156l6-2M156 142l6 3M170 152l5-4M186 140l6 2M200 156l5-3M214 144l6 2M102 162l6-2M120 166l5 3M150 164l6-1M178 166l5-3M206 164l6 2M224 152l4 4"/>
+                                    </g>
+                                    <rect class="bp-filter-wort" x="88" y="172" width="144" height="10"/>
+                                    <path class="bp-lf" d="M160 66V150M128 140H192"/>
+                                    <path class="bp-hakmes" d="M132 140v8M144 140v8M156 140v8M168 140v8M180 140v8M192 140v8"/>
+                                </g>
+                                <path class="bp-zeef" d="M88 171H232"/>
+                                <rect class="bp-l" x="88" y="74" width="144" height="108" rx="8"/>
+                                <!-- splitsing: zijluik met goot naar het karretje -->
+                                <path class="bp-v bp-l" d="M244 150H256V176H244"/>
+                                <path class="bp-l bp-teken" pathLength="1" d="M256 160L286 214M256 176L278 218"/>
+                                <!-- mijnwagentje met bostel -->
+                                <g class="bp-kar">
+                                    <path class="bp-bostel" d="M232 238C236 222 248 216 258 222C264 212 280 214 286 222C296 216 310 224 308 238Z"/>
+                                    <g class="bp-bostel-korrels"><circle cx="248" cy="230" r="1.5"/><circle cx="262" cy="224" r="1.5"/><circle cx="276" cy="228" r="1.5"/><circle cx="290" cy="226" r="1.5"/><circle cx="300" cy="232" r="1.5"/><circle cx="256" cy="234" r="1.5"/><circle cx="284" cy="234" r="1.5"/></g>
+                                    <path class="bp-v bp-l" d="M228 238H312L302 268H238Z"/>
+                                    <path class="bp-lf" d="M232 248H308"/>
+                                    <text class="bp-svg-klein" x="270" y="262">BOSTEL</text>
+                                    <g class="bp-wiel"><circle class="bp-v bp-l" cx="250" cy="276" r="8"/><path class="bp-lf" d="M244 276h12M250 270v12"/></g>
+                                    <g class="bp-wiel"><circle class="bp-v bp-l" cx="290" cy="276" r="8"/><path class="bp-lf" d="M284 276h12M290 270v12"/></g>
+                                </g>
+                                <path class="bp-lf" d="M222 286H318"/>
+                                <path class="bp-tik" d="M228 286v5M240 286v5M252 286v5M264 286v5M276 286v5M288 286v5M300 286v5M312 286v5"/>
+                                <text class="bp-svg-label bp-svg-label--klein" x="272" y="316">Bostel</text>
+                                <!-- poten, kijkglas helder wort, uitloop -->
+                                <path class="bp-l bp-teken" pathLength="1" d="M90 204V250M230 204V250"/>
+                                <path class="bp-lf" d="M80 250H100M220 250H240"/>
+                                <path class="bp-buis" d="M160 204V218M160 238V340"/>
+                                <circle class="bp-v bp-l bp-buis-deel" cx="160" cy="228" r="10"/>
+                                <circle class="bp-kijkglas bp-buis-deel" cx="160" cy="228" r="6.5"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 238V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="u" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="d" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">4</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-4-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 4 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Filtratie">Filtratie</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">De grote scheiding</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">De kafjes vormen een natuurlijk filter waar het zoete wort doorheen loopt. Het graan dat overblijft, het bostel, gaat naar de boer.</p>
+                        <p class="bp-verhaalkaart__verhaal">De suikers zijn opgelost in het warme water; het graan heeft zijn werk gedaan. Tijdens de filtratie scheiden we het vocht van de vaste graanresten. Weet je nog dat we bij stap 2 het kafvliesje heel moesten laten? Al die vliesjes zakken nu naar de zeefbodem van de ketel en vormen samen een 100% natuurlijk filterbed! De heldere, zoete vloeistof die we nu aftappen heet 'wort'. De voedzame graanmassa die achterblijft heet 'bostel' – die gaat bij Rolduc regelrecht naar lokale boeren als heerlijk krachtvoer voor het vee.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-4">De suikers zijn opgelost; het graan heeft zijn werk gedaan. Weet je nog, die hele kafjes van stap 2? Ze vormen nu een 100% natuurlijk filterbed. De heldere, zoete vloeistof heet 'wort'. Het 'bostel' dat achterblijft, gaat bij Rolduc als krachtvoer naar lokale boeren.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-4"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="4b" aria-labelledby="doen-4-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 4</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-4-titel" data-scene-kop>Kraan open, bostel weg</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Trek de kraan open, tik dan op het karretje.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="filter" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-geheim="4" aria-label="Brouwersgeheim: Rondpompen &amp; spoelen"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 5 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-5" data-cel="5" data-stap="5" data-kort="Koken" data-x="2" data-y="1" data-compositie="rechts" aria-label="Stap 5: Koken">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="5a" aria-labelledby="stap-5-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de hoge kookketel met opstijgende stoomwolkjes, een peilglas en een hopbel ernaast">
+                                <defs>
+                                    <clipPath id="bp-clip-patrijspoort"><circle cx="150" cy="186" r="20"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V46"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V46"/>
+                                <g class="bp-wolken">
+                                    <path style="--d:0s" d="M52 70a9 9 0 0 1 12-12a11 11 0 0 1 20 1a8 8 0 0 1 3 15H56a7 7 0 0 1-4-4Z"/>
+                                    <path style="--d:1.6s" d="M232 52a9 9 0 0 1 12-12a11 11 0 0 1 20 1a8 8 0 0 1 3 15H236a7 7 0 0 1-4-4Z"/>
+                                    <path style="--d:3.1s" d="M246 102a8 8 0 0 1 11-10a10 10 0 0 1 18 1a7 7 0 0 1 3 13H250a6 6 0 0 1-4-4Z"/>
+                                </g>
+                                <path class="bp-lf" d="M108 82L90 70M114 74L98 64M212 74L230 62M214 86L240 92"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M104 96C104 68 126 46 160 46C194 46 216 68 216 96Z"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M104 96H216V274Q216 284 206 284H114Q104 284 104 274Z"/>
+                                <path class="bp-lf" d="M104 106H216"/>
+                                <path class="bp-tik" d="M110 96v10M116 96v10M122 96v10M128 96v10M134 96v10M140 96v10M146 96v10M152 96v10M158 96v10M164 96v10M170 96v10M176 96v10M182 96v10M188 96v10M194 96v10M200 96v10M206 96v10M212 96v10"/>
+                                <g class="bp-nagels"><circle cx="112" cy="114" r="1.8"/><circle cx="124" cy="114" r="1.8"/><circle cx="136" cy="114" r="1.8"/><circle cx="148" cy="114" r="1.8"/><circle cx="160" cy="114" r="1.8"/><circle cx="172" cy="114" r="1.8"/><circle cx="184" cy="114" r="1.8"/><circle cx="196" cy="114" r="1.8"/><circle cx="208" cy="114" r="1.8"/><circle cx="112" cy="274" r="1.8"/><circle cx="124" cy="274" r="1.8"/><circle cx="136" cy="274" r="1.8"/><circle cx="148" cy="274" r="1.8"/><circle cx="160" cy="274" r="1.8"/><circle cx="172" cy="274" r="1.8"/><circle cx="184" cy="274" r="1.8"/><circle cx="196" cy="274" r="1.8"/><circle cx="208" cy="274" r="1.8"/></g>
+                                <!-- peilglas -->
+                                <rect class="bp-v bp-lf" x="192" y="128" width="10" height="122" rx="5"/>
+                                <g clip-path="url(#bp-clip-peilglas)"><rect class="bp-peil" x="194" y="150" width="6" height="98" rx="3"/></g>
+                                <clipPath id="bp-clip-peilglas"><rect x="194" y="130" width="6" height="118" rx="3"/></clipPath>
+                                <path class="bp-lf" d="M186 134H192M186 244H192"/>
+                                <!-- patrijspoort met kolkend wort -->
+                                <circle class="bp-venster" cx="150" cy="186" r="20"/>
+                                <g clip-path="url(#bp-clip-patrijspoort)">
+                                    <rect class="bp-kook-wort" x="128" y="176" width="44" height="32"/>
+                                    <g class="bp-bubbels"><circle style="--d:0s" cx="140" cy="204" r="2.4"/><circle style="--d:.4s" cx="152" cy="206" r="3"/><circle style="--d:.8s" cx="161" cy="204" r="2"/><circle style="--d:1.1s" cx="146" cy="206" r="1.8"/><circle style="--d:.2s" cx="157" cy="206" r="2.6"/></g>
+                                </g>
+                                <circle class="bp-l" cx="150" cy="186" r="20"/>
+                                <circle class="bp-lf" cx="150" cy="186" r="24"/>
+                                <!-- handgreep links -->
+                                <rect class="bp-v bp-lf" x="112" y="232" width="46" height="10" rx="5"/>
+                                <circle class="bp-naaf" cx="120" cy="237" r="2"/>
+                                <!-- hopbel met blaadjes -->
+                                <g class="bp-zwaai bp-zwaai--2" transform="translate(0 0)">
+                                    <path class="bp-lf" d="M98 160C86 150 78 150 66 156"/>
+                                    <use href="#bp-sym-hopblad" x="58" y="128" width="38" height="38"/>
+                                    <use href="#bp-sym-hopbel" x="38" y="150" width="44" height="62"/>
+                                </g>
+                                <path class="bp-l bp-teken" pathLength="1" d="M114 284V318M206 284V318"/>
+                                <path class="bp-lf" d="M104 318H124M196 318H216"/>
+                                <path class="bp-buis" d="M160 284V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 284V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">5</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-5-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 5 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Koken">Koken</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">Tijd voor pit en aroma</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Het wort kookt ruim een uur en de hop gaat erin. Hop geeft bitterheid, aroma en een stevige schuimkraag.</p>
+                        <p class="bp-verhaalkaart__verhaal">Het zoete wort wordt ruim een uur lang stevig gekookt. Zo maken we het vocht volledig steriel, maar het is vooral hét moment voor onze smaakmaker: hop (en bij sommige Rolduc-bieren onze geheime kruidenmix). Hop is de perfecte tegenhanger van de zoete mout. Het geeft het bier zijn verfrissende bitterheid, zorgt voor een stevige schuimkraag en geeft heerlijke bloemige of fruitige aroma's.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-5">Het zoete wort kookt ruim een uur stevig door. Zo wordt het steriel, maar vooral is dit hét moment voor onze smaakmaker: hop. Hop is de tegenhanger van de zoete mout: het geeft verfrissende bitterheid, een stevige schuimkraag en bloemige of fruitige aroma's.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-5"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="5b" aria-labelledby="doen-5-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 5</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-5-titel" data-scene-kop>Hop in de ketel</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Breng de ketel aan de kook en gooi hop erin.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="hopketel" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-video="5" aria-label="Bekijk de video: Hop in de kokende ketel"><i class="fas fa-play" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-geheim="5" aria-label="Brouwersgeheim: Waarom een vol uur koken?"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 6 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-6" data-cel="6" data-stap="6" data-kort="Vergisten" data-x="1" data-y="1" data-compositie="links" aria-label="Stap 6: Vergisten">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="6a" aria-labelledby="stap-6-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de cilinderconische vergistingstank op poten met een puntige bodem en een blubbende gasafvoer">
+                                <defs>
+                                    <clipPath id="bp-clip-mangat"><circle cx="160" cy="142" r="15"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V40"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V40"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M110 80C110 54 130 40 160 40C190 40 210 54 210 80Z"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M110 80H210V220L172 268H148L110 220Z"/>
+                                <path class="bp-lf" d="M110 90H210M110 220H210"/>
+                                <path class="bp-tik" d="M116 80v10M122 80v10M128 80v10M134 80v10M140 80v10M146 80v10M152 80v10M158 80v10M164 80v10M170 80v10M176 80v10M182 80v10M188 80v10M194 80v10M200 80v10M206 80v10"/>
+                                <g class="bp-nagels"><circle cx="118" cy="98" r="1.8"/><circle cx="130" cy="98" r="1.8"/><circle cx="142" cy="98" r="1.8"/><circle cx="154" cy="98" r="1.8"/><circle cx="166" cy="98" r="1.8"/><circle cx="178" cy="98" r="1.8"/><circle cx="190" cy="98" r="1.8"/><circle cx="202" cy="98" r="1.8"/><circle cx="118" cy="212" r="1.8"/><circle cx="130" cy="212" r="1.8"/><circle cx="142" cy="212" r="1.8"/><circle cx="154" cy="212" r="1.8"/><circle cx="166" cy="212" r="1.8"/><circle cx="178" cy="212" r="1.8"/><circle cx="190" cy="212" r="1.8"/><circle cx="202" cy="212" r="1.8"/></g>
+                                <!-- koelmantel -->
+                                <path class="bp-lf" d="M110 112H210M110 118H210M110 186H210M110 192H210"/>
+                                <!-- mangat met opstijgende belletjes -->
+                                <circle class="bp-venster" cx="160" cy="142" r="15"/>
+                                <g clip-path="url(#bp-clip-mangat)">
+                                    <rect class="bp-gist-bier" x="144" y="126" width="32" height="32"/>
+                                    <g class="bp-bubbels bp-bubbels--traag"><circle style="--d:0s" cx="154" cy="156" r="1.8"/><circle style="--d:.7s" cx="163" cy="158" r="2.2"/><circle style="--d:1.3s" cx="158" cy="157" r="1.4"/><circle style="--d:1.9s" cx="167" cy="156" r="1.6"/></g>
+                                </g>
+                                <circle class="bp-l" cx="160" cy="142" r="15"/>
+                                <circle class="bp-lf" cx="160" cy="142" r="20"/>
+                                <path class="bp-lf" d="M138 142H182"/>
+                                <circle class="bp-naaf" cx="182" cy="142" r="2.4"/>
+                                <!-- gasafvoer naar emmertje -->
+                                <path class="bp-lf" d="M196 54C214 44 248 46 254 74V214"/>
+                                <path class="bp-v bp-l" d="M238 214H272L268 250H242Z"/>
+                                <rect class="bp-emmer-water" x="242" y="224" width="26" height="24"/>
+                                <g class="bp-blub"><circle style="--d:0s" cx="254" cy="238" r="2.4"/><circle style="--d:.6s" cx="258" cy="240" r="1.8"/><circle style="--d:1.2s" cx="252" cy="241" r="2"/></g>
+                                <!-- poten en uitloop -->
+                                <path class="bp-l bp-teken" pathLength="1" d="M114 196V328M206 196V328"/>
+                                <path class="bp-lf" d="M114 290H206"/>
+                                <path class="bp-lf" d="M104 328H124M196 328H216"/>
+                                <rect class="bp-v bp-lf" x="152" y="268" width="16" height="8" rx="2"/>
+                                <path class="bp-buis" d="M160 276V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 276V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">6</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-6-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 6 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Vergisten">Vergisten</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">Het kleinste werkpaard van de brouwerij</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Gist eet de suikers op en maakt er alcohol en koolzuur van. Ook de fruitige, kruidige geuren ontstaan nu.</p>
+                        <p class="bp-verhaalkaart__verhaal">De brouwer maakt het wort, maar de gist maakt het bier! Nadat het gekookte wort razendsnel is afgekoeld naar een aangename temperatuur, gaat het de vergistingstank in en voegen we gist toe. Deze miljoenen eencellige micro-organismen storten zich op de suikers in het wort. Tijdens dit feestmaal zetten ze de suikers om in twee dingen waar we erg blij van worden: alcohol én koolzuurgas (CO₂). Ook ontstaan nu de verfijnde fruitige en kruidige geuren die zo typerend zijn voor abdij- en speciaalbier.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-6">De brouwer maakt het wort, maar de gist maakt het bier! Het gekookte wort wordt razendsnel afgekoeld en gaat de gisttank in. Daar storten talloze gistcellen zich op de suikers en maken er alcohol én koolzuurgas van, plus de fruitige, kruidige geuren van abdijbier.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-6"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="6b" aria-labelledby="doen-6-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 6</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-6-titel" data-scene-kop>De gist-loep</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Sleep het vergrootglas over de gisttank.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="gistloep" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-geheim="6" aria-label="Brouwersgeheim: Het feestmaal in formule"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 7 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-7" data-cel="7" data-stap="7" data-kort="Lageren" data-x="0" data-y="1.5" data-compositie="rechts" aria-label="Stap 7: Lageren">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="7a" aria-labelledby="stap-7-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: de lagertank met rijp, vallende druppels en een thermometer op 2 graden">
+                                <path class="bp-buis" d="M160 0V54"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V54"/>
+                                <g class="bp-druppels">
+                                    <path style="--d:0s" d="M128 18c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12Z"/>
+                                    <path style="--d:.9s" d="M142 30c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8Z"/>
+                                </g>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M112 90C112 66 132 54 160 54C188 54 208 66 208 90Z"/>
+                                <path class="bp-v bp-l bp-teken" pathLength="1" d="M112 90H208V266Q208 288 186 288H134Q112 288 112 266Z"/>
+                                <path class="bp-lf" d="M112 100H208"/>
+                                <path class="bp-tik" d="M118 90v10M124 90v10M130 90v10M136 90v10M142 90v10M148 90v10M154 90v10M160 90v10M166 90v10M172 90v10M178 90v10M184 90v10M190 90v10M196 90v10M202 90v10"/>
+                                <rect class="bp-v bp-lf" x="148" y="118" width="24" height="22" rx="2"/>
+                                <path class="bp-rijp" d="M150 124h4M158 130h6M152 134h3"/>
+                                <circle class="bp-v bp-l" cx="160" cy="180" r="20"/>
+                                <g class="bp-nagels"><circle cx="160" cy="166" r="1.8"/><circle cx="170" cy="170" r="1.8"/><circle cx="174" cy="180" r="1.8"/><circle cx="170" cy="190" r="1.8"/><circle cx="160" cy="194" r="1.8"/><circle cx="150" cy="190" r="1.8"/><circle cx="146" cy="180" r="1.8"/><circle cx="150" cy="170" r="1.8"/></g>
+                                <circle class="bp-lf" cx="160" cy="180" r="6"/>
+                                <!-- rijp en sneeuwkristallen -->
+                                <g class="bp-kristal"><path d="M126 214v12M120 220h12M122 216l8 8M130 216l-8 8"/><path d="M190 236v10M185 241h10M186.5 237.5l7 7M193.5 237.5l-7 7"/><path d="M128 254v8M124 258h8"/></g>
+                                <path class="bp-rijp" d="M114 108c6 4 12-2 18 2s12-2 18 2 12-2 18 2 12-2 18 2 12-2 20 0"/>
+                                <!-- thermometer 2 graden -->
+                                <path class="bp-lf" d="M208 140H226"/>
+                                <g class="bp-meter bp-meter--koud">
+                                    <circle class="bp-v bp-l" cx="244" cy="140" r="18"/>
+                                    <path class="bp-tik" d="M231 140h3M244 127v3M257 140h-3M234.8 130.8l2 2M253.2 130.8l-2 2"/>
+                                    <path class="bp-meter__naald" d="M244 140L234 134"/>
+                                    <circle class="bp-naaf" cx="244" cy="140" r="2"/>
+                                </g>
+                                <text class="bp-svg-klein" x="244" y="174">2 °C</text>
+                                <!-- vallende condensdruppels onder -->
+                                <g class="bp-druppels bp-druppels--onder">
+                                    <path style="--d:.3s" d="M132 292c-2 3-3 5-3 6a3 3 0 0 0 6 0c0-1-1-3-3-6Z"/>
+                                    <path style="--d:1.5s" d="M190 292c-2 3-3 5-3 6a3 3 0 0 0 6 0c0-1-1-3-3-6Z"/>
+                                </g>
+                                <path class="bp-l bp-teken" pathLength="1" d="M120 272V326M200 272V326"/>
+                                <path class="bp-lf" d="M110 326H130M190 326H210"/>
+                                <path class="bp-buis" d="M160 288V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 288V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="u" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="d" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">7</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-7-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 7 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Lageren">Lageren</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">De kunst van het geduld</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Wekenlang ijzige rust, vlak boven het vriespunt. Het bier wordt helder en alle smaken worden rond.</p>
+                        <p class="bp-verhaalkaart__verhaal">Na een week flink doorwerken is de hoofdvergisting klaar. Het 'jongbier' is geboren, maar smaakt nog wat ruw en onstuimig. Nu volgt het lageren: de kunst van het geduld. We koelen de tanks terug tot vlak boven het vriespunt. Wekenlang krijgt het bier hier ijzige rust. Uitgewerkte gistcellen zakken naar de bodem, het bier wordt helder en alle smaken smelten samen tot een harmonieus geheel.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-7">Na een week is de hoofdvergisting klaar. Het 'jongbier' smaakt nog ruw en onstuimig. Nu volgt de kunst van het geduld: wekenlang ijzige rust, vlak boven het vriespunt. De gist zakt naar de bodem, het bier wordt helder en alle smaken smelten samen.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-7"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="7b" aria-labelledby="doen-7-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 7</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-7-titel" data-scene-kop>Wekenlang koud</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Tik op de kalender en laat het bier rusten.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="kalender" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-geheim="7" aria-label="Brouwersgeheim: Wat de kou doet"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 8 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-8" data-cel="8" data-stap="8" data-kort="Bottelen" data-x="1" data-y="2" data-compositie="links" aria-label="Stap 8: Bottelen">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="8a" aria-labelledby="stap-8-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: drie bruine bierflesjes hangen aan de vullijn en worden gevuld">
+                                <defs>
+                                    <clipPath id="bp-clip-fles1"><path d="M86 100V122C86 132 76 136 76 148V228Q76 236 84 236H96Q104 236 104 228V148C104 136 94 132 94 122V100Z"/></clipPath>
+                                    <clipPath id="bp-clip-fles2"><path d="M156 100V122C156 132 146 136 146 148V228Q146 236 154 236H166Q174 236 174 228V148C174 136 164 132 164 122V100Z"/></clipPath>
+                                    <clipPath id="bp-clip-fles3"><path d="M226 100V122C226 132 216 136 216 148V228Q216 236 224 236H236Q244 236 244 228V148C244 136 234 132 234 122V100Z"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V40"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V40"/>
+                                <path class="bp-l bp-teken" pathLength="1" d="M60 40H260"/>
+                                <path class="bp-lf" d="M90 40V88M160 40V88M230 40V88"/>
+                                <rect class="bp-v bp-lf" x="82" y="86" width="16" height="10" rx="2"/>
+                                <rect class="bp-v bp-lf" x="152" y="86" width="16" height="10" rx="2"/>
+                                <rect class="bp-v bp-lf" x="222" y="86" width="16" height="10" rx="2"/>
+                                <g class="bp-fles bp-fles--1">
+                                    <path class="bp-fles-glas" d="M86 100V122C86 132 76 136 76 148V228Q76 236 84 236H96Q104 236 104 228V148C104 136 94 132 94 122V100Z"/>
+                                    <g clip-path="url(#bp-clip-fles1)"><rect class="bp-fles-bier" x="72" y="100" width="36" height="136"/></g>
+                                    <path class="bp-l" d="M86 100V122C86 132 76 136 76 148V228Q76 236 84 236H96Q104 236 104 228V148C104 136 94 132 94 122V100Z"/>
+                                    <rect class="bp-v bp-lf" x="79" y="168" width="22" height="30" rx="2"/>
+                                    <use href="#bp-sym-r" class="bp-fles-r" x="84" y="174" width="12" height="16"/>
+                                    <path class="bp-glans" d="M80 156V216"/>
+                                </g>
+                                <g class="bp-fles bp-fles--2">
+                                    <path class="bp-fles-glas" d="M156 100V122C156 132 146 136 146 148V228Q146 236 154 236H166Q174 236 174 228V148C174 136 164 132 164 122V100Z"/>
+                                    <g clip-path="url(#bp-clip-fles2)"><rect class="bp-fles-bier" x="142" y="100" width="36" height="136"/></g>
+                                    <path class="bp-l" d="M156 100V122C156 132 146 136 146 148V228Q146 236 154 236H166Q174 236 174 228V148C174 136 164 132 164 122V100Z"/>
+                                    <rect class="bp-v bp-lf" x="149" y="168" width="22" height="30" rx="2"/>
+                                    <use href="#bp-sym-r" class="bp-fles-r" x="154" y="174" width="12" height="16"/>
+                                    <path class="bp-glans" d="M150 156V216"/>
+                                </g>
+                                <g class="bp-fles bp-fles--3">
+                                    <path class="bp-fles-glas" d="M226 100V122C226 132 216 136 216 148V228Q216 236 224 236H236Q244 236 244 228V148C244 136 234 132 234 122V100Z"/>
+                                    <g clip-path="url(#bp-clip-fles3)"><rect class="bp-fles-bier" x="212" y="100" width="36" height="136"/></g>
+                                    <path class="bp-l" d="M226 100V122C226 132 216 136 216 148V228Q216 236 224 236H236Q244 236 244 228V148C244 136 234 132 234 122V100Z"/>
+                                    <rect class="bp-v bp-lf" x="219" y="168" width="22" height="30" rx="2"/>
+                                    <use href="#bp-sym-r" class="bp-fles-r" x="224" y="174" width="12" height="16"/>
+                                    <path class="bp-glans" d="M220 156V216"/>
+                                </g>
+                                <!-- kroonkurken in de goot -->
+                                <path class="bp-lf" d="M262 54L296 92"/>
+                                <g class="bp-kurken"><circle cx="270" cy="60" r="5"/><circle cx="280" cy="71" r="5"/><circle cx="290" cy="82" r="5"/></g>
+                                <!-- lopende band -->
+                                <path class="bp-l" d="M48 262H272"/>
+                                <g class="bp-rollen"><circle cx="64" cy="270" r="6"/><circle cx="104" cy="270" r="6"/><circle cx="144" cy="270" r="6"/><circle cx="184" cy="270" r="6"/><circle cx="224" cy="270" r="6"/><circle cx="264" cy="270" r="6"/></g>
+                                <path class="bp-lf" d="M48 278H272M64 278V318M256 278V318"/>
+                                <path class="bp-lf" d="M54 318H74M246 318H266"/>
+                                <path class="bp-buis" d="M160 278V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 278V340"/>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">8</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-8-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 8 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Bottelen">Bottelen</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">Beschermd achter donker glas</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Het bier gaat in bruine flesjes die het beschermen tegen licht. Tot op de millimeter gevuld, en meteen een kroonkurk erop.</p>
+                        <p class="bp-verhaalkaart__verhaal">Het wachten wordt beloond: het bier is klaar om de tank te verlaten! Tijdens het bottelen vullen we het bier af op donkerbruine glazen flessen. Waarom bruin glas? Bier houdt niet van zonlicht; UV-straling tast de hop aan en verandert de smaak. Het bruine glas werkt als een zonnebril voor je bier. Omdat zuurstof nu de grootste vijand is, vullen we de flesjes tot op de millimeter nauwkeurig af en gaat de kroonkurk er direct luchtdicht op.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-8">Het wachten wordt beloond: het bier mag de tank uit! Het gaat in donkerbruine flessen. Waarom bruin? Zonlicht tast de hop aan en verandert de smaak; bruin glas is een zonnebril voor je bier. Tot op de millimeter gevuld, en direct de kroonkurk erop.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-8"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="8b" aria-labelledby="doen-8-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 8</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-8-titel" data-scene-kop>De zonnebril-test</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Sleep de zon over de drie flesjes.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="zonnebril" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-video="8" aria-label="Bekijk de video: Flesje voor flesje"><i class="fas fa-play" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-geheim="8" aria-label="Brouwersgeheim: Lichtgeraakt bier"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================ STAP 9 ============================ -->
+            <section class="bp-cel bp-stap" id="stap-9" data-cel="9" data-stap="9" data-kort="Hergisten op fles" data-x="2" data-y="2" data-compositie="rechts" aria-label="Stap 9: Hergisten op fles">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+
+                <!-- A: kijken en lezen -->
+                <article class="bp-scherm bp-scherm--a" data-scene="9a" aria-labelledby="stap-9-titel">
+                    <div class="bp-toneel">
+                        <figure class="bp-ketel" data-ketel>
+                            <svg class="bp-ketel__svg" viewBox="0 0 320 340" role="img" aria-label="Illustratie: het beeldmerk van Brouwerij Rolduc boven een flesje en een kelkglas vol parelend bier">
+                                <defs>
+                                    <path id="bp-boog-boven" d="M104 98A56 56 0 0 1 216 98"/>
+                                    <path id="bp-boog-onder" d="M98 98A62 62 0 0 0 222 98"/>
+                                    <clipPath id="bp-clip-kelk9"><path d="M212 216H272C272 246 258 262 242 262C226 262 212 246 212 216Z"/></clipPath>
+                                </defs>
+                                <path class="bp-buis" d="M160 0V30"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--in" pathLength="1" d="M160 0V30"/>
+                                <circle class="bp-gloed" cx="160" cy="98" r="96"/>
+                                <circle class="bp-v bp-l bp-teken" pathLength="1" cx="160" cy="98" r="68"/>
+                                <circle class="bp-lf" cx="160" cy="98" r="62"/>
+                                <circle class="bp-lf" cx="160" cy="98" r="44"/>
+                                <text class="bp-boogtekst"><textPath href="#bp-boog-boven" startOffset="50%">Brouwerij Rolduc</textPath></text>
+                                <text class="bp-boogtekst bp-boogtekst--klein"><textPath href="#bp-boog-onder" startOffset="50%">Rolduc · sinds 2013</textPath></text>
+                                <use href="#bp-sym-r" class="bp-logo-r" x="133" y="70" width="54" height="56"/>
+                                <g class="bp-sterren"><circle cx="97" cy="98" r="2"/><circle cx="223" cy="98" r="2"/></g>
+                                <path class="bp-buis" d="M160 166V340"/>
+                                <path class="bp-buis-vloed bp-buis-vloed--uit" pathLength="1" d="M160 166V340"/>
+                                <!-- fles in de warme kamer -->
+                                <g class="bp-fles-staand">
+                                    <path class="bp-fles-glas" d="M90 196V218C90 228 78 232 78 246V310Q78 318 86 318H110Q118 318 118 310V246C118 232 106 228 106 218V196Z"/>
+                                    <rect class="bp-fles-bier bp-fles-bier--vol" x="80" y="226" width="36" height="90"/>
+                                    <path class="bp-gistdepot" d="M80 312H116"/>
+                                    <path class="bp-l" d="M90 196V218C90 228 78 232 78 246V310Q78 318 86 318H110Q118 318 118 310V246C118 232 106 228 106 218V196Z"/>
+                                    <rect class="bp-v bp-lf" x="82" y="262" width="32" height="30" rx="2"/>
+                                    <use href="#bp-sym-r" class="bp-fles-r" x="91" y="268" width="14" height="18"/>
+                                    <rect class="bp-kroonkurk" x="88" y="189" width="20" height="7" rx="2"/>
+                                    <g class="bp-psst"><path d="M86 180l-8-8M98 176v-11M110 180l8-8"/></g>
+                                </g>
+                                <!-- kelkglas met pareling -->
+                                <g class="bp-kelk9">
+                                    <g clip-path="url(#bp-clip-kelk9)">
+                                        <rect class="bp-kelk-bier" x="210" y="222" width="64" height="42"/>
+                                        <rect class="bp-kelk-schuim" x="210" y="212" width="64" height="12"/>
+                                        <g class="bp-bubbels bp-bubbels--pareling"><circle style="--d:0s" cx="236" cy="258" r="1.2"/><circle style="--d:.5s" cx="244" cy="258" r="1"/><circle style="--d:1s" cx="250" cy="258" r="1.2"/><circle style="--d:1.5s" cx="240" cy="258" r="1"/></g>
+                                    </g>
+                                    <path class="bp-l" d="M212 216H272C272 246 258 262 242 262C226 262 212 246 212 216Z"/>
+                                    <path class="bp-l" d="M242 262V300M226 306C226 300 258 300 258 306C258 310 226 310 226 306Z"/>
+                                    <path class="bp-glans" d="M218 224C218 238 224 248 230 254"/>
+                                    <path class="bp-schuimkop" d="M210 216C214 206 222 210 226 206C232 200 240 206 246 202C254 200 260 208 266 206C272 206 274 212 274 216Z"/>
+                                </g>
+                                <text class="bp-svg-klein" x="245" y="330">warme kamer · 22 °C</text>
+                            </svg>
+                            <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                            <span class="bp-anker bp-anker--uit" data-anker-uit data-richting="r" aria-hidden="true"></span>
+                            <span class="bp-ketel__ovaal logo-font" aria-hidden="true">9</span>
+                            <span class="bp-ketel__tik" aria-hidden="true"><i class="fas fa-wand-magic-sparkles"></i></span>
+                        </figure>
+                    </div>
+                    <div class="bp-verhaalkaart" data-verhaalkaart>
+                        <h2 class="bp-verhaalkaart__titel" id="stap-9-titel" data-scene-kop>
+                            <span class="bp-verhaalkaart__pakket">Stap 9 <span aria-hidden="true">—</span> <span class="bp-verhaalkaart__naam" data-kort="Hergisten op fles">Hergisten op fles</span></span>
+                            <span class="bp-verhaalkaart__kop logo-font">De kroon op het werk</span>
+                        </h2>
+                        <p class="bp-verhaalkaart__sam">Met een beetje suiker en verse gist maakt het bier in de warme kamer zijn eigen koolzuur. Het leeft door en wordt nog maanden mooier.</p>
+                        <p class="bp-verhaalkaart__verhaal">Bij Brouwerij Rolduc leeft het bier door in de fles. Vlak voordat de kroonkurk er bij stap 8 op ging, hebben we nog een minuscuul druppeltje verse suiker en gist toegevoegd. De flessen gaan nu naar onze 'warme kamer'. Daar snoept de gist de laatste suikers op. Omdat de kroonkurk op de fles zit, kan het koolzuurgas niet ontsnappen en lost het op in het bier. Het resultaat? Een fluweelzachte pareling, een trotse witte schuimkraag én een bier dat zich op fles nog maandenlang prachtig ontwikkelt in smaak.</p>
+                        <p class="bp-verhaalkaart__kort" id="kort-9">Bij Brouwerij Rolduc leeft het bier door in de fles. Vlak voor de kroonkurk ging er een druppeltje verse suiker en gist bij. In onze 'warme kamer' snoept de gist die suiker op. Het koolzuur kan nergens heen en lost op: fluweelzachte pareling, trotse schuimkraag.</p>
+                        <button type="button" class="bp-verhaalkaart__lees" data-lees aria-expanded="false" aria-controls="kort-9"><span data-lees-tekst>Lees het verhaal</span> <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+
+                <!-- B: zelf doen -->
+                <article class="bp-scherm bp-scherm--b" data-scene="9b" aria-labelledby="doen-9-titel">
+                    <div class="bp-doen__greep" data-sheet-greep aria-hidden="true"><span></span></div>
+                    <div class="bp-hangkaart" data-sheet-kop>
+                        <div class="bp-hangkaart__pakket"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Doe het zelf · stap 9</div>
+                        <h2 class="bp-hangkaart__titel logo-font" id="doen-9-titel" data-scene-kop>De warme kamer</h2>
+                        <p class="bp-hangkaart__opdracht" data-opdracht>Wacht op de prik en open dan de fles.</p>
+                        <p class="bp-hangkaart__feedback" data-feedback aria-live="polite"></p>
+                    </div>
+                    <div class="bp-doen__podium" data-interactie="warmekamer" data-eigen-gebaar></div>
+                    <div class="bp-doen__rail">
+                        <button type="button" class="bp-rondknop" data-video="9" aria-label="Bekijk de video: Psst! Proost op Rolduc"><i class="fas fa-play" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-geheim="9" aria-label="Brouwersgeheim: Een levend bier"><i class="fas fa-flask" aria-hidden="true"></i></button>
+                        <button type="button" class="bp-rondknop" data-opnieuw hidden aria-label="Opnieuw proberen"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ======================= FINALE: BROUW ZELF ===================== -->
+            <section class="bp-cel bp-cel--spel" id="brouwmeester" data-cel="spel" data-x="3" data-y="2" aria-label="De finale: brouw zelf">
+                <div class="bp-cel__decor" data-decor aria-hidden="true"></div>
+                <div class="bp-scherm bp-scherm--spel" data-scene="spel" aria-labelledby="bp-spel-titel">
+                    <span class="bp-anker bp-anker--in" data-anker-in data-richting="l" aria-hidden="true"></span>
+                    <header class="bp-spel__kop">
+                        <div class="bp-oogje">De finale · 4 fases · ± 3 minuten</div>
+                        <h2 class="bp-spel__titel logo-font" id="bp-spel-titel" data-scene-kop>De Rolduc Brouwmeester</h2>
+                    </header>
+                    <div class="bp-spel__app" id="bp-spel-app">
+                        <noscript><p class="bp-spel__noscript">Zet JavaScript aan om zelf te brouwen.</p></noscript>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================ EINDE ============================ -->
+            <section class="bp-cel bp-cel--einde" id="einde" data-cel="einde" data-x="3" data-y="3" aria-label="Proost">
+                <div class="bp-cel__decor" data-decor aria-hidden="true">
+                    <svg class="bp-rank bp-rank--links" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+                    <svg class="bp-rank bp-rank--rechts" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+                </div>
+                <div class="bp-scherm bp-scherm--einde" data-scene="einde" aria-labelledby="bp-einde-titel">
+                    <header class="bp-einde__kop">
+                        <div class="bp-oogje">Einde van de brouwreis</div>
+                        <h2 class="bp-einde__titel logo-font" id="bp-einde-titel" data-scene-kop>Proost!</h2>
+                        <p class="bp-einde__tekst">Van graankorrel tot glas: nu weet je hoe een flesje Rolduc ontstaat. Tijd om te proeven.</p>
+                        <p class="bp-einde__gebrouwen" data-gebrouwen hidden></p>
+                    </header>
+                    <ul class="bp-einde__bieren" data-mag-afknippen data-eigen-gebaar>
+                        <li>
+                            <a class="bp-bierkaart" href="product.html?id=rolduc-blond" data-extern data-bier="blond">
+                                <img src="assets/klein/rolduc-blond-640.webp" alt="Fles Abdijbier Rolduc Blond" width="320" height="480" loading="lazy" decoding="async">
+                                <span class="bp-bierkaart__naam">Abdijbier Rolduc Blond</span>
+                                <span class="bp-bierkaart__info">Belgian Blond · 6,3% · 22 IBU</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="bp-bierkaart" href="product.html?id=rolduc-dubbel" data-extern data-bier="dubbel">
+                                <img src="assets/klein/rolduc-dubbel-640.webp" alt="Fles Abdijbier Rolduc Dubbel" width="320" height="480" loading="lazy" decoding="async">
+                                <span class="bp-bierkaart__naam">Abdijbier Rolduc Dubbel</span>
+                                <span class="bp-bierkaart__info">Belgian Dubbel · 7% · 25 IBU</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="bp-bierkaart" href="product.html?id=rolduc-tripel" data-extern data-bier="tripel">
+                                <img src="assets/klein/rolduc-tripel-640.webp" alt="Fles Abdijbier Rolduc Tripel" width="320" height="480" loading="lazy" decoding="async">
+                                <span class="bp-bierkaart__naam">Abdijbier Rolduc Tripel</span>
+                                <span class="bp-bierkaart__info">Belgian Tripel · 9% · 28 IBU</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="bp-einde__bar" data-alleen-kiosk><i class="fas fa-beer-mug-empty" aria-hidden="true"></i> Zin gekregen? Vraag aan de bar naar deze bieren.</p>
+                    <div class="bp-rondleiding">
+                        <div class="bp-rondleiding__icoon" aria-hidden="true"><i class="fas fa-route"></i></div>
+                        <div class="bp-rondleiding__tekst">
+                            <h3>Elke zaterdag: rondleiding &amp; proeverij</h3>
+                            <p>Inloop 13:00 uur, start 13:15 uur. Ongeveer anderhalf uur, met 4 bieren, voor €15,- per persoon. Geen reservering nodig, behalve vanaf 8 personen.</p>
+                        </div>
+                        <div class="bp-rondleiding__knoppen" data-alleen-web>
+                            <a class="bp-knop bp-knop--goud" href="index.html#proeflokaal" data-extern><i class="fas fa-ticket-alt bp-knop__icoon" aria-hidden="true"></i> Proeflokaal</a>
+                            <a class="bp-knop bp-knop--licht" href="webshop.html?categorie=bieren" data-extern><i class="fas fa-shopping-bag bp-knop__icoon" aria-hidden="true"></i> Webshop</a>
+                        </div>
+                    </div>
+                    <div class="bp-matig"><i class="fas fa-glass-cheers" aria-hidden="true"></i> Geniet, maar drink met mate. Alcohol alleen voor 18+.<span class="bp-einde__links" data-alleen-web> · <a href="privacybeleid.html" data-extern>Privacy</a> · <a href="cookiebeleid.html" data-extern>Cookies</a></span></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="bp-diepte bp-diepte--dichtbij" data-diepte="1.6" data-decor aria-hidden="true"></div>
+    </main>
+
+    <!-- =============================================================
+         DOCK: altijd op dezelfde plek. Wordt per scène gevuld door
+         js/brouwproces-scenes.js (video, ?, probeer het zelf, verder).
+         ============================================================= -->
+    <nav class="bp-dock" data-dock aria-label="Bediening van de brouwreis">
+        <div class="bp-dock__rij bp-dock__rij--1">
+            <button type="button" class="bp-dockknop bp-dockknop--video" data-video="" data-dock-video hidden><i class="fas fa-play" aria-hidden="true"></i> <span>Video</span> <small data-video-duur></small></button>
+            <button type="button" class="bp-dockknop bp-dockknop--zelf" data-nav="doen" data-dock-doen hidden><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> <span>Probeer het zelf</span></button>
+            <button type="button" class="bp-dockknop bp-dockknop--tekst" data-ga="spel" data-dock-spel hidden><i class="fas fa-beer" aria-hidden="true"></i> <span>Meteen de Brouwmeester-game</span></button>
+        </div>
+        <div class="bp-dock__rij bp-dock__rij--2">
+            <button type="button" class="bp-dockknop bp-dockknop--vk" data-nav="terug" data-dock-terug aria-label="Terug"><i class="fas fa-arrow-left" data-dock-terug-icoon aria-hidden="true"></i></button>
+            <button type="button" class="bp-dockknop bp-dockknop--vk bp-dockknop--hulp" data-hulp="" data-dock-hulp aria-expanded="false" aria-label="Tip van de brouwer">?</button>
+            <button type="button" class="bp-dockknop bp-dockknop--goud" data-nav="volgende" data-dock-verder><span data-dock-label>Begin bij stap 1</span> <i class="fas fa-arrow-right" data-dock-icoon aria-hidden="true"></i></button>
+        </div>
+    </nav>
+
+    <!-- =============================================================
+         STARTSCHERM (attract mode) — js/brouwproces-app.js
+         ============================================================= -->
+    <div class="bp-start" id="bp-start" role="dialog" aria-modal="true" aria-labelledby="bp-start-titel">
+        <div class="bp-start__decor" data-decor aria-hidden="true">
+            <svg class="bp-rank bp-rank--links" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+            <svg class="bp-rank bp-rank--rechts" viewBox="0 0 300 1000" preserveAspectRatio="xMinYMin meet"><use href="#bp-sym-rank"/></svg>
+            <svg class="bp-start__val" style="--x:14%;--d:0s;--t:11s" viewBox="-50 -70 100 140"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></svg>
+            <svg class="bp-start__val" style="--x:31%;--d:-4s;--t:14s" viewBox="-50 -70 100 140"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></svg>
+            <svg class="bp-start__val" style="--x:68%;--d:-7s;--t:12s" viewBox="-50 -70 100 140"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></svg>
+            <svg class="bp-start__val" style="--x:86%;--d:-2s;--t:15s" viewBox="-50 -70 100 140"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></svg>
+            <svg class="bp-start__val bp-start__val--klein" style="--x:48%;--d:-9s;--t:17s" viewBox="-50 -70 100 140"><use href="#bp-sym-hopbel" x="-50" y="-70" width="100" height="140"/></svg>
+        </div>
+        <div class="bp-start__inhoud">
+            <div class="bp-start__boven">
+                <svg class="bp-start__logo" viewBox="0 0 200 200" aria-hidden="true">
+                    <defs>
+                        <path id="bp-start-boog" d="M40 100A60 60 0 0 1 160 100"/>
+                        <path id="bp-start-boog-onder" d="M32 100A68 68 0 0 0 168 100"/>
+                    </defs>
+                    <circle class="bp-start__logo-gloed" cx="100" cy="100" r="98"/>
+                    <circle class="bp-start__logo-rand" cx="100" cy="100" r="80"/>
+                    <circle class="bp-start__logo-rand bp-start__logo-rand--fijn" cx="100" cy="100" r="72"/>
+                    <text class="bp-start__logo-tekst"><textPath href="#bp-start-boog" startOffset="50%">Brouwerij Rolduc</textPath></text>
+                    <text class="bp-start__logo-tekst bp-start__logo-tekst--klein"><textPath href="#bp-start-boog-onder" startOffset="50%">Abdij Rolduc · sinds 2013</textPath></text>
+                    <use href="#bp-sym-r" class="bp-start__logo-r" x="72" y="68" width="56" height="60"/>
+                </svg>
+                <p class="bp-start__oogje">Brouwerij Rolduc presenteert</p>
+                <h1 class="bp-start__titel logo-font" id="bp-start-titel">De Brouwreis</h1>
+                <p class="bp-start__bier" data-start-bier hidden><i class="fas fa-beer" aria-hidden="true"></i> <span></span></p>
+                <p class="bp-start__tekst">Volg het graan door onze brouwzaal in 9 stappen, draai zelf aan de knoppen en brouw daarna je eigen abdijbier.</p>
+            </div>
+            <div class="bp-start__onder">
+                <button type="button" class="bp-knop bp-knop--goud bp-knop--reuze bp-knop-glans" data-start-reis>
+                    <i class="fas fa-play bp-knop__icoon" aria-hidden="true"></i> Start de Brouwreis
+                </button>
+                <p class="bp-start__leeftijd">Door te starten bevestig je dat je 18 jaar of ouder bent.</p>
+                <p class="bp-start__te-jong" data-te-jong-melding hidden>Sorry, deze brouwreis gaat over bier en is alleen voor 18+. Proost met een glas fris!</p>
+                <p class="bp-start__extra">
+                    <button type="button" class="bp-tekstknop bp-tekstknop--klein" data-te-jong>Jonger dan 18?</button>
+                    <span aria-hidden="true">·</span>
+                    <button type="button" class="bp-tekstknop bp-tekstknop--klein" data-start-spel><i class="fas fa-beer" aria-hidden="true"></i> Meteen de game</button>
+                </p>
+                <p class="bp-matig"><i class="fas fa-glass-cheers" aria-hidden="true"></i> Geniet, maar drink met mate.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================================
+         ONBOARDING: "Hoe werkt deze reis?"
+         ============================================================= -->
+    <div class="bp-tour" id="bp-tour" role="dialog" aria-modal="true" aria-labelledby="bp-tour-titel" hidden>
+        <div class="bp-tour__kaart" tabindex="-1">
+            <div class="bp-tour__boven">
+                <p class="bp-tour__oogje">Hoe werkt deze reis?</p>
+                <button type="button" class="bp-tekstknop bp-tour__overslaan" data-tour-klaar-stil>Overslaan</button>
+            </div>
+            <h2 class="bp-tour__titel logo-font" id="bp-tour-titel">In drie tellen op weg</h2>
+            <ol class="bp-tour__stappen" data-tour-rij data-mag-afknippen data-eigen-gebaar>
+                <li class="bp-tour__stap" data-tour-stap="0">
+                    <div class="bp-tour__beeld bp-tour__beeld--route" aria-hidden="true">
+                        <svg viewBox="0 0 160 120">
+                            <path class="bp-tour__lijn" d="M14 24H112Q136 24 136 46Q136 62 112 62H48Q24 62 24 82Q24 100 48 100H150"/>
+                            <path class="bp-tour__vloed" d="M14 24H112Q136 24 136 46Q136 62 112 62H48Q24 62 24 82Q24 100 48 100H150"/>
+                            <ellipse class="bp-tour__ovaal" cx="40" cy="24" rx="13" ry="9"/><text x="40" y="28">1</text>
+                            <ellipse class="bp-tour__ovaal bp-tour__ovaal--2" cx="96" cy="24" rx="13" ry="9"/><text x="96" y="28">2</text>
+                            <ellipse class="bp-tour__ovaal bp-tour__ovaal--3" cx="80" cy="62" rx="13" ry="9"/><text x="80" y="66">5</text>
+                        </svg>
+                        <span class="bp-tour__hand bp-tour__hand--veeg"><i class="fas fa-hand-pointer"></i></span>
+                    </div>
+                    <h3>Volg de gouden leiding</h3>
+                    <p>Veeg, scroll of tik op de gouden knop. Je reist langs de 9 stappen van onze brouwzaal, precies zoals op de poster.</p>
+                </li>
+                <li class="bp-tour__stap" data-tour-stap="1">
+                    <div class="bp-tour__beeld bp-tour__beeld--probeer" aria-hidden="true">
+                        <svg viewBox="0 0 160 120">
+                            <circle class="bp-tour__gloed" cx="80" cy="56" r="42"/>
+                            <path class="bp-tour__ketel" d="M58 42C58 28 68 22 80 22C92 22 102 28 102 42V86Q102 92 96 92H64Q58 92 58 86Z"/>
+                            <path class="bp-tour__ketel-lijn" d="M58 46H102M72 92V102M88 92V102"/>
+                            <circle class="bp-tour__knop" cx="80" cy="68" r="9"/>
+                            <path class="bp-tour__paneel-lijn" d="M80 68L86 62"/>
+                        </svg>
+                        <span class="bp-tour__hand bp-tour__hand--tik"><i class="fas fa-hand-pointer"></i></span>
+                        <span class="bp-tour__rimpel"></span>
+                    </div>
+                    <h3>Eerst kijken, dan doen</h3>
+                    <p>Bij elke stap lees je eerst het verhaal. Tik dan op Probeer het zelf: draai aan de molen, sleep het kwik of open de kraan.</p>
+                </li>
+                <li class="bp-tour__stap" data-tour-stap="2">
+                    <div class="bp-tour__beeld bp-tour__beeld--hulp" aria-hidden="true">
+                        <svg viewBox="0 0 160 120">
+                            <g class="bp-tour__ballon-groep">
+                                <path class="bp-tour__ballon" d="M24 24H128Q136 24 136 32V72Q136 80 128 80H70L56 96V80H32Q24 80 24 72V32Q24 24 32 24Z"/>
+                                <path class="bp-tour__ballon-lijn" d="M38 42H104M38 54H118M38 66H90"/>
+                            </g>
+                        </svg>
+                        <span class="bp-tour__vraag">?</span>
+                    </div>
+                    <h3>Hulp nodig<span class="bp-tour__inline-vraag" aria-hidden="true">?</span><span class="sr-only">het vraagteken</span> Tik op ?</h3>
+                    <p>Het vraagteken geeft een korte tip van de brouwer. Bij elke stap wacht ook een brouwersgeheim, en bij vijf stappen een video uit de brouwzaal.</p>
+                </li>
+            </ol>
+            <div class="bp-tour__punten" role="group" aria-label="Uitleg-kaartjes">
+                <button type="button" data-tour-punt="0" aria-label="Kaartje 1"></button>
+                <button type="button" data-tour-punt="1" aria-label="Kaartje 2"></button>
+                <button type="button" data-tour-punt="2" aria-label="Kaartje 3"></button>
+            </div>
+            <div class="bp-tour__knoppen">
+                <button type="button" class="bp-tekstknop bp-tour__volgende" data-tour-volgende>Volgende tip <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                <button type="button" class="bp-knop bp-knop--goud bp-knop--groot" data-tour-klaar>
+                    <i class="fas fa-check bp-knop__icoon" aria-hidden="true"></i> Ik snap het, laten we brouwen!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Routekaart: de S-curve van de poster om naar elke stap te springen -->
+    <template id="bp-kiezer">
+        <div class="bp-kiezer">
+            <div class="bp-kiezer__kaart">
+                <svg class="bp-kiezer__lijn" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M50 50H325Q350 50 350 75V150H75Q50 150 50 175V250H350"/></svg>
+                <ol class="bp-kiezer__raster">
+                    <li style="--k:1;--r:1"><button type="button" data-kies="1a" data-kies-stap="1"><span class="bp-kiezer__ovaal logo-font">1</span><span class="bp-kiezer__naam">Mout</span></button></li>
+                    <li style="--k:2;--r:1"><button type="button" data-kies="2a" data-kies-stap="2"><span class="bp-kiezer__ovaal logo-font">2</span><span class="bp-kiezer__naam">Schroten</span></button></li>
+                    <li style="--k:3;--r:1"><button type="button" data-kies="3a" data-kies-stap="3"><span class="bp-kiezer__ovaal logo-font">3</span><span class="bp-kiezer__naam">Maischen</span></button></li>
+                    <li style="--k:4;--r:2"><button type="button" data-kies="4a" data-kies-stap="4"><span class="bp-kiezer__ovaal logo-font">4</span><span class="bp-kiezer__naam">Filtratie</span></button></li>
+                    <li style="--k:3;--r:2"><button type="button" data-kies="5a" data-kies-stap="5"><span class="bp-kiezer__ovaal logo-font">5</span><span class="bp-kiezer__naam">Koken</span></button></li>
+                    <li style="--k:2;--r:2"><button type="button" data-kies="6a" data-kies-stap="6"><span class="bp-kiezer__ovaal logo-font">6</span><span class="bp-kiezer__naam">Vergisten</span></button></li>
+                    <li style="--k:1;--r:3"><button type="button" data-kies="7a" data-kies-stap="7"><span class="bp-kiezer__ovaal logo-font">7</span><span class="bp-kiezer__naam">Lageren</span></button></li>
+                    <li style="--k:2;--r:3"><button type="button" data-kies="8a" data-kies-stap="8"><span class="bp-kiezer__ovaal logo-font">8</span><span class="bp-kiezer__naam">Bottelen</span></button></li>
+                    <li style="--k:3;--r:3"><button type="button" data-kies="9a" data-kies-stap="9"><span class="bp-kiezer__ovaal logo-font">9</span><span class="bp-kiezer__naam">Hergisten op fles</span></button></li>
+                    <li style="--k:4;--r:3"><button type="button" class="bp-kiezer__spel" data-kies="spel" data-kies-stap="10"><span class="bp-kiezer__ovaal"><i class="fas fa-beer" aria-hidden="true"></i></span><span class="bp-kiezer__naam">Brouw zelf</span></button></li>
+                </ol>
+            </div>
+            <p class="bp-kiezer__voet">
+                <button type="button" class="bp-tekstknop" data-tour-open><i class="fas fa-circle-info" aria-hidden="true"></i> Hoe werkt het?</button>
+                <button type="button" class="bp-tekstknop" data-reset-vraag><i class="fas fa-rotate-left" aria-hidden="true"></i> Nieuwe ronde</button>
+                <button type="button" class="bp-tekstknop bp-kiezer__hand" data-linkshandig aria-pressed="false"><i class="fas fa-hand" aria-hidden="true"></i> Linkshandig</button>
+            </p>
+        </div>
+    </template>
+
+    <!-- Lade / bottom sheet voor brouwersgeheimen en de stappenkiezer -->
+    <div class="bp-lade" id="bp-lade" role="dialog" aria-modal="true" aria-labelledby="bp-lade-titel" hidden>
+        <div class="bp-lade__achtergrond" data-lade-sluit></div>
+        <div class="bp-lade__paneel" tabindex="-1">
+            <div class="bp-lade__greep" data-lade-greep aria-hidden="true"><span></span></div>
+            <div class="bp-lade__kop">
+                <div class="bp-lade__soort" data-lade-soort><i class="fas fa-flask" aria-hidden="true"></i> Brouwersgeheim</div>
+                <h2 class="bp-lade__titel" id="bp-lade-titel" data-lade-titel></h2>
+                <button type="button" class="bp-lade__sluit" data-lade-sluit aria-label="Sluiten"><i class="fas fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="bp-lade__inhoud" data-lade-inhoud></div>
+        </div>
+    </div>
+
+    <!-- Video-lightbox -->
+    <div class="bp-videomodal" id="bp-videomodal" role="dialog" aria-modal="true" aria-labelledby="bp-videomodal-titel" hidden>
+        <div class="bp-videomodal__achtergrond" data-video-sluit></div>
+        <div class="bp-videomodal__kader">
+            <div class="bp-videomodal__kop">
+                <p class="bp-videomodal__soort"><i class="fas fa-film" aria-hidden="true"></i> <span data-video-teller></span></p>
+                <h2 class="bp-videomodal__titel" id="bp-videomodal-titel" data-video-titel></h2>
+                <button type="button" class="bp-videomodal__sluit" data-video-sluit aria-label="Video sluiten"><i class="fas fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="bp-videomodal__beeld" data-video-beeld></div>
+        </div>
+    </div>
+
+    <!-- Nieuwe brouwronde? (via het logo) -->
+    <div class="bp-dialoog" id="bp-reset" role="alertdialog" aria-modal="true" aria-labelledby="bp-reset-titel" aria-describedby="bp-reset-tekst" hidden>
+        <div class="bp-dialoog__kaart">
+            <div class="bp-dialoog__icoon" aria-hidden="true"><i class="fas fa-rotate-left"></i></div>
+            <h2 class="bp-dialoog__titel logo-font" id="bp-reset-titel">Nieuwe brouwronde?</h2>
+            <p class="bp-dialoog__tekst" id="bp-reset-tekst">Alles gaat terug naar het startscherm, klaar voor de volgende brouwer.</p>
+            <div class="bp-dialoog__knoppen">
+                <button type="button" class="bp-knop bp-knop--goud bp-knop--groot" data-reset-nu><i class="fas fa-rotate-left bp-knop__icoon" aria-hidden="true"></i> Ja, opnieuw beginnen</button>
+                <button type="button" class="bp-knop bp-knop--licht bp-knop--groot" data-dialoog-sluit>Nee, ik ga verder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proeflokaal: niemand meer bezig? -->
+    <div class="bp-dialoog" id="bp-idle" role="alertdialog" aria-modal="true" aria-labelledby="bp-idle-titel" aria-describedby="bp-idle-tekst" hidden>
+        <div class="bp-dialoog__kaart">
+            <div class="bp-dialoog__icoon bp-dialoog__icoon--tel" aria-hidden="true"><span data-idle-tel>20</span></div>
+            <h2 class="bp-dialoog__titel logo-font" id="bp-idle-titel">Ben je er nog?</h2>
+            <p class="bp-dialoog__tekst" id="bp-idle-tekst">Zo begint de brouwreis opnieuw voor de volgende gast.</p>
+            <div class="bp-dialoog__knoppen">
+                <button type="button" class="bp-knop bp-knop--goud bp-knop--groot" data-dialoog-sluit><i class="fas fa-hand bp-knop__icoon" aria-hidden="true"></i> Ja, ik ben er nog</button>
+                <button type="button" class="bp-knop bp-knop--licht bp-knop--groot" data-reset-nu>Nieuwe brouwronde</button>
+            </div>
+        </div>
+    </div>
+
+    <p class="bp-sr" aria-live="polite" id="bp-melding"></p>
+
+    <script src="js/brouwproces-data.js?v=20261014d"></script>
+    <script src="js/brouwproces-kern.js?v=20261014d"></script>
+    <script src="js/brouwproces-geluid.js?v=20261014d"></script>
+    <script src="js/brouwproces-doen-1.js?v=20261014d"></script>
+    <script src="js/brouwproces-doen-2.js?v=20261014d"></script>
+    <script src="js/brouwproces-doen-3.js?v=20261014d"></script>
+    <script src="js/brouwproces-scenes.js?v=20261014d"></script>
+    <script src="js/brouwproces-lagen.js?v=20261014d"></script>
+    <script src="js/brouwproces-spel.js?v=20261014d"></script>
+    <script src="js/brouwproces-app.js?v=20261014d"></script>
+</body>
+</html>

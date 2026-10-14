@@ -1,0 +1,207 @@
+/* =====================================================================
+   Brouwerij Rolduc — De Brouwreis, scène B "Doen" (deel 2)
+   Stap 4 .bp-filter4 (kraan + bostel), stap 5 .bp-kook5 (hop in de
+   ketel), stap 6 .bp-loep6 (de gist-loep). Gedeeld: .bp-dn2__…
+   Alles in één close-up (viewBox 480 × 440); lijnwerk via .bp-l/.bp-lf.
+   ===================================================================== */
+
+/* ---------- gedeeld: hotspots, focusring, hint-puls ---------- */
+.bp-filter4, .bp-kook5, .bp-loep6 {
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.bp-dn2__raak { fill: transparent; stroke: none; }
+.bp-dn2__knop { cursor: pointer; touch-action: none; outline: none; }
+.bp-dn2__knop:focus { outline: none; }
+.bp-dn2__ring {
+    fill: none; stroke: #F7E59D; stroke-width: 3;
+    opacity: 0; pointer-events: none;
+    transform-box: fill-box; transform-origin: center;
+}
+.bp-dn2__knop:focus-visible .bp-dn2__ring { opacity: 1; stroke-dasharray: none; }
+.bp-dn2__knop.bp-pulse { animation: none; box-shadow: none; }
+.bp-dn2__knop.bp-pulse .bp-dn2__ring,
+.bp-dn2__knop.is-nu .bp-dn2__ring { opacity: 1; animation: bp-dn2-puls 1.4s ease-out infinite; }
+@keyframes bp-dn2-puls {
+    0% { opacity: 1; transform: scale(.94); stroke-width: 4; }
+    100% { opacity: 0; transform: scale(1.14); stroke-width: 1; }
+}
+.bp-dn2__knop.is-nee { animation: bp-dn2-nee .45s ease-in-out; }
+@keyframes bp-dn2-nee { 20% { transform: translateX(-5px); } 45% { transform: translateX(5px); } 70% { transform: translateX(-3px); } 100% { transform: none; } }
+.bp-dn2__sr {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.is-direct, .is-direct * { transition: none !important; }
+@keyframes bp-dn2-stroom { to { stroke-dashoffset: -16; } }
+
+/* =====================================================================
+   STAP 4 · Kraan open, bostel weg
+   ===================================================================== */
+.bp-filter4__heuvel { fill: none; stroke: var(--bp-lijn-zacht); stroke-width: 2; stroke-linecap: round; }
+.bp-filter4__rook { fill: none; stroke: var(--bp-lijn); stroke-width: 1.4; stroke-linecap: round; opacity: .55; transform-box: fill-box; transform-origin: 50% 100%; animation: bp-filter4-rook 4s ease-in-out infinite; }
+@keyframes bp-filter4-rook { 0%, 100% { transform: translateY(0); opacity: .25; } 50% { transform: translateY(-4px); opacity: .6; } }
+.bp-filter4__koelijf { fill: #EFE6CB; stroke: var(--bp-lijn); stroke-width: 1.4; stroke-linejoin: round; }
+.bp-filter4__vlek { fill: #1D3326; }
+.bp-filter4__kop { transform-box: view-box; transform-origin: 315px 138px; transition: transform .5s var(--bp-ease); }
+.bp-filter4.is-gevoerd .bp-filter4__kop { transform: rotate(-32deg); animation: bp-filter4-kauw 1.1s ease-in-out .5s infinite alternate; }
+@keyframes bp-filter4-kauw { from { transform: rotate(-32deg); } to { transform: rotate(-25deg); } }
+.bp-filter4__voer { opacity: 0; transition: opacity .3s; }
+.bp-filter4.is-gevoerd .bp-filter4__voer { opacity: 1; }
+.bp-filter4__boe { fill: none; stroke: var(--bp-ovaal); stroke-width: 2.2; stroke-linecap: round; opacity: 0; transition: opacity .2s; }
+.bp-filter4.is-boe .bp-filter4__boe { opacity: 1; animation: bp-filter4-boe .5s ease-in-out 3 alternate; }
+@keyframes bp-filter4-boe { from { opacity: .35; } to { opacity: 1; } }
+
+.bp-filter4__buis { fill: none; stroke: var(--bp-lijn-zacht); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.bp-filter4__beslag { fill: #B99A5E; opacity: .92; }
+.bp-filter4__vloeistof { transition: opacity .3s; }
+.bp-filter4.is-leeg .bp-filter4__vloeistof { opacity: 0; }
+.bp-filter4__deeltjes circle { fill: #8C7246; }
+.bp-filter4__bed { transition: transform .45s ease-in, opacity .45s ease-in; }
+.bp-filter4__bed rect { fill: #6B5433; }
+.bp-filter4__bed path { fill: none; stroke: #D8C08A; stroke-width: 1.4; stroke-linecap: round; opacity: .85; }
+.bp-filter4.is-leeg .bp-filter4__bed { transform: translateX(170px); opacity: 0; }
+.bp-filter4__onder { fill: #B99A5E; transition: opacity .4s; }
+.bp-filter4.is-helder .bp-filter4__onder { fill: url(#bp-grad-wort); }
+.bp-filter4.is-leeg .bp-filter4__onder { opacity: 0; }
+.bp-filter4__sproei { fill: none; stroke: #D9BC80; stroke-width: 2; stroke-linecap: round; opacity: 0; }
+.bp-filter4.is-troebel .bp-filter4__sproei { opacity: 1; animation: bp-filter4-sproei .5s linear infinite; }
+@keyframes bp-filter4-sproei { from { transform: translateY(-4px); } to { transform: translateY(6px); } }
+
+.bp-filter4__stroom {
+    fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 7 9; opacity: 0; transition: opacity .3s;
+}
+.bp-filter4.is-troebel .bp-filter4__stroom--uit,
+.bp-filter4.is-troebel .bp-filter4__stroom--rond { opacity: 1; stroke: #D9BC80; animation: bp-dn2-stroom .45s linear infinite; }
+.bp-filter4.is-helder .bp-filter4__stroom--uit,
+.bp-filter4.is-helder .bp-filter4__stroom--ketel { opacity: 1; stroke: #F7D774; animation: bp-dn2-stroom .45s linear infinite; }
+.bp-filter4__kijk { fill: #0A2116; transition: fill .4s; }
+.bp-filter4.is-troebel .bp-filter4__kijk { fill: #C2A468; }
+.bp-filter4.is-helder .bp-filter4__kijk { fill: #F2C75C; }
+.bp-filter4__k5wort { fill: url(#bp-grad-wort); }
+.bp-filter4__ovaal ellipse { fill: var(--bp-ovaal); }
+.bp-filter4__ovaal text { font-family: var(--font-logo); font-size: 22px; fill: #12261A; text-anchor: middle; }
+
+.bp-filter4__klont { opacity: 0; transform: translate(274px, 198px); }
+.bp-filter4.is-glijden .bp-filter4__klont { opacity: 1; transform: translate(330px, 300px); transition: transform .6s ease-in, opacity .12s; }
+
+.bp-filter4__pijl { fill: none; stroke: var(--bp-ovaal); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 6 6; opacity: .9; transition: opacity .3s; animation: bp-filter4-pijl 1.2s linear infinite; }
+@keyframes bp-filter4-pijl { to { stroke-dashoffset: -24; } }
+.bp-filter4.is-open .bp-filter4__pijl { opacity: 0; animation: none; }
+
+.bp-filter4__hendel { cursor: grab; }
+.bp-filter4__hendel[aria-disabled="true"] { cursor: default; }
+.bp-filter4__knop { fill: url(#bp-grad-goud); stroke: var(--bp-lijn); stroke-width: 2; }
+
+.bp-filter4__rit { transition: transform 1s cubic-bezier(.2, .6, .3, 1); }
+.bp-filter4.is-weg .bp-filter4__rit { transform: translateX(230px); transition: transform 1.1s cubic-bezier(.5, 0, .8, .5); }
+.bp-filter4__lading { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform .35s var(--bp-ease); }
+.bp-filter4.is-vol .bp-filter4__lading { transform: scaleY(1); }
+.bp-filter4__damp { fill: none; stroke: var(--bp-lijn); stroke-width: 1.5; stroke-linecap: round; opacity: .7; animation: bp-filter4-damp 2.4s ease-out infinite; }
+@keyframes bp-filter4-damp { 0% { transform: translateY(6px); opacity: 0; } 40% { opacity: .75; } 100% { transform: translateY(-8px); opacity: 0; } }
+.bp-filter4__wiel { transform-box: fill-box; transform-origin: center; }
+.bp-filter4.is-rijdt .bp-filter4__wiel { animation: bp-draai .45s linear infinite; }
+
+/* =====================================================================
+   STAP 5 · Hop in de ketel
+   ===================================================================== */
+.bp-kook5__leiding { fill: none; stroke: var(--bp-lijn-zacht); stroke-width: 7; stroke-linecap: round; }
+.bp-kook5__wolken path { fill: var(--bp-bg); stroke: var(--bp-lijn); stroke-width: 1.4; opacity: .2; transform-box: fill-box; transform-origin: center; }
+.bp-kook5.is-kokend .bp-kook5__wolken path { animation: bp-kook5-wolk 2.6s ease-in-out var(--d, 0s) infinite; }
+@keyframes bp-kook5-wolk { 0% { transform: translate(0, 8px) scale(.8); opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { transform: translate(0, -16px) scale(1.1); opacity: 0; } }
+
+.bp-kook5__vlam { fill: #F08A2C; stroke: #F7E59D; stroke-width: .8; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; transition: opacity .3s; }
+.bp-kook5.is-kokend .bp-kook5__vlam { opacity: 1; animation: bp-kook5-vlam .32s ease-in-out infinite alternate; }
+@keyframes bp-kook5-vlam { from { transform: scaleY(.82); } to { transform: scaleY(1.08); } }
+
+.bp-kook5__ketel { cursor: pointer; }
+.bp-kook5__gat { fill: #0A2116; stroke: var(--bp-lijn); stroke-width: 1.6; }
+.bp-kook5__wort { fill: #F4D27A; transition: fill .6s; }
+.bp-kook5__bubbels circle { fill: rgba(255, 248, 220, .9); opacity: 0; transform-box: fill-box; }
+.bp-kook5.is-kokend .bp-kook5__bubbels circle { animation: bp-kook5-bubbel .9s ease-in var(--d, 0s) infinite; }
+@keyframes bp-kook5-bubbel { 0% { transform: translateY(0) scale(.6); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(-26px) scale(1.15); opacity: 0; } }
+
+.bp-kook5__spoor { fill: none; stroke: rgba(237, 224, 162, .16); stroke-width: 9; }
+.bp-kook5__vak { fill: none; stroke-width: 9; }
+.bp-kook5__vak--bitter { stroke: #E9BE78; opacity: .32; }
+.bp-kook5__vak--aroma { stroke: #8FD3A3; opacity: .9; }
+.bp-kook5__loop { fill: none; stroke: var(--bp-ovaal); stroke-width: 4; stroke-linecap: round; }
+.bp-kook5__wijzer { fill: #FFF6CF; stroke: #0B1C12; stroke-width: 2; }
+.bp-kook5__merk { stroke: #0B1C12; stroke-width: 2; }
+.bp-kook5__merk--bitter { fill: #E9BE78; }
+.bp-kook5__merk--midden { fill: #C3CEC2; }
+.bp-kook5__merk--aroma { fill: #8FD3A3; }
+.bp-kook5__min {
+    font-family: var(--font-logo); font-size: 40px; fill: var(--bp-ovaal); text-anchor: middle;
+    paint-order: stroke; stroke: #0A2116; stroke-width: 5; stroke-linejoin: round;
+    font-variant-numeric: tabular-nums;
+}
+.bp-kook5__eenheid {
+    font-family: var(--font-body); font-size: 22px; font-weight: 700; fill: var(--bp-lijn); text-anchor: middle;
+    paint-order: stroke; stroke: #0A2116; stroke-width: 4; stroke-linejoin: round;
+}
+.bp-kook5.is-aroma .bp-kook5__min { fill: #8FD3A3; }
+
+.bp-kook5__stengel { fill: none; stroke: rgba(244, 246, 242, .6); stroke-width: 2.2; stroke-linecap: round; }
+.bp-kook5__steel { fill: none; stroke: rgba(244, 246, 242, .5); stroke-width: 1.5; stroke-linecap: round; }
+.bp-kook5__bel { cursor: grab; }
+.bp-kook5__bel.is-sleept { cursor: grabbing; }
+.bp-kook5__zwaai { transform-box: fill-box; transform-origin: 50% 0%; animation: bp-kook5-zwaai 4.6s ease-in-out infinite alternate; }
+@keyframes bp-kook5-zwaai { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.bp-kook5__bel.is-sleept .bp-kook5__zwaai, .bp-kook5__bel.is-vliegt .bp-kook5__zwaai { animation: none; }
+.bp-kook5__bel.is-weg { visibility: hidden; pointer-events: none; }
+.bp-kook5__bel.is-groei use { transform-box: fill-box; transform-origin: 50% 0%; animation: bp-kook5-groei .6s var(--bp-ease) both; }
+@keyframes bp-kook5-groei { from { transform: scale(.2); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.bp-kook5__ring { fill: none; stroke: var(--bp-ovaal); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: bp-kook5-ring .7s ease-out forwards; }
+@keyframes bp-kook5-ring { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
+.bp-kook5__puf { fill: var(--bp-bg); stroke: var(--bp-lijn); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: bp-kook5-puf 1.2s ease-out forwards; }
+@keyframes bp-kook5-puf { from { transform: translateY(6px) scale(.5); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-34px) scale(1.4); opacity: 0; } }
+.bp-kook5__krul { fill: none; stroke: #8FD3A3; stroke-width: 2; stroke-linecap: round; }
+.bp-kook5__krul--weg { stroke: var(--bp-lijn); animation: bp-kook5-verdamp 1.5s ease-out both; }
+@keyframes bp-kook5-verdamp { from { transform: translateY(0); opacity: 0; } 25% { opacity: .9; } to { transform: translateY(-40px); opacity: 0; } }
+.bp-kook5__aroma { animation: bp-kook5-op 1.8s var(--bp-ease) both; }
+@keyframes bp-kook5-op { from { transform: translate(0, 0) scale(.3); opacity: 0; } 30% { opacity: 1; } to { transform: translate(var(--x, 0), var(--y, -40px)) scale(1); opacity: 1; } }
+.bp-kook5__dobber { animation: bp-kook5-dobber 3s ease-in-out infinite alternate; }
+@keyframes bp-kook5-dobber { from { transform: translateY(0); } to { transform: translateY(-5px); } }
+
+/* =====================================================================
+   STAP 6 · De gist-loep
+   ===================================================================== */
+.bp-loep6 { position: absolute; inset: 0; touch-action: none; }
+.bp-loep6__scene, .bp-loep6__wereld, .bp-loep6__boven {
+    position: absolute; left: 0; top: 0;
+    display: block; width: 100%; height: 100%;
+}
+.bp-loep6__wereld { pointer-events: none; }
+.bp-loep6__boven { pointer-events: none; overflow: visible; }
+.bp-loep6__glas { pointer-events: visiblePainted; cursor: grab; }
+.bp-loep6.is-sleept .bp-loep6__glas { cursor: grabbing; }
+
+.bp-loep6__slang { fill: none; stroke: var(--bp-lijn); stroke-width: 3; stroke-linecap: round; }
+.bp-loep6__water { fill: rgba(143, 191, 159, .38); }
+.bp-loep6__blub circle { fill: none; stroke: var(--bp-lijn); stroke-width: 1.3; opacity: 0; transform-box: fill-box; }
+.bp-loep6.is-gistend .bp-loep6__blub circle { animation: bp-loep6-blub 1.6s ease-out infinite; }
+.bp-loep6.is-snel .bp-loep6__blub circle { animation-duration: .8s; }
+@keyframes bp-loep6-blub { 0% { transform: translateY(4px) scale(.5); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(-34px) scale(1.2); opacity: 0; } }
+.bp-loep6__bier { fill: url(#bp-grad-bier); opacity: .5; }
+.bp-loep6__krausen { fill: #F3E6BE; stroke: var(--bp-lijn); stroke-width: 1.2; }
+.bp-loep6__depot { fill: #E9D9A8; opacity: 0; }
+.bp-loep6__mantel { opacity: .45; }
+.bp-loep6__koper { fill: #A8622E; stroke: var(--bp-lijn); stroke-width: 1.5; }
+.bp-loep6__dag { font-family: var(--font-logo); font-size: 28px; fill: #FFF1D0; text-anchor: middle; }
+.bp-loep6__plaat { fill: #0F2318; stroke: var(--bp-goud); stroke-width: 1.5; }
+.bp-loep6__abv { font-family: var(--font-logo); font-size: 30px; fill: var(--bp-ovaal); text-anchor: middle; font-variant-numeric: tabular-nums; }
+.bp-loep6__abv-label { font-family: var(--font-body); font-size: 22px; font-weight: 700; letter-spacing: .04em; fill: var(--bp-lijn); text-anchor: middle; }
+
+.bp-loep6__lens { fill: rgba(255, 255, 255, .04); }
+.bp-loep6__rand { fill: none; stroke: #C9A54A; stroke-width: 10; }
+.bp-loep6__randlijn { fill: none; stroke: #F7E59D; stroke-width: 1.2; opacity: .7; }
+.bp-loep6__glans { fill: none; stroke: rgba(255, 255, 255, .5); stroke-width: 3; stroke-linecap: round; }
+.bp-loep6__steel { fill: none; stroke: #6B4423; stroke-width: 13; stroke-linecap: round; }
+.bp-loep6__huls { fill: none; stroke: #C9A54A; stroke-width: 15; }
+.bp-loep6__steelraak { fill: none; stroke: transparent; stroke-width: 36; stroke-linecap: round; }
+.bp-loep6.is-rust .bp-loep6__wiebel { animation: bp-loep6-wiebel 2.8s ease-in-out infinite; }
+@keyframes bp-loep6-wiebel { 0%, 100% { transform: translate(0, 0); } 30% { transform: translate(-3px, -2px); } 60% { transform: translate(2px, 1px); } }

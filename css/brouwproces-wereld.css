@@ -1,0 +1,1093 @@
+/* =====================================================================
+   Brouwerij Rolduc — De Brouwreis: de wereld
+
+   De brouwzaal is één kaart (zoals de poster); elke cel is precies één
+   scherm groot en de camera reist langs de S-curve. Hier staat alles
+   over de indeling: app-schil, camera, scènes A (verhaal) en B (doen),
+   de gouden plafondleiding, HUD, dock en de telefoonversie.
+
+   Inhoud
+     1.  Tokens per schermklasse
+     2.  App-schil, camera en cellen
+     3.  Achtergrond en sfeer per station
+     4.  De gouden plafondleiding
+     5.  HUD met de mini-S-kaart
+     6.  Dock
+     7.  Scène A: ketel + verhaalkaart (composities L en R)
+     8.  Scène B: hangkaartje, close-up en rail
+     9.  Intro, spel en einde
+    10.  Routekaart (stappenkiezer)
+    11.  Staande tablet
+    12.  Telefoon (< 768 px): verhaal + bottom sheet + duimzone
+    13.  Beweging
+   ===================================================================== */
+
+
+/* ======================= 1. TOKENS PER SCHERMKLASSE ================== */
+:root {
+    --vw: 100vw;
+    --vh: 100svh;
+    --rand: clamp(16px, 2.5vw, 32px);
+    --hud-top: 12px;
+    --hud-h: 52px;
+    --dock-h: 64px;
+    --dock-onder: 16px;
+    --gat: clamp(24px, 3vw, 48px);
+    --plafond-ruimte: 40px;
+    --vloer-ruimte: 28px;
+    --kaart-b: min(38rem, 46vw);
+    --kaartje-b: clamp(14rem, 24vw, 22rem);
+    --stage-top: calc(var(--hud-top) + var(--hud-h) + 12px);
+    --stage-onder: calc(var(--dock-onder) + var(--dock-h) + 12px);
+    --stage-h: calc(var(--vh) - var(--stage-top) - var(--stage-onder));
+    --t-pak: 14px;
+    --t-kop: 30px;
+    --t-sam: 19px;
+    --t-ver: 17px;
+    --t-lh: 1.58;
+    --reis: cubic-bezier(.65, .02, .3, 1);
+}
+@media (min-width: 1400px) and (min-height: 860px) {
+    :root { --hud-top: 16px; --hud-h: 56px; --kaart-b: min(40rem, 46vw); --t-kop: 34px; --t-sam: 20px; --t-ver: 18px; --t-lh: 1.6; }
+}
+@media (max-width: 1099.98px) and (min-aspect-ratio: 1/1) { :root { --t-kop: 28px; } }
+@media (max-height: 699.98px) and (min-aspect-ratio: 1/1) { :root { --t-kop: 28px; --t-sam: 18px; --t-ver: 16px; --t-lh: 1.55; } }
+/* Pas-in-ladder (js): compact als de kaart anders niet past */
+.bp-cel.is-compact { --t-kop: 26px; --t-sam: 17px; --t-ver: 16px; --t-lh: 1.5; --plafond-ruimte: 30px; }
+.bp-cel.is-breed { --kaart-b: min(40rem, 52vw); }
+
+
+/* ===================== 2. APP-SCHIL, CAMERA EN CELLEN ================ */
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body.bp-app { position: fixed; inset: 0; overflow: hidden; }
+.js .bp-camera {
+    position: fixed; inset: 0; z-index: 1;
+    overflow: hidden; overflow: clip;
+    touch-action: none;
+    -webkit-user-select: none; user-select: none;
+}
+.js .bp-wereld { position: absolute; left: 0; top: 0; will-change: auto; }
+.js .bp-cel {
+    position: absolute; left: 0; top: 0;
+    width: var(--vw); height: var(--vh);
+    overflow: hidden; overflow: clip;
+}
+.bp-cel:not(.is-huidig):not(.is-buur):not(.is-vertrek) { visibility: hidden; }
+.bp-cel:not(.is-huidig) *, .bp-cel:not(.is-huidig) *::before, .bp-cel:not(.is-huidig) *::after { animation-play-state: paused !important; }
+.bp-camera.is-wissel { opacity: 0; transition: opacity .15s; }
+.is-direct .bp-wereld, .is-direct .bp-wereld *, .is-direct .bp-diepte, .is-direct .bp-dock, .is-direct .bp-dock * { transition: none !important; }
+.bp-camera { transition: opacity .2s; }
+
+.bp-scherm { position: absolute; inset: 0; z-index: 2; box-sizing: border-box; }
+.bp-anker { position: absolute; width: 2px; height: 2px; pointer-events: none; }
+[data-scene-kop]:focus:not(:focus-visible) { outline: none; }
+
+/* Zonder JavaScript: gewoon onder elkaar */
+.no-js .bp-cel { position: relative; min-height: 100vh; }
+.no-js .bp-scherm { position: relative; }
+.no-js .bp-scherm--b, .no-js .bp-dock, .no-js .bp-start { display: none; }
+
+
+/* ================ 3. ACHTERGROND EN SFEER PER STATION ================ */
+.bp-diepte { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 0; }
+.bp-diepte--ver {
+    width: calc(var(--vw) * 2.4); height: calc(var(--vh) * 2.05);
+    opacity: .09;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='440' height='420' viewBox='0 0 440 420'%3E%3Cg fill='none' stroke='%23F7E59D' stroke-width='3'%3E%3Cpath d='M20 420V190a100 100 0 0 1 200 0V420M240 420V190a100 100 0 0 1 200 0V420'/%3E%3Cpath d='M0 418H440' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 440px 420px;
+    background-repeat: repeat;
+    background-position: 0 100%;
+}
+.bp-diepte--dichtbij { width: 1px; height: 1px; z-index: 5; overflow: visible; }
+.bp-voorgrond { position: absolute; overflow: visible; opacity: .92; filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .45)); }
+
+.bp-cel__decor { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.bp-cel__decor::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at var(--tint-x, 30%) 70%, var(--tint, rgba(233, 190, 120, .1)), transparent 70%);
+}
+/* Spotlight in scène B */
+.bp-cel__decor::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 46% 56% at 52% 54%, transparent 0 55%, rgba(5, 14, 9, .72) 100%);
+    opacity: 0; transition: opacity .5s;
+}
+.bp-cel[data-laag="b"] .bp-cel__decor::after { opacity: 1; }
+.bp-cel[data-cel="1"] { --tint: rgba(233, 190, 120, .10); --tint-x: 25%; }
+.bp-cel[data-cel="2"] { --tint: rgba(233, 190, 120, .10); --tint-x: 75%; }
+.bp-cel[data-cel="3"] { --tint: rgba(233, 190, 120, .12); --tint-x: 25%; }
+.bp-cel[data-cel="4"] { --tint: rgba(245, 238, 218, .07); --tint-x: 30%; }
+.bp-cel[data-cel="5"] { --tint: rgba(217, 130, 43, .14); --tint-x: 75%; }
+.bp-cel[data-cel="6"] { --tint: rgba(60, 110, 80, .14); --tint-x: 25%; }
+.bp-cel[data-cel="7"] { --tint: rgba(150, 200, 230, .10); --tint-x: 75%; }
+.bp-cel[data-cel="8"] { --tint: rgba(200, 200, 190, .07); --tint-x: 25%; }
+.bp-cel[data-cel="9"] { --tint: rgba(240, 168, 78, .13); --tint-x: 75%; }
+.bp-cel--spel { --tint: rgba(212, 175, 55, .10); --tint-x: 50%; }
+.bp-cel--einde .bp-cel__decor::before { background: linear-gradient(180deg, transparent 30%, rgba(201, 138, 58, .16)); }
+.bp-cel--intro .bp-cel__decor::before, .bp-cel--einde .bp-cel__decor::before { --tint-x: 50%; }
+.bp-cel__decor .bp-rank { opacity: .7; top: -2%; height: min(96%, 900px); }
+.bp-cel__decor .bp-rank--links { left: clamp(-150px, -9vw, -80px); }
+.bp-cel__decor .bp-rank--rechts { right: clamp(-150px, -9vw, -80px); }
+/* De abdij staat op een grondlijn net boven de knoppenbalk, zodat Rolduc altijd helemaal te zien is */
+.bp-intro__abdij { position: absolute; left: 0; right: 0; bottom: calc(var(--dock-onder) + var(--dock-h) + 10px); width: 100%; height: clamp(70px, 14vh, 150px); pointer-events: none; }
+.bp-cel--intro .bp-cel__decor::after { content: ""; position: absolute; inset: auto 0 0 0; height: calc(var(--dock-onder) + var(--dock-h) + 11px); background: linear-gradient(180deg, rgba(10, 30, 19, .7), rgba(6, 18, 11, .85)); border-top: 1.5px solid rgba(237, 224, 162, .32); opacity: 1; }
+.bp-abdij-lijn { fill: rgba(10, 30, 19, .7); stroke: var(--bp-lijn); stroke-opacity: .42; stroke-width: 1.5; stroke-linejoin: round; }
+.bp-abdij-ramen { fill: none; stroke: var(--bp-lijn); stroke-opacity: .3; stroke-width: 1.2; }
+
+
+/* ===================== 4. DE GOUDEN PLAFONDLEIDING =================== */
+.bp-wereld > .bp-leiding { position: absolute; left: 0; top: 0; z-index: 1; overflow: visible; pointer-events: none; transition: opacity .5s; }
+.bp-leiding__basis { stroke: rgba(237, 224, 162, .38); stroke-width: 3; }
+.bp-leiding__halo { stroke: rgba(247, 229, 157, .14); stroke-width: 16; }
+.bp-leiding__vloed { stroke: url(#bp-leiding-goud); stroke-width: 7; }
+.bp-leiding__kop { fill: #FFF7CF; filter: drop-shadow(0 0 8px rgba(247, 229, 157, .9)); }
+@media (min-width: 768px) {
+    .bp-leiding__vloed { filter: drop-shadow(0 0 6px rgba(212, 175, 55, .55)); }
+}
+html[data-laag="b"]:not(.is-sheet) .bp-wereld > .bp-leiding { opacity: .28; }
+
+
+/* ===================== 5. HUD MET DE MINI-S-KAART ==================== */
+.bp-hud {
+    top: max(var(--hud-top), env(safe-area-inset-top));
+    left: max(var(--rand), env(safe-area-inset-left));
+    right: max(var(--rand), env(safe-area-inset-right));
+    max-width: none;
+    height: var(--hud-h);
+    gap: 12px;
+    padding: 0 4px;
+    background: rgba(9, 26, 17, .82);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.bp-hud__verhalen { display: none; }
+.bp-hud__merk { height: 44px; padding: 0 .75rem 0 0; gap: .6rem; }
+.bp-hud__merk svg { width: 44px; height: 44px; }
+.bp-hud__merk span { font-size: 18px; }
+@media (max-width: 1099.98px) { .bp-hud__merk span { display: none; } .bp-hud__merk { padding-right: 0; } }
+
+.bp-hud__route {
+    margin: 0 auto;
+    display: flex; align-items: center; gap: 10px;
+    min-width: 0; height: 44px;
+    padding: 0 14px 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(232, 213, 149, .18);
+    background: rgba(255, 255, 255, .03);
+    color: var(--bp-creme);
+    text-align: left;
+    cursor: pointer; touch-action: manipulation;
+}
+@media (hover: hover) { .bp-hud__route:hover { border-color: rgba(232, 213, 149, .45); } }
+.bp-hud__kaart { flex: none; width: 112px; height: 38px; overflow: visible; }
+.bp-hud__kaart-lijn, .bp-hud__kaart-goud { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.bp-hud__kaart-lijn { stroke: rgba(237, 224, 162, .3); stroke-width: 1.6; }
+.bp-hud__kaart-goud { stroke: var(--bp-goud); stroke-width: 2.4; stroke-dasharray: 0 100; transition: stroke-dasharray .8s var(--bp-ease); }
+[data-route-punten] circle { fill: rgba(237, 224, 162, .35); transition: fill .4s, r .3s; }
+[data-route-punten] circle.is-bereikt { fill: var(--bp-goud); }
+[data-route-punten] circle.is-hier { fill: var(--bp-ovaal); stroke: rgba(247, 229, 157, .45); stroke-width: 5; paint-order: stroke; }
+[data-route-punten] circle.is-gedaan:not(.is-hier) { fill: #FFF6CF; }
+.bp-hud__route-tekst { min-width: 0; line-height: 1.1; }
+.bp-hud__route-tekst small { display: block; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--bp-tekst-zacht); }
+.bp-hud__route-tekst strong { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 1px 0 2px; font-family: var(--font-logo); font-weight: 400; font-size: 18px; line-height: 1.2; color: var(--bp-ovaal); }
+.bp-hud__modus { flex: none; padding: 3px 9px; border-radius: 999px; background: rgba(212, 175, 55, .16); color: var(--bp-goud-licht); font-size: 14px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.bp-hud__modus.is-doen { background: var(--bp-ovaal); color: var(--bp-bg-diep); }
+.bp-hud__route-pijl { flex: none; font-size: .8rem; color: var(--bp-goud-licht); }
+.bp-hud__acties { gap: 6px; }
+.bp-hud__knop { width: 44px; height: 44px; }
+.bp-hud__knop--uitleg { color: var(--bp-ovaal); border-color: rgba(247, 229, 157, .5); font-size: 1.15rem; }
+
+
+/* =============================== 6. DOCK ============================= */
+.bp-dock {
+    position: fixed; z-index: 55;
+    right: max(var(--rand), env(safe-area-inset-right));
+    bottom: max(var(--dock-onder), env(safe-area-inset-bottom));
+    height: var(--dock-h);
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    background: rgba(9, 26, 17, .88);
+    border: 1px solid rgba(232, 213, 149, .25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    transition: transform .5s var(--bp-ease), opacity .4s;
+}
+.is-start .bp-dock, .is-tour .bp-dock { transform: translateY(160%); opacity: 0; pointer-events: none; }
+.bp-dock__rij { display: contents; }
+.bp-dock [hidden] { display: none !important; }
+.bp-dockknop {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-width: 48px; height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(232, 213, 149, .4);
+    background: rgba(255, 255, 255, .04);
+    color: var(--bp-creme);
+    font: 700 16px/1 var(--font-body);
+    white-space: nowrap;
+    cursor: pointer; touch-action: manipulation;
+    transition: transform .15s var(--bp-ease), background .2s, border-color .2s, filter .2s;
+}
+.bp-dockknop:active { transform: scale(.96); }
+.bp-dockknop small { font-size: 14px; font-weight: 600; color: var(--bp-tekst-zacht); }
+.bp-dockknop--vk { width: 48px; padding: 0; }
+.bp-dockknop--hulp { font-size: 20px; font-weight: 800; color: var(--bp-ovaal); }
+.bp-dockknop--hulp[aria-expanded="true"] { background: var(--bp-ovaal); color: var(--bp-bg-diep); }
+.bp-dockknop--goud {
+    min-width: 12.5rem; padding: 0 22px;
+    border: 0;
+    background: linear-gradient(180deg, #F6E3A0, #D7B145);
+    color: #12261A; font-size: 17px;
+    box-shadow: 0 0 0 3px rgba(247, 229, 157, .15);
+}
+.bp-dockknop--icoon-voor { flex-direction: row-reverse; }
+.bp-dockknop--zelf { border-color: var(--bp-ovaal); color: var(--bp-ovaal); background: rgba(247, 229, 157, .1); }
+.bp-dockknop--tekst { border-color: transparent; background: transparent; color: var(--bp-tekst-zacht); font-weight: 600; }
+@media (hover: hover) {
+    .bp-dockknop:hover { border-color: var(--bp-goud-licht); }
+    .bp-dockknop--goud:hover { filter: brightness(1.07); }
+}
+/* Volgorde op tablet en groter: [game] ← [primair] 🎬 ? */
+.bp-dock [data-dock-spel] { order: 0; }
+.bp-dock [data-dock-terug] { order: 1; }
+.bp-dock [data-dock-verder] { order: 2; }
+.bp-dock [data-dock-video], .bp-dock [data-dock-doen] { order: 3; }
+.bp-dock [data-dock-hulp] { order: 4; }
+.bp-dock [data-dock-video] span { display: none; }
+.bp-dock [data-dock-video] { padding: 0 14px; }
+@media (max-width: 1099.98px) and (min-width: 768px) { .bp-dock [data-dock-spel] span { display: none; } .bp-dock [data-dock-spel] { width: 48px; padding: 0; } }
+
+
+/* =========== 7. SCÈNE A: KETEL + VERHAALKAART (COMPOSITIES L EN R) ===== */
+.bp-scherm--a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--kaart-b);
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: var(--gat);
+    padding: calc(var(--stage-top) + var(--plafond-ruimte)) max(var(--rand), env(safe-area-inset-right)) var(--stage-onder) max(var(--rand), env(safe-area-inset-left));
+    transition: opacity .35s, visibility 0s;
+}
+.bp-cel[data-compositie="rechts"] .bp-scherm--a { grid-template-columns: var(--kaart-b) minmax(0, 1fr); }
+.bp-toneel { display: contents; }
+
+.bp-scherm--a .bp-ketel {
+    --kolom-b: calc(var(--vw) - 2 * var(--rand) - var(--kaart-b) - var(--gat));
+    grid-row: 1; grid-column: 1;
+    position: relative;
+    min-height: 0;
+    width: auto;
+    height: calc(min(var(--stage-h) - var(--plafond-ruimte) - var(--vloer-ruimte), var(--kolom-b) * 1.0625) * var(--held-schaal, 1));
+    max-width: 100%;
+    aspect-ratio: 320 / 340;
+    margin: 0 0 var(--vloer-ruimte);
+    align-self: var(--held-v, center);
+    justify-self: var(--held-x, center);
+    cursor: pointer;
+}
+.bp-cel[data-compositie="rechts"] .bp-scherm--a .bp-ketel { grid-column: 2; }
+.bp-ketel__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.bp-ketel .bp-buis, .bp-ketel .bp-buis-vloed, .bp-ketel .bp-buis-deel { display: none; }
+.bp-ketel__ovaal {
+    position: absolute; left: 2%; top: 4%; z-index: 2;
+    display: grid; place-items: center;
+    width: 3.2rem; height: 2.2rem;
+    border-radius: 50%;
+    border: 2px solid var(--bp-ovaal);
+    background: var(--bp-bg);
+    color: var(--bp-ovaal);
+    font-size: 1.3rem; line-height: 1;
+    transition: background .6s var(--bp-ease), color .6s, box-shadow .6s;
+}
+.bp-cel.is-gevuld .bp-ketel__ovaal { background: var(--bp-ovaal); color: var(--bp-bg-diep); box-shadow: 0 0 0 6px rgba(247, 229, 157, .12), 0 0 26px rgba(247, 229, 157, .45); }
+.bp-cel.is-huidig:not(.is-bediend) .bp-scherm--a .bp-ketel::before { opacity: 1; animation: bp-gloed 2.6s ease-in-out infinite; }
+.bp-cel.toon-hint .bp-scherm--a .bp-ketel__tik { opacity: 1; transform: none; animation: bp-hint-tik 1.5s ease-in-out infinite; }
+.bp-ketel__tik { right: 6%; bottom: 10%; }
+.bp-cel.is-gelukt .bp-ketel__ovaal::after {
+    content: "\2713"; position: absolute; right: -.45rem; top: -.45rem;
+    display: grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 50%;
+    background: var(--bp-goed); color: var(--bp-bg-diep); font: 800 .75rem/1 var(--font-body);
+}
+
+.bp-verhaalkaart {
+    grid-row: 1; grid-column: 2;
+    align-self: var(--kaart-v, center);
+    min-height: 0; max-height: 100%;
+    box-sizing: border-box;
+    padding: 24px 28px;
+    border-radius: 18px;
+    background: rgba(9, 26, 17, .9);
+    border: 1px solid rgba(232, 213, 149, .22);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+    color: var(--bp-tekst);
+    transition: opacity .35s, transform .45s var(--bp-ease);
+}
+.bp-cel[data-compositie="rechts"] .bp-verhaalkaart { grid-column: 1; }
+.bp-verhaalkaart__titel { display: flex; flex-direction: column; gap: 6px; margin: 0 0 14px; font-weight: 400; }
+.bp-verhaalkaart__pakket { font-size: var(--t-pak); font-weight: 800; line-height: 1.3; letter-spacing: .14em; text-transform: uppercase; color: var(--bp-goud); }
+.bp-verhaalkaart__kop { font-size: var(--t-kop); line-height: 1.12; color: var(--bp-ovaal); }
+.bp-verhaalkaart__sam { margin: 0 0 12px; font-size: var(--t-sam); font-weight: 600; line-height: 1.4; color: var(--bp-creme); }
+.bp-verhaalkaart__verhaal { font-size: var(--t-ver); line-height: var(--t-lh); }
+.bp-verhaalkaart__kort, .bp-verhaalkaart__lees { display: none; }
+
+/* Per station: schaal en uitlijning van ketel en kaart (ontwerp §2.2) */
+.bp-cel[data-cel="1"] { --held-schaal: .85; --held-v: end;    --held-x: center; --kaart-v: start;  --held-x-staand: start; }
+.bp-cel[data-cel="2"] { --held-schaal: 1;   --held-v: center; --held-x: start;  --kaart-v: end;    --held-x-staand: end; }
+.bp-cel[data-cel="3"] { --held-schaal: 1;   --held-v: center; --held-x: end;    --kaart-v: center; --held-x-staand: center; }
+.bp-cel[data-cel="4"] { --held-schaal: .9;  --held-v: end;    --held-x: start;  --kaart-v: start;  --held-x-staand: start; }
+.bp-cel[data-cel="5"] { --held-schaal: .92; --held-v: end;    --held-x: center; --kaart-v: center; --held-x-staand: end; }
+.bp-cel[data-cel="6"] { --held-schaal: 1;   --held-v: start;  --held-x: center; --kaart-v: end;    --held-x-staand: start; }
+.bp-cel[data-cel="7"] { --held-schaal: .9;  --held-v: end;    --held-x: end;    --kaart-v: start;  --held-x-staand: center; }
+.bp-cel[data-cel="8"] { --held-schaal: .9;  --held-v: end;    --held-x: center; --kaart-v: center; --held-x-staand: end; }
+.bp-cel[data-cel="9"] { --held-schaal: .86; --held-v: center; --held-x: start;  --kaart-v: end;    --held-x-staand: center; }
+
+/* De ketel loopt vol zodra het goud aankomt, en leeft mee met scène B */
+.bp-stap.is-gevuld:not([data-stap="4"]) { --vulling: 1; }
+.bp-stap.is-gevuld[data-stap="8"] { --vul-1: 1; --vul-2: 1; --vul-3: 1; }
+.bp-fles--2 .bp-fles-bier { transition-delay: .35s; }
+.bp-fles--3 .bp-fles-bier { transition-delay: .7s; }
+.bp-stap.is-malend .bp-tandwiel { animation-duration: .45s; }
+.bp-stap.is-kokend .bp-bubbels circle, .bp-stap.is-gistend .bp-bubbels circle { animation-duration: .55s; }
+.bp-stap.is-gistend .bp-blub circle { animation-duration: .9s; }
+.bp-stap.is-kokend .bp-wolken path { animation-duration: 3s; }
+
+/* A → B: de kaart en de ketel maken plaats voor de close-up */
+.bp-cel[data-laag="b"] .bp-scherm--a { opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; }
+.bp-cel[data-laag="b"] .bp-scherm--a .bp-verhaalkaart { transform: translateY(-14px) scale(.97); }
+
+
+/* ============= 8. SCÈNE B: HANGKAARTJE, CLOSE-UP EN RAIL ============= */
+.bp-scherm--b {
+    display: grid;
+    grid-template-columns: var(--kaartje-b) minmax(0, 1fr) 48px;
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: var(--gat);
+    padding: calc(var(--stage-top) + 8px) max(var(--rand), env(safe-area-inset-right)) var(--stage-onder) max(var(--rand), env(safe-area-inset-left));
+    opacity: 0; visibility: hidden;
+    transition: opacity .35s, visibility 0s .35s;
+}
+.bp-cel[data-laag="b"] .bp-scherm--b { opacity: 1; visibility: visible; transition: opacity .45s .15s, visibility 0s; }
+.bp-cel[data-compositie="rechts"] .bp-scherm--b { grid-template-columns: 48px minmax(0, 1fr) var(--kaartje-b); }
+.bp-doen__greep { display: none; }
+
+.bp-hangkaart {
+    grid-row: 1; grid-column: 1;
+    align-self: start;
+    position: relative;
+    margin-top: 34px;
+    padding: 16px 18px 16px 20px;
+    border-radius: 6px 18px 18px 18px;
+    background: #F3E6BE;
+    color: #1B2A1F;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .4);
+    --draai: -1.5deg;
+    transform: rotate(var(--draai));
+    transform-origin: 22px -34px;
+}
+.bp-cel[data-compositie="rechts"] .bp-hangkaart { grid-column: 3; --draai: 1deg; }
+.bp-hangkaart::before { content: ""; position: absolute; left: 22px; top: -34px; width: 2px; height: 34px; background: #CDB46A; }
+.bp-hangkaart::after { content: ""; position: absolute; left: 16px; top: 10px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #8C7434; background: #12261A; }
+.bp-cel[data-laag="b"] .bp-hangkaart { animation: bp-slinger-in .9s var(--bp-ease) .2s both; }
+@keyframes bp-slinger-in { 0% { transform: rotate(-8deg) translateY(-12px); opacity: 0; } 40% { opacity: 1; } 65% { transform: rotate(2deg); } 100% { transform: rotate(var(--draai)); } }
+.bp-hangkaart__pakket { display: flex; align-items: center; gap: 6px; padding-left: 18px; margin: 0 0 6px; font-size: 14px; font-weight: 800; line-height: 1.2; letter-spacing: .04em; text-transform: uppercase; color: #6E5A1E; }
+.bp-hangkaart__titel { margin: 0 0 8px; font-size: 26px; font-weight: 400; line-height: 1.1; color: #1E3A2A; }
+.bp-hangkaart__opdracht { margin: 0; font-size: 17px; font-weight: 650; line-height: 1.35; }
+.bp-hangkaart__feedback { margin: 10px 0 0; padding-top: 10px; border-top: 1px dashed rgba(27, 42, 31, .25); font-size: 16px; font-weight: 600; line-height: 1.35; color: #24402E; }
+.bp-hangkaart__feedback:empty { display: none; }
+.bp-hangkaart__feedback[data-soort="goed"] { color: #22603A; }
+.bp-hangkaart__feedback[data-soort="goed"]::before { content: "\2713  "; font-weight: 800; }
+.bp-hangkaart__feedback[data-soort="fout"] { color: #8E3F1F; }
+.bp-hangkaart__feedback[data-soort="fout"]::before { content: "!  "; font-weight: 900; }
+
+.bp-doen__podium {
+    grid-row: 1; grid-column: 2;
+    position: relative;
+    min-height: 0; min-width: 0;
+    align-self: center; justify-self: center;
+    height: min(100%, calc((var(--vw) - 2 * var(--rand) - var(--kaartje-b) - 48px - 2 * var(--gat)) * 11 / 12));
+    max-width: 100%;
+    aspect-ratio: 12 / 11;
+    touch-action: none;
+    -webkit-touch-callout: none;
+}
+.bp-doen__podium > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.bp-doen__podium .bp-toast { left: 50%; right: auto; top: auto; bottom: 2%; width: max-content; max-width: calc(100% - .5rem); transform: translateX(-50%); animation-name: bp-toast-in-onder; }
+@keyframes bp-toast-in-onder { from { opacity: 0; transform: translate(-50%, 10px) scale(.96); } to { opacity: 1; transform: translateX(-50%); } }
+.bp-doen__podium .bp-toast.is-weg { animation: bp-uit .35s ease forwards; }
+.bp-doen__rail {
+    grid-row: 1; grid-column: 3;
+    align-self: start;
+    display: grid; gap: 10px;
+    margin-top: 34px;
+}
+.bp-cel[data-compositie="rechts"] .bp-doen__rail { grid-column: 1; }
+.bp-rondknop {
+    display: grid; place-items: center;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(232, 213, 149, .45);
+    background: rgba(9, 26, 17, .85);
+    color: var(--bp-ovaal);
+    font-size: 17px;
+    cursor: pointer; touch-action: manipulation;
+    transition: transform .15s, background .2s;
+}
+.bp-rondknop:active { transform: scale(.94); }
+@media (hover: hover) { .bp-rondknop:hover { background: rgba(247, 229, 157, .14); } }
+.bp-cel.is-gelukt .bp-rondknop[data-geheim] { box-shadow: 0 0 0 3px rgba(212, 175, 55, .35); }
+
+/* Hints in scène B */
+.bp-scherm .bp-hint { z-index: 30; }
+
+/* Tip van de brouwer: zweeft boven alles, naast de knop (js plaatst hem) */
+.bp-tip { position: fixed; z-index: 95; top: auto; right: auto; width: min(22rem, calc(100vw - 24px)); }
+.bp-tip::before { left: calc(var(--pijl-x, 50%) - 8px); right: auto; }
+.bp-tip.is-boven::before { top: auto; bottom: -8px; border-bottom: 0; border-top: 8px solid #FBF4DC; }
+.bp-tip.is-kaart::before { display: none; }
+.bp-tip p { font-size: 16px; }
+.bp-tip h4 { font-size: 15px; }
+
+
+/* ======================= 9. INTRO, SPEL EN EINDE ===================== */
+.bp-scherm--intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--gat);
+    padding: var(--stage-top) max(var(--rand), 9vw) calc(var(--dock-onder) + var(--dock-h) + 10px + clamp(70px, 14vh, 150px) + 12px);
+}
+.bp-bron__kraan { cursor: pointer; }
+.bp-intro__inhoud { max-width: 38rem; justify-self: end; }
+.bp-intro__inhoud .bp-oogje { justify-content: flex-start; margin-bottom: .75rem; font-size: 14px; }
+.bp-intro__titel { margin: 0 0 1.1rem; line-height: 1; }
+.bp-intro__titel-goud { display: block; font-size: clamp(42px, min(7vh, 6vw), 76px); color: var(--bp-ovaal); text-shadow: 0 2px 30px rgba(247, 229, 157, .25); }
+.bp-intro__titel-sub { display: block; margin-top: .3em; font-size: clamp(24px, min(4vh, 3.4vw), 40px); color: var(--bp-creme); }
+.bp-intro__lead { margin: 0 0 .8rem; font-size: clamp(17px, 2.4vh, 20px); line-height: 1.55; color: #FFF8E4; }
+.bp-intro__tekst { margin: 0 0 .8rem; font-size: clamp(16px, 2.2vh, 18px); line-height: 1.6; color: var(--bp-tekst); }
+.bp-intro__uitnodiging { font-size: clamp(16px, 2.2vh, 18px); font-weight: 700; line-height: 1.5; color: var(--bp-ovaal); }
+.bp-bron { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.bp-bron__kraan { position: relative; display: grid; place-items: center; width: clamp(96px, 16vh, 150px); height: clamp(96px, 16vh, 150px); }
+.bp-bron__kraan svg { width: 100%; height: 100%; fill: var(--bp-bg); stroke: var(--bp-ovaal); stroke-width: 2.5; stroke-linecap: round; animation: bp-draai 14s linear infinite; }
+.bp-bron__kraan .bp-anker { left: 50%; top: 0; }
+.bp-bron__tekst { max-width: 16rem; font-size: 17px; font-weight: 700; color: var(--bp-ovaal); }
+.bp-bron__tekst span { display: block; margin-top: 4px; font-size: 16px; font-weight: 500; color: var(--bp-tekst-zacht); }
+
+.bp-scherm--spel { display: flex; flex-direction: column; padding: var(--stage-top) max(var(--rand), env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(var(--rand), env(safe-area-inset-left)); }
+.bp-scherm--spel > .bp-anker { left: 0; top: calc(var(--stage-top) + 18px); }
+.bp-spel__kop { flex: none; text-align: center; }
+.bp-spel__kop .bp-oogje { margin-bottom: .35rem; }
+.bp-spel__titel { margin: 0 0 .75rem; font-size: clamp(30px, 5vh, 44px); line-height: 1.1; color: var(--bp-ovaal); }
+.bp-spel__app { flex: 1; min-height: 0; position: relative; }
+
+.bp-scherm--einde {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    grid-template-areas: "kop bieren" "bar bieren" "rond bieren" "matig bieren";
+    align-content: center;
+    column-gap: var(--gat); row-gap: 14px;
+    padding: var(--stage-top) max(var(--rand), 4vw) var(--stage-onder);
+}
+.bp-einde__kop { grid-area: kop; }
+.bp-einde__kop .bp-oogje { justify-content: flex-start; margin-bottom: .5rem; }
+.bp-einde__titel { margin: 0 0 .5rem; font-size: clamp(44px, 8vh, 72px); line-height: 1; color: var(--bp-ovaal); }
+.bp-einde__tekst { font-size: 18px; line-height: 1.55; }
+.bp-einde__gebrouwen { margin-top: 8px; font-size: 17px; font-weight: 700; color: var(--bp-ovaal); }
+.bp-einde__bar { grid-area: bar; margin: 0; font-size: 18px; font-weight: 700; color: var(--bp-ovaal); }
+.bp-einde__bar[data-alleen-kiosk] { display: none; }
+.is-kiosk .bp-einde__bar[data-alleen-kiosk] { display: block !important; }
+.bp-scherm--einde .bp-rondleiding {
+    grid-area: rond;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; align-items: center;
+    margin: 0; padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(9, 26, 17, .78); border: 1px solid var(--bp-kaart-rand);
+}
+.bp-rondleiding__icoon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--bp-goud); color: var(--green-dark); font-size: 1.1rem; }
+.bp-rondleiding h3 { margin: 0 0 2px; font-size: 17px; font-weight: 800; color: var(--bp-ovaal); }
+.bp-rondleiding p { font-size: 15px; line-height: 1.45; }
+.bp-rondleiding__knoppen { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.bp-rondleiding__knoppen .bp-knop { flex: 1 1 12rem; min-height: 46px; padding: .55rem 1rem; font-size: 15px; }
+.bp-scherm--einde .bp-matig { grid-area: matig; align-self: start; justify-content: flex-start; flex-wrap: wrap; font-size: 14px; }
+.bp-einde__links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; text-underline-offset: 3px; }
+.bp-einde__bieren {
+    grid-area: bieren; align-self: center;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+    margin: 0; padding: 0; list-style: none;
+}
+.bp-bierkaart {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    height: 100%;
+    padding: 12px 10px 14px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #F6F1E1, #E4DCC4);
+    color: var(--green-dark);
+    text-decoration: none; text-align: center;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .25);
+    transition: transform .3s var(--bp-ease);
+}
+.bp-bierkaart img { width: 100%; max-width: 8.5rem; height: auto; max-height: min(30vh, 225px); aspect-ratio: 2 / 3; object-fit: contain; }
+.bp-bierkaart__naam { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.bp-bierkaart__info { font-size: 14px; color: #4B5563; }
+.bp-bierkaart.is-gebrouwen { box-shadow: 0 0 0 3px var(--bp-goud), 0 14px 34px rgba(0, 0, 0, .25); }
+@media (hover: hover) { a.bp-bierkaart[href]:hover { transform: translateY(-4px); } }
+
+
+/* ====== Brouwersgeheim als kaartjes (in de lade) en de opname-kaart ===== */
+.bp-lade__inhoud { overflow: visible; }
+.bp-lade[data-soort="geheim"] .bp-lade__paneel { max-height: calc(var(--vh) - 24px); }
+.bp-kaartjes { display: grid; gap: 14px; }
+.bp-kaartje {
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(232, 213, 149, .2);
+    animation: bp-in .3s ease;
+}
+.bp-kaartje__nr { margin: 0 0 4px; font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--bp-goud-licht); }
+.bp-lade__inhoud .bp-kaartje__titel { margin: 0 0 8px; font-size: 20px; line-height: 1.25; }
+.bp-lade__inhoud .bp-kaartje__tekst { margin: 0; font-size: 17px; line-height: 1.6; }
+.bp-kaartjes__nav { display: flex; align-items: center; gap: 12px; }
+.bp-kaartjes__knop {
+    flex: none; display: grid; place-items: center;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(232, 213, 149, .4);
+    background: transparent; color: var(--bp-ovaal);
+    cursor: pointer; touch-action: manipulation;
+}
+.bp-kaartjes__knop:disabled { opacity: .35; cursor: default; }
+.bp-kaartjes__punten { flex: 1; display: flex; justify-content: center; gap: 6px; }
+.bp-kaartjes__punten i { width: 8px; height: 8px; border-radius: 50%; background: rgba(237, 224, 162, .3); }
+.bp-kaartjes__punten i.is-hier { background: var(--bp-ovaal); }
+.bp-kaartjes__verder { flex: none; min-height: 48px; padding: .6rem 1.2rem; }
+
+.bp-opname__preview { display: grid; place-items: center; background: radial-gradient(90% 120% at 30% 20%, rgba(247, 229, 157, .2), transparent 60%), linear-gradient(160deg, #1C432D, #0A2015); }
+.bp-opname__film { font-size: clamp(2.5rem, 8vh, 4rem); color: var(--bp-ovaal); opacity: .8; }
+.bp-videomodal__kader { max-height: calc(var(--vh) - 2rem); }
+.bp-videomodal__beeld video { max-height: calc(var(--vh) - 9rem); }
+
+
+/* ============== Startscherm en onboarding (aanvullingen) ============== */
+.bp-start { overflow: hidden; }
+.bp-start__decor::after { content: ""; position: absolute; inset: 0; background: radial-gradient(56% 46% at 50% 50%, rgba(11, 28, 18, .8), transparent 76%); pointer-events: none; }
+.bp-start__boven, .bp-start__onder { display: contents; }
+.bp-start__bier { display: inline-flex; align-items: center; gap: .5rem; padding: .35rem .9rem; border-radius: 999px; background: rgba(212, 175, 55, .16); border: 1px solid rgba(212, 175, 55, .4); color: var(--bp-goud-licht); font-size: 15px; font-weight: 700; }
+.bp-start__extra { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 2px 6px; margin: 0; color: var(--bp-tekst-zacht); }
+.bp-tour { overflow: hidden; }
+.bp-tour__kaart { max-height: calc(var(--vh) - 2rem); }
+.bp-tour__boven { position: relative; display: flex; justify-content: center; align-items: center; min-height: 44px; }
+.bp-tour__overslaan { position: absolute; right: -.5rem; top: 50%; transform: translateY(-50%); min-height: 44px; font-size: 15px; }
+.bp-tour__hand--veeg { right: 12%; top: 50%; animation: bp-tour-veeg-x 2.6s ease-in-out infinite; }
+@keyframes bp-tour-veeg-x { 0% { transform: translateX(10px); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateX(-60px); opacity: 1; } 100% { transform: translateX(-70px); opacity: 0; } }
+.bp-tour__ovaal--3 { fill: var(--bp-bg); }
+@media (max-width: 759.98px) {
+    .bp-tour__boven { justify-content: space-between; }
+    .bp-tour__overslaan { position: static; transform: none; margin-right: -.5rem; }
+    .bp-tour__oogje { letter-spacing: .1em; }
+    .bp-tour__titel { font-size: clamp(1.6rem, 7vw, 2rem); }
+    .bp-tour__beeld { max-height: 24vh; }
+}
+@media (max-width: 759.98px) and (max-height: 700px) {
+    .bp-tour__kaart { padding: .9rem .9rem .75rem; }
+    .bp-tour__titel { margin-bottom: .6rem; }
+    .bp-tour__stap { padding: .8rem .8rem 1rem; gap: .4rem; }
+    .bp-tour__beeld { max-height: 19vh; }
+    .bp-tour__punten { margin-top: .4rem; }
+    .bp-tour__knoppen { margin-top: .4rem; }
+}
+
+
+/* ================= 10. ROUTEKAART (STAPPENKIEZER) ==================== */
+.bp-kiezer__kaart { position: relative; margin: 0 0 14px; }
+.bp-kiezer__lijn { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.bp-kiezer__lijn path { fill: none; stroke: var(--bp-goud); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: .7; }
+.bp-kiezer__raster {
+    position: relative;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, auto);
+    gap: 10px;
+    margin: 0; padding: 0; list-style: none;
+}
+.bp-kiezer__raster li { grid-column: var(--k); grid-row: var(--r); display: flex; justify-content: center; }
+.bp-kiezer__raster button {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    width: 100%; min-height: 76px;
+    padding: 6px 4px;
+    border: 0; border-radius: 14px;
+    background: rgba(9, 26, 17, .9);
+    color: var(--bp-creme);
+    font: 600 15px/1.2 var(--font-body);
+    cursor: pointer; touch-action: manipulation;
+}
+.bp-kiezer__ovaal { display: grid; place-items: center; width: 3rem; height: 2.1rem; border-radius: 50%; border: 2px solid var(--bp-lijn-zacht); background: var(--bp-bg); color: var(--bp-lijn); font-size: 1.2rem; }
+.bp-kiezer__raster button.is-bereikt .bp-kiezer__ovaal { border-color: var(--bp-ovaal); color: var(--bp-ovaal); }
+.bp-kiezer__raster button[aria-current] .bp-kiezer__ovaal { background: var(--bp-ovaal); border-color: var(--bp-ovaal); color: var(--bp-bg-diep); box-shadow: 0 0 14px rgba(247, 229, 157, .55); }
+.bp-kiezer__spel .bp-kiezer__ovaal { border-color: var(--bp-goud); color: var(--bp-goud); font-size: 1rem; }
+@media (hover: hover) { .bp-kiezer__raster button:hover { background: rgba(31, 61, 43, .95); } }
+.bp-kiezer__voet { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin: 0; }
+.bp-kiezer__voet .bp-kiezer__hand { display: none; }
+
+
+/* ========================== 11. STAANDE TABLET ======================= */
+@media (min-width: 768px) and (max-aspect-ratio: 4/5) {
+    :root { --kaart-b: 100%; }
+    .bp-scherm--a, .bp-cel[data-compositie="rechts"] .bp-scherm--a {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+        row-gap: 20px;
+    }
+    .bp-scherm--a .bp-ketel, .bp-cel[data-compositie="rechts"] .bp-scherm--a .bp-ketel {
+        grid-column: 1; grid-row: 1;
+        height: calc(100% - var(--vloer-ruimte));
+        max-height: min(44vh, 62vw);
+        align-self: center;
+        justify-self: var(--held-x-staand, center);
+    }
+    .bp-verhaalkaart, .bp-cel[data-compositie="rechts"] .bp-verhaalkaart { grid-column: 1; grid-row: 2; align-self: end; padding: 24px 32px; }
+    .bp-verhaalkaart__sam, .bp-verhaalkaart__verhaal { max-width: 62ch; }
+
+    .bp-scherm--b, .bp-cel[data-compositie="rechts"] .bp-scherm--b {
+        grid-template-columns: minmax(0, 1fr) 48px;
+        grid-template-rows: auto minmax(0, 1fr);
+        row-gap: 16px; column-gap: 16px;
+    }
+    .bp-hangkaart, .bp-cel[data-compositie="rechts"] .bp-hangkaart { grid-column: 1; grid-row: 1; margin-top: 30px; justify-self: start; max-width: 30rem; transform: rotate(-1deg); }
+    .bp-doen__rail, .bp-cel[data-compositie="rechts"] .bp-doen__rail { grid-column: 2; grid-row: 1; margin-top: 30px; }
+    .bp-doen__podium { grid-column: 1 / -1; grid-row: 2; height: min(100%, calc((var(--vw) - 2 * var(--rand)) * 11 / 12)); }
+
+    .bp-dock { right: 50%; transform: translateX(50%); }
+    .is-start .bp-dock, .is-tour .bp-dock { transform: translate(50%, 160%); }
+
+    .bp-scherm--intro { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; row-gap: 40px; padding-left: max(var(--rand), 8vw); padding-right: max(var(--rand), 8vw); }
+    .bp-intro__inhoud { justify-self: center; text-align: center; }
+    .bp-intro__inhoud .bp-oogje { justify-content: center; }
+    .bp-scherm--einde {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas: "kop" "bieren" "bar" "rond" "matig";
+        text-align: center;
+    }
+    .bp-einde__kop .bp-oogje, .bp-scherm--einde .bp-matig { justify-content: center; }
+    .bp-scherm--einde .bp-rondleiding { text-align: left; }
+}
+
+
+/* ============ 12. TELEFOON (< 768 PX): VERHAAL + SHEET + DUIM ========= */
+@media (max-width: 767.98px) and (min-height: 501px) {
+    :root {
+        --rand: 16px;
+        --m-boven: max(8px, env(safe-area-inset-top));
+        --m-onder: max(12px, env(safe-area-inset-bottom));
+        --m-hud-h: calc(var(--m-boven) + 4px + 8px + 44px + 12px);
+        --m-r1: 48px; --m-r2: 56px; --m-zone: 12px;
+        --m-dock-h: calc(8px + var(--m-r1) + 8px + var(--m-r2) + var(--m-onder));
+        --m-dock1-h: calc(8px + var(--m-r2) + var(--m-onder));
+        --m-kijk: clamp(96px, calc(var(--vh) * .22), 200px);
+        --m-kop: 26px; --m-sam: 18px;
+        --stage-top: var(--m-hud-h);
+    }
+    @media (max-height: 699.98px) {
+        :root { --m-boven: max(6px, env(safe-area-inset-top)); --m-r2: 52px; --m-zone: 8px; --m-kop: 22px; --m-sam: 17px; }
+    }
+
+    /* HUD: verhalenbalk + één rij */
+    .bp-hud {
+        top: var(--m-boven); left: var(--rand); right: var(--rand);
+        height: auto;
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr) 44px;
+        grid-template-rows: 4px 44px;
+        row-gap: 8px; column-gap: 8px;
+        padding: 0;
+        border: 0; border-radius: 0;
+        background: none; box-shadow: none;
+        -webkit-backdrop-filter: none; backdrop-filter: none;
+    }
+    .bp-hud__verhalen { grid-column: 1 / -1; grid-row: 1; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+    .bp-hud__verhalen i { position: relative; height: 4px; border-radius: 2px; background: rgba(237, 224, 162, .2); overflow: hidden; }
+    .bp-hud__verhalen i::after { content: ""; position: absolute; inset: 0; background: var(--bp-goud); transform-origin: left; transform: scaleX(0); transition: transform .5s var(--bp-ease); }
+    .bp-hud__verhalen i.is-gezien::after { transform: scaleX(.5); }
+    .bp-hud__verhalen i.is-gedaan::after { transform: scaleX(1); }
+    .bp-hud__verhalen i.is-hier::after { background: var(--bp-ovaal); box-shadow: 0 0 8px rgba(247, 229, 157, .55); transform: scaleX(max(.5, var(--x, .5))); }
+    .bp-hud__verhalen i.is-hier.is-gedaan::after { transform: scaleX(1); }
+    .bp-hud__verhalen i:last-child { background: rgba(212, 175, 55, .25); }
+    .bp-hud__merk { grid-row: 2; grid-column: 1; padding: 0; border-radius: 50%; background: rgba(10, 26, 17, .94); }
+    .bp-hud__merk svg { width: 44px; height: 44px; }
+    .bp-hud__route {
+        grid-row: 2; grid-column: 2;
+        margin: 0; height: 44px; gap: 8px;
+        padding: 0 12px 0 8px;
+        background: rgba(10, 26, 17, .94);
+    }
+    .bp-hud__kaart { width: 46px; height: 16px; }
+    .bp-hud__route-tekst { flex: 1; }
+    .bp-hud__route-tekst small { font-size: 14px; letter-spacing: .03em; }
+    .bp-hud__route-tekst strong { font-size: 16px; font-family: var(--font-body); font-weight: 700; color: var(--bp-creme); }
+    .bp-hud__modus { display: none; }
+    .bp-hud__acties { grid-row: 2; grid-column: 3; }
+    .bp-hud__knop--uitleg { display: none; }
+    .bp-hud__knop { background: rgba(10, 26, 17, .94); }
+
+    /* Dock: duimzone, twee rijen */
+    .bp-dock {
+        left: 0; right: 0; bottom: 0;
+        height: auto;
+        display: grid; row-gap: 8px;
+        padding: 8px var(--rand) var(--m-onder);
+        border: 0; border-radius: 0; box-shadow: none;
+        background: linear-gradient(180deg, rgba(11, 28, 18, 0), rgba(11, 28, 18, .94) 22%);
+    }
+    .bp-dock__rij { display: grid; gap: 8px; }
+    .bp-dock__rij--1 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); height: var(--m-r1); }
+    .bp-dock__rij--1.is-enkel { grid-template-columns: minmax(0, 1fr); }
+    .bp-dock__rij--2 { display: flex; height: var(--m-r2); }
+    .bp-dock .bp-dockknop { height: 100%; min-width: 0; padding: 0 12px; background: rgba(10, 26, 17, .94); }
+    .bp-dock .bp-dockknop--vk { flex: none; width: var(--m-r2); padding: 0; }
+    .bp-dock .bp-dockknop--goud { flex: 1; min-width: 0; background: linear-gradient(180deg, #F7E59D, #D4AF37); box-shadow: 0 6px 18px rgba(212, 175, 55, .28); }
+    .bp-dock .bp-dockknop--zelf { background: rgba(247, 229, 157, .1); }
+    .bp-dock .bp-dockknop--tekst { background: transparent; }
+    .bp-dock [data-dock-video] span { display: inline; }
+    .bp-dock [data-dock-video] { padding: 0 12px; }
+    .is-linkshandig .bp-dock__rij--2 { flex-direction: row-reverse; }
+    .is-linkshandig .bp-dock__rij--1 { direction: rtl; }
+    .is-start .bp-dock, .is-tour .bp-dock { transform: translateY(110%); }
+
+    /* Scène A: ketel boven, kaart onder */
+    .bp-scherm--a, .bp-cel[data-compositie="rechts"] .bp-scherm--a {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+        row-gap: var(--m-zone);
+        padding: calc(var(--m-hud-h) + 4px) var(--rand) calc(var(--m-dock-h) + var(--m-zone));
+        transition: grid-template-rows .38s var(--bp-ease), padding .38s var(--bp-ease);
+    }
+    .bp-scherm--a .bp-ketel, .bp-cel[data-compositie="rechts"] .bp-scherm--a .bp-ketel {
+        grid-column: 1; grid-row: 1;
+        height: 100%; max-height: 330px;
+        margin: 0;
+        align-self: center; justify-self: center;
+    }
+    .bp-ketel__ovaal { width: 2.6rem; height: 1.8rem; font-size: 1.05rem; }
+    .bp-verhaalkaart, .bp-cel[data-compositie="rechts"] .bp-verhaalkaart {
+        grid-column: 1; grid-row: 2; align-self: end;
+        padding: 16px 16px 6px;
+        border-radius: 20px;
+        background: rgba(9, 26, 17, .92);
+        box-shadow: none;
+    }
+    .bp-verhaalkaart__titel { gap: 4px; margin-bottom: 10px; }
+    .bp-verhaalkaart__pakket { font-size: 14px; letter-spacing: .12em; }
+    .bp-verhaalkaart__kop { font-size: var(--m-kop); line-height: 1.15; }
+    .bp-verhaalkaart__sam { margin: 0; font-size: var(--m-sam); line-height: 1.45; }
+    .bp-verhaalkaart__verhaal { display: none; }
+    .bp-verhaalkaart__kort { font-size: 17px; line-height: 1.5; }
+    .bp-verhaalkaart:not(.is-lang) .bp-verhaalkaart__kort, .bp-verhaalkaart.is-lang .bp-verhaalkaart__sam { display: none; }
+    .bp-verhaalkaart.is-lang .bp-verhaalkaart__kort { display: block; }
+    .bp-verhaalkaart__lees {
+        display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+        width: 100%; min-height: 44px; margin: 0;
+        padding: 0;
+        border: 0; background: none;
+        color: var(--bp-goud-licht);
+        font: 700 16px/1 var(--font-body);
+        cursor: pointer; touch-action: manipulation;
+    }
+    .bp-verhaalkaart.is-lang .bp-verhaalkaart__lees i { transform: rotate(180deg); }
+
+    /* Scène B: bottom sheet, de ketel blijft erboven zichtbaar */
+    .bp-cel[data-laag="b"] .bp-scherm--a { opacity: 1; visibility: visible; transition: none; }
+    .bp-cel[data-laag="b"] .bp-scherm--a {
+        grid-template-rows: var(--m-kijk) 0;
+        row-gap: 0;
+        padding-top: var(--m-hud-h);
+    }
+    .bp-cel[data-laag="b"] .bp-scherm--a .bp-ketel { max-height: var(--m-kijk); }
+    .bp-cel[data-laag="b"] .bp-scherm--a .bp-ketel__ovaal { display: none; }
+    .bp-cel[data-laag="b"] .bp-scherm--a .bp-verhaalkaart { opacity: 0; visibility: hidden; transform: translateY(16px); }
+    .bp-cel[data-laag="b"] .bp-cel__decor::after { opacity: 0; }
+
+    .bp-scherm--b, .bp-cel[data-compositie="rechts"] .bp-scherm--b {
+        inset: auto 0 0 0;
+        top: calc(var(--m-hud-h) + var(--m-kijk));
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: 24px auto minmax(0, 1fr);
+        column-gap: 8px; row-gap: 8px;
+        padding: 0 var(--rand) calc(var(--m-dock1-h) + 8px);
+        border-radius: 24px 24px 0 0;
+        background: linear-gradient(180deg, #17301F, #0E2216);
+        border-top: 1px solid rgba(232, 213, 149, .35);
+        box-shadow: 0 -18px 40px rgba(0, 0, 0, .45);
+        transform: translateY(100%) translateY(var(--sheet-sleep, 0px));
+        opacity: 1;
+        transition: transform .38s var(--bp-ease), visibility 0s .38s;
+    }
+    .bp-cel[data-laag="b"] .bp-scherm--b { transform: translateY(var(--sheet-sleep, 0px)); visibility: visible; transition: transform .38s var(--bp-ease), visibility 0s; }
+    .bp-doen__greep { display: flex; grid-column: 1 / -1; grid-row: 1; align-items: center; justify-content: center; touch-action: none; }
+    .bp-doen__greep span { width: 40px; height: 4px; border-radius: 2px; background: rgba(243, 236, 214, .4); }
+    .bp-hangkaart, .bp-cel[data-compositie="rechts"] .bp-hangkaart {
+        grid-column: 1; grid-row: 2;
+        margin: 0; padding: 0;
+        transform: none; animation: none !important;
+        background: none; box-shadow: none; color: var(--bp-creme);
+        border-radius: 0;
+        touch-action: none;
+    }
+    .bp-hangkaart::before, .bp-hangkaart::after { display: none; }
+    .bp-hangkaart__pakket { padding: 0; margin-bottom: 2px; font-size: 14px; color: var(--bp-goud-licht); }
+    .bp-hangkaart__titel { display: none; }
+    .bp-hangkaart__opdracht { font-size: 17px; font-weight: 700; color: var(--bp-creme); }
+    .bp-hangkaart__feedback { margin-top: 6px; padding-top: 6px; border-top-color: rgba(232, 213, 149, .2); font-size: 16px; font-weight: 500; color: var(--bp-tekst); }
+    .bp-hangkaart__feedback[data-soort="goed"] { color: var(--bp-goed); }
+    .bp-hangkaart__feedback[data-soort="fout"] { color: var(--bp-fout); }
+    .bp-doen__rail, .bp-cel[data-compositie="rechts"] .bp-doen__rail { grid-column: 2; grid-row: 2; align-self: start; display: flex; gap: 8px; margin: 0; }
+    .bp-rondknop { width: 44px; height: 44px; }
+    .bp-doen__podium, .bp-cel[data-compositie="rechts"] .bp-doen__podium {
+        grid-column: 1 / -1; grid-row: 3;
+        width: 100%; height: 100%; max-width: none;
+        aspect-ratio: auto;
+    }
+
+    /* Intro */
+    .bp-scherm--intro {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        align-content: center; row-gap: 18px;
+        padding: calc(var(--m-hud-h) + 4px) var(--rand) calc(var(--m-dock-h) + var(--m-zone));
+        text-align: center;
+    }
+    .bp-intro__inhoud { justify-self: center; }
+    .bp-intro__inhoud .bp-oogje { justify-content: center; }
+    .bp-intro__titel-goud { font-size: clamp(34px, 10vw, 44px); }
+    .bp-intro__titel-sub { font-size: clamp(22px, 6.5vw, 28px); }
+    .bp-intro__lead { font-size: 17px; }
+    .bp-intro__tekst { display: none; }
+    .bp-intro__uitnodiging { font-size: 16px; }
+    .bp-bron { flex-direction: row; justify-content: center; text-align: left; gap: 12px; }
+    .bp-bron__kraan { width: 64px; height: 64px; }
+    .bp-bron__tekst { font-size: 16px; }
+    .bp-cel__decor .bp-rank { opacity: .45; height: 46%; }
+    .bp-cel__decor .bp-rank--links { left: -86px; }
+    .bp-cel__decor .bp-rank--rechts { right: -86px; }
+    .bp-intro__abdij { height: 70px; bottom: var(--m-dock-h); opacity: .8; }
+    .bp-cel--intro .bp-cel__decor::after { height: calc(var(--m-dock-h) + 1px); }
+
+    /* Spel en einde */
+    .bp-scherm--spel { padding: calc(var(--m-hud-h) + 4px) var(--rand) var(--m-onder); }
+    .bp-scherm--einde {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas: "kop" "bieren" "bar" "rond" "matig";
+        align-content: center;
+        row-gap: 12px;
+        padding: calc(var(--m-hud-h) + 4px) var(--rand) calc(var(--m-dock1-h) + var(--m-zone));
+        text-align: center;
+    }
+    .bp-einde__kop .bp-oogje { justify-content: center; }
+    .bp-einde__titel { font-size: 40px; }
+    .bp-einde__tekst { font-size: 17px; }
+    .bp-einde__bieren {
+        display: flex; gap: 12px;
+        overflow-x: auto; overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory; scrollbar-width: none;
+        margin: 0 calc(-1 * var(--rand)); padding: 4px var(--rand);
+    }
+    .bp-einde__bieren::-webkit-scrollbar { display: none; }
+    .bp-einde__bieren li { flex: 0 0 min(64%, 15rem); scroll-snap-align: center; }
+    .bp-bierkaart img { max-height: min(22vh, 190px); }
+    .bp-scherm--einde .bp-rondleiding { text-align: left; padding: 10px 12px; }
+    .bp-scherm--einde .bp-rondleiding p, .bp-bierkaart__naam { font-size: 16px; }
+    .bp-bierkaart__info { font-size: 15px; }
+    .bp-opname__info { font-size: 16px; }
+    .bp-scherm--einde .bp-rondleiding__knoppen { display: none; }
+    .bp-scherm--einde .bp-matig { justify-content: center; }
+
+    /* Startscherm: bovenin het verhaal, de startknop in de duimzone */
+    .bp-start { place-items: stretch; padding: max(16px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom)); }
+    .bp-start__inhoud { width: 100%; height: 100%; max-width: none; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 12px; }
+    .bp-start__boven, .bp-start__onder { display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.4vh, 12px); min-height: 0; }
+    .bp-start__boven { justify-content: center; }
+    .bp-start__logo { width: clamp(88px, 16vh, 140px); }
+    .bp-start__titel { font-size: clamp(38px, 11vw, 46px); }
+    .bp-start__tekst { font-size: 18px; margin: 0; }
+    .bp-start .bp-knop--reuze { width: 100%; min-height: 60px; margin: 0; font-size: 20px; }
+    .bp-start__decor .bp-rank { height: 58%; opacity: .5; }
+    .bp-start__decor .bp-rank--links { left: -120px; }
+    .bp-start__decor .bp-rank--rechts { right: -120px; }
+    .bp-start__val:nth-of-type(n+6) { display: none; }
+
+    /* Routekaart op de telefoon */
+    .bp-kiezer__raster button { min-height: 68px; font-size: 14px; }
+    .bp-kiezer__ovaal { width: 2.5rem; height: 1.8rem; font-size: 1.05rem; }
+    .bp-kiezer__voet .bp-kiezer__hand { display: inline-flex; }
+}
+
+@media (max-width: 369.98px) {
+    .bp-hud__route-tekst strong { font-size: 15px; }
+    .bp-hud__route { padding-right: 8px; gap: 6px; }
+}
+
+/* Telefoon liggend: twee kolommen, alles klein en compact */
+@media (orientation: landscape) and (max-height: 500px) {
+    :root { --hud-top: 6px; --hud-h: 44px; --dock-h: 56px; --dock-onder: 8px; --plafond-ruimte: 18px; --vloer-ruimte: 10px; --t-kop: 22px; --t-sam: 16px; --t-ver: 14px; --t-lh: 1.4; --kaart-b: min(28rem, 54vw); }
+    .bp-verhaalkaart { padding: 14px 18px; }
+    .bp-verhaalkaart__verhaal { display: none; }
+    .bp-hud__kaart { width: 72px; height: 26px; }
+    .bp-dockknop { height: 40px; min-width: 40px; }
+    .bp-dockknop--goud { min-width: 9rem; }
+    .bp-dock { gap: 6px; padding: 7px; }
+}
+
+
+/* ============================ 13. BEWEGING =========================== */
+@media (prefers-reduced-motion: reduce) {
+    .bp-hangkaart { animation: none !important; }
+    .bp-wereld, .bp-diepte { transition: none !important; }
+}
+
+
+/* ============ 14. NA DE INSPECTIE: GEDRAG EN RANDGEVALLEN ============= */
+.bp-zonder-ring:focus { outline: none !important; }
+.is-reizend .bp-wereld, .is-reizend .bp-diepte { will-change: transform; }
+/* Knijpzoom blijft mogelijk; één vinger is voor de app (Safari kent pinch-zoom niet en houdt none) */
+.js .bp-camera { touch-action: none; touch-action: pinch-zoom; }
+
+@media (max-width: 767.98px) and (min-height: 501px) {
+    /* Duimzone: ← ? [goud] — de gouden knop altijd rechts */
+    .bp-dock [data-dock-spel], .bp-dock [data-dock-terug], .bp-dock [data-dock-verder],
+    .bp-dock [data-dock-video], .bp-dock [data-dock-doen], .bp-dock [data-dock-hulp] { order: 0; }
+
+    /* Einde: de flessenrij neemt de ruimte die over is */
+    .bp-scherm--einde { grid-template-rows: auto minmax(0, 1fr) auto auto auto; align-content: stretch; row-gap: 10px; }
+    .bp-einde__titel { font-size: 34px; }
+    .bp-einde__tekst { font-size: 16px; line-height: 1.45; }
+    .bp-einde__gebrouwen { font-size: 16px; }
+    .bp-einde__bieren { align-self: stretch; min-height: 0; scroll-padding: 0 var(--rand); }
+    .bp-einde__bieren li { flex: 0 0 min(44%, 11rem); scroll-snap-align: start; display: flex; min-height: 0; }
+    .bp-einde__bieren .bp-bierkaart { width: 100%; height: 100%; min-height: 0; padding: 8px 8px 10px; }
+    .bp-einde__bieren .bp-bierkaart img { flex: 1 1 0; width: 100%; height: 0; min-height: 0; max-height: none; }
+    .bp-scherm--einde .bp-rondleiding { grid-template-columns: auto minmax(0, 1fr); padding: 8px 10px; }
+    .bp-scherm--einde .bp-rondleiding p { display: none; }
+    .bp-scherm--einde .bp-rondleiding h3 { font-size: 16px; }
+    .bp-scherm--einde .bp-matig { display: block; font-size: 14px; line-height: 1.45; }
+    .bp-scherm--einde .bp-rondleiding__knoppen { display: flex; flex-wrap: nowrap; gap: 8px; }
+    .bp-scherm--einde .bp-rondleiding__knoppen .bp-knop { flex: 1 1 0; min-width: 0; min-height: 44px; padding: .4rem .5rem; font-size: 15px; white-space: nowrap; }
+    .is-kiosk .bp-scherm--einde .bp-rondleiding__knoppen { display: none; }
+}
+@media (max-width: 767.98px) and (min-height: 501px) and (max-height: 699.98px) {
+    .bp-intro__titel-goud { font-size: 32px; }
+    .bp-intro__titel-sub { font-size: 22px; }
+    .bp-intro__lead { font-size: 16px; line-height: 1.5; }
+    .bp-intro__inhoud .bp-oogje { margin-bottom: .4rem; }
+    .bp-bron__kraan { width: 48px; height: 48px; }
+    .bp-bron__tekst span { display: none; }
+    .bp-einde__tekst { display: none; }
+    .bp-einde__titel { font-size: 30px; margin-bottom: 0; }
+    .bp-bierkaart__info { display: none; }
+    .bp-scherm--einde .bp-rondleiding { grid-template-columns: auto minmax(0, 1fr); padding: 8px 10px; }
+    .bp-scherm--einde .bp-rondleiding p { display: none; }
+    .bp-scherm--einde .bp-rondleiding h3 { font-size: 16px; }
+    .bp-rondleiding__icoon { width: 36px; height: 36px; font-size: .95rem; }
+}
+@media (max-width: 767.98px) and (min-height: 501px) and (max-height: 599.98px) {
+    .bp-tour__beeld { display: none; }
+}
+
+/* Telefoon liggend: lagen en schermen die anders te hoog worden */
+@media (orientation: landscape) and (max-height: 500px) {
+    .bp-dockknop { height: 44px; min-width: 44px; }
+    .bp-dock { height: 58px; padding: 6px; }
+    .bp-tour__beeld { display: none; }
+    .bp-tour__kaart { padding: .8rem 1rem .7rem; }
+    .bp-tour__titel { font-size: 1.5rem; margin: .1rem 0 .5rem; }
+    .bp-tour__stap { padding: .6rem .7rem .7rem; gap: .3rem; }
+    .bp-tour__stap p { font-size: 15px; line-height: 1.4; }
+    .bp-tour__knoppen { margin-top: .5rem; }
+    .bp-tour__knoppen .bp-knop--groot { min-height: 44px; padding: .5rem 1.2rem; }
+    .bp-lade__paneel {
+        left: auto; top: 0;
+        width: min(30rem, 62vw);
+        max-height: none;
+        border-radius: 1.6rem 0 0 1.6rem;
+        border-top: 0; border-left: 1px solid var(--bp-kaart-rand);
+        animation-name: bp-van-rechts;
+        transform: none;
+    }
+    .bp-lade.is-sluitend .bp-lade__paneel { animation-name: bp-naar-rechts; }
+    .bp-lade__greep { display: none; }
+    .bp-lade__kop { padding-top: .8rem; padding-bottom: .6rem; }
+    .bp-lade__sluit { top: .6rem; }
+    .bp-lade__titel { font-size: 1.4rem; }
+    .bp-lade__inhoud { padding: .8rem 1rem 1rem; }
+    .bp-kaartje { padding: 12px 14px; }
+    .bp-lade__inhoud .bp-kaartje__tekst { font-size: 15px; line-height: 1.45; }
+    .bp-intro__tekst, .bp-intro__uitnodiging { display: none; }
+    .bp-intro__titel-goud { font-size: 30px; }
+    .bp-intro__titel-sub { font-size: 20px; }
+    .bp-intro__lead { font-size: 15px; line-height: 1.45; }
+    .bp-intro__titel { margin-bottom: .5rem; }
+    .bp-bron__kraan { width: 64px; height: 64px; }
+    .bp-scherm--einde { row-gap: 8px; }
+    .bp-einde__titel { font-size: 32px; margin-bottom: .2rem; }
+    .bp-einde__tekst { font-size: 15px; }
+    .bp-bierkaart img { max-height: 30vh; }
+    .bp-scherm--einde .bp-rondleiding { padding: 8px 10px; }
+    .bp-rondleiding p { font-size: 14px; line-height: 1.35; }
+    .bp-rondleiding__knoppen .bp-knop { min-height: 44px; padding: .3rem .8rem; }
+    .bp-tip { padding: .7rem .9rem .7rem; }
+    .bp-tip h4 { margin: .3rem 0 .1rem; }
+    .bp-tip p { font-size: 15px; line-height: 1.4; }
+    .bp-tip__ok { min-height: 44px; margin-top: .45rem; }
+    .bp-einde__tekst { display: none; }
+    .bp-scherm--einde { align-content: start; padding-top: calc(var(--stage-top) + 2px); padding-bottom: calc(var(--stage-onder) - 4px); }
+    .bp-scherm--einde .bp-rondleiding p { display: none; }
+    .bp-scherm--einde .bp-matig { display: block; font-size: 14px; text-align: left; }
+    .bp-einde__kop .bp-oogje { display: none; }
+    .bp-rondleiding__icoon { display: none; }
+    /* Scène B liggend: recht hangkaartje, zonder titel, iets breder */
+    :root { --kaartje-b: clamp(14rem, 30vw, 19rem); }
+    .bp-hangkaart, .bp-cel[data-compositie="rechts"] .bp-hangkaart { --draai: 0deg; margin-top: 20px; padding: 10px 14px 10px 16px; }
+    .bp-hangkaart::before { top: -20px; height: 20px; }
+    .bp-hangkaart__titel { display: none; }
+    .bp-hangkaart__opdracht { font-size: 15px; }
+    .bp-hangkaart__feedback { font-size: 15px; margin-top: 6px; padding-top: 6px; }
+    .bp-doen__rail { margin-top: 20px; gap: 6px; }
+    .bp-rondknop { width: 44px; height: 44px; }
+    /* Video en brouwersgeheim liggend */
+    .bp-videomodal__kop { padding: .5rem 3.5rem .5rem 1rem; }
+    .bp-videomodal__titel { font-size: 1.15rem; }
+    .bp-videomodal__sluit { top: .35rem; }
+    .bp-opname { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+    .bp-opname__preview { aspect-ratio: auto; min-height: 100%; }
+    .bp-opname__info { padding: .8rem 1rem; font-size: 15px; line-height: 1.45; }
+    .bp-lade__soort { display: none; }
+    .bp-lade__titel { font-size: 1.2rem; }
+    .bp-kaartje__nr { margin-bottom: 2px; }
+    .bp-lade__inhoud .bp-kaartje__titel { font-size: 17px; margin-bottom: 4px; }
+    .bp-kaartjes { gap: 8px; }
+    .bp-hangkaart { min-width: 0; }
+    .bp-einde__bieren { align-self: stretch; min-height: 0; }
+    .bp-einde__bieren li { display: flex; min-height: 0; }
+    .bp-einde__bieren .bp-bierkaart { width: 100%; height: 100%; min-height: 0; padding: 8px 6px 10px; }
+    .bp-einde__bieren .bp-bierkaart img { flex: 1 1 0; height: 0; min-height: 0; max-height: none; }
+    .bp-tour__stappen { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: row; grid-auto-columns: auto; gap: .6rem; overflow: visible; scroll-snap-type: none; }
+    .bp-tour__stap { margin: 0; }
+    .bp-tour__punten, .bp-tour .bp-tour__volgende { display: none !important; }
+    .bp-scherm--einde .bp-rondleiding { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Na de viewport-inspectie */
+.is-direct .bp-hangkaart { animation: none !important; }
+@keyframes bp-slinger-in { 0% { transform: rotate(calc(var(--draai) * 4)) translateY(-12px); opacity: 0; } 40% { opacity: 1; } 65% { transform: rotate(calc(var(--draai) * -.8)); } 100% { transform: rotate(var(--draai)); } }
+.bp-cel[data-compositie="rechts"] .bp-hangkaart { margin-right: 6px; }
+html[data-laag="b"]:not(.is-sheet) .bp-wereld > .bp-leiding { opacity: .2; }
+@media (min-width: 768px) and (max-height: 700px) {
+    .bp-start__logo { width: clamp(5rem, 15vh, 9rem); }
+    .bp-start__inhoud { gap: clamp(.35rem, 1.1vh, .7rem); }
+}
+@media (min-width: 768px) and (max-aspect-ratio: 4/5) {
+    .bp-cel__decor .bp-rank { height: min(58%, 620px); opacity: .5; }
+    .bp-cel__decor .bp-rank--links { left: -110px; }
+    .bp-cel__decor .bp-rank--rechts { right: -110px; }
+}
+@media (max-width: 767.98px) and (min-height: 501px) {
+    /* Het kleine ketelbeeld boven de sheet: geen piepkleine labels */
+    .bp-cel[data-laag="b"] .bp-scherm--a :is(.bp-svg-klein, .bp-boogtekst, .bp-svg-label, .bp-ketel__temp) { display: none; }
+}

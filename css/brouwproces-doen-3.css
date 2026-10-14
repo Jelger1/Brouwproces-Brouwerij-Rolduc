@@ -1,0 +1,305 @@
+/* =====================================================================
+   Brouwerij Rolduc — Het brouwproces: scène B ("Doen") voor stap 7 t/m 9
+     .bp-koud     7  Wekenlang koud (scheurkalender)
+     .bp-zonbril  8  De zonnebril-test
+     .bp-warmk    9  De warme kamer
+     .bp-d3__…    gedeeld: raakvlak, hint-ring en focusring van een hotspot
+   Alles staat in één SVG-close-up (viewBox 480 × 440); font-size en
+   lijndiktes zijn dus in viewBox-eenheden.
+   ===================================================================== */
+
+.bp-koud, .bp-zonbril, .bp-warmk {
+    display: block; width: 100%; height: 100%;
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+}
+
+/* ---------- Gedeeld: hotspots ---------- */
+.bp-d3__knop { cursor: pointer; outline: none; touch-action: none; }
+.bp-d3__knop:focus { outline: none; }
+.bp-d3__knop[aria-disabled="true"] { cursor: default; }
+.bp-d3__raak { fill: transparent; stroke: none; }
+.bp-d3__focus, .bp-d3__puls {
+    fill: none; stroke: #F7E59D; stroke-width: 3px;
+    vector-effect: non-scaling-stroke;
+    opacity: 0; pointer-events: none;
+}
+.bp-d3__knop:focus-visible .bp-d3__focus { opacity: 1; }
+.bp-d3__puls { transform-box: fill-box; transform-origin: center; }
+.bp-d3__knop.bp-pulse { animation: none; }
+.bp-d3__knop.bp-pulse .bp-d3__puls { animation: bp-d3-puls 1.6s ease-out infinite; }
+@keyframes bp-d3-puls {
+    0% { opacity: .95; transform: scale(.94); }
+    100% { opacity: 0; transform: scale(1.14); }
+}
+/* Proefje buiten beeld: animaties staan stil. */
+.bp-koud.is-pauze *, .bp-zonbril.is-pauze *, .bp-warmk.is-pauze * { animation-play-state: paused !important; }
+.bp-warmk.is-zonder, .bp-warmk.is-zonder * { transition: none !important; }
+
+
+/* =================== 7. WEKENLANG KOUD (.bp-koud) =================== */
+.bp-koud__kwik { fill: #9CC9D9; }
+.bp-koud__label { font-family: var(--font-body); font-size: 22px; font-weight: 800; fill: var(--bp-ovaal); text-anchor: middle; }
+.bp-koud__bier { fill: url(#bp-grad-bier); opacity: .9; }
+.bp-koud__waas { fill: #E6DAB4; opacity: .62; }
+.bp-koud__deeltjes circle { fill: #F6ECCF; opacity: .9; }
+.bp-koud__rijp-extra { opacity: var(--bp-koud-rijp, 0); transition: opacity .9s; }
+
+/* De jonge smaakjes: groene appel en boterblokje */
+.bp-koud__appel { fill: #A8D05A; stroke: #2F5A17; stroke-width: 1.6; stroke-linejoin: round; }
+.bp-koud__steel { fill: none; stroke: #5A3B1A; stroke-width: 2.2; stroke-linecap: round; }
+.bp-koud__blaadje { fill: #5E9A2E; stroke: #2F5A17; stroke-width: 1.2; stroke-linejoin: round; }
+.bp-koud__glim { fill: none; stroke: rgba(255, 255, 255, .75); stroke-width: 2; stroke-linecap: round; }
+.bp-koud__boter { fill: #F6DA6B; stroke: #7A5512; stroke-width: 1.6; stroke-linejoin: round; }
+.bp-koud__boter--zij { fill: #DDB43C; }
+.bp-koud__wikkel { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 2.4; stroke-linecap: round; }
+.bp-koud__weg { transform-box: fill-box; transform-origin: center; transition: transform 1.3s cubic-bezier(.3, .6, .4, 1), opacity 1.1s ease-in; }
+.bp-koud__weg.is-weg { transform: translate(16px, -96px) scale(.6) rotate(-14deg); opacity: 0; }
+.bp-koud__dobber { transform-box: fill-box; transform-origin: center; animation: bp-koud-dobber 3.2s ease-in-out infinite alternate; }
+.bp-koud__dobber--2 { animation-delay: -1.6s; }
+@keyframes bp-koud-dobber {
+    from { transform: translate(-2px, -4px) rotate(-5deg); }
+    to { transform: translate(2px, 4px) rotate(5deg); }
+}
+
+/* Week 4: het bier glinstert */
+.bp-koud__glans { fill: rgba(255, 255, 255, .6); opacity: 0; }
+.bp-koud.is-helder .bp-koud__glans { animation: bp-koud-glans 1.5s ease-in-out .3s 1 both; }
+@keyframes bp-koud-glans {
+    0% { transform: translateX(-110px); opacity: 0; }
+    25% { opacity: .85; }
+    100% { transform: translateX(120px); opacity: 0; }
+}
+.bp-koud__sterren path { fill: #FFF8DF; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.bp-koud.is-helder .bp-koud__sterren path { animation: bp-koud-ster 1.6s ease-in-out 1.1s infinite alternate both; }
+.bp-koud.is-helder .bp-koud__sterren path + path { animation-delay: 1.6s; }
+@keyframes bp-koud-ster {
+    from { opacity: .25; transform: scale(.6); }
+    to { opacity: 1; transform: scale(1.15); }
+}
+
+/* De scheurkalender */
+.bp-koud__kop { fill: #B98A2E; stroke: var(--bp-lijn); stroke-width: 1.5; }
+.bp-koud__stapel { fill: none; stroke: #CDBB8A; stroke-width: 2; stroke-linecap: round; }
+.bp-koud__papier { fill: #F3E6BE; stroke: #CDB46A; stroke-width: 1; }
+.bp-koud__perfo { fill: none; stroke: #BFA25A; stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; }
+.bp-koud__woord { font-family: var(--font-logo); font-size: 26px; fill: #6E5A1E; text-anchor: middle; }
+.bp-koud__nummer { font-family: var(--font-logo); font-size: 62px; fill: #1E3A2A; text-anchor: middle; }
+.bp-koud__ring { fill: none; stroke: var(--bp-zilver); stroke-width: 4; stroke-linecap: round; }
+.bp-koud__blad { transform-box: fill-box; transform-origin: 0% 0%; transition: transform .25s var(--bp-ease); }
+.bp-koud__blad.is-vast { transition: none; }
+.bp-koud__blad.is-valt { pointer-events: none; animation: bp-koud-val .95s cubic-bezier(.45, .05, .7, .9) forwards; }
+@keyframes bp-koud-val {
+    0% { transform: none; opacity: 1; }
+    18% { transform: translate(2px, 8px) rotate(-7deg); }
+    70% { opacity: 1; }
+    100% { transform: translate(-80px, 300px) rotate(-62deg); opacity: 0; }
+}
+.bp-koud__kalbord { transform-box: fill-box; transform-origin: 50% 0%; }
+.bp-koud__kalbord.is-wiebel { animation: bp-koud-wiebel .5s ease-in-out; }
+@keyframes bp-koud-wiebel {
+    0%, 100% { transform: none; }
+    30% { transform: rotate(-4deg); }
+    65% { transform: rotate(3deg); }
+}
+
+/* De lagertank in scène A leeft mee: het kijkglas wordt helder. */
+.bp-stap.is-koud-bezig[data-stap="7"] .bp-scherm--a .bp-ketel__svg > circle.bp-v.bp-l { fill: var(--bp-koud-glas, #BFAE80); transition: fill .8s; }
+.bp-stap.is-koud-klaar[data-stap="7"] .bp-scherm--a .bp-ketel__svg .bp-kristal { opacity: 1; }
+
+
+/* =================== 8. DE ZONNEBRIL-TEST (.bp-zonbril) =================== */
+.bp-zonbril__baan { fill: none; stroke: var(--bp-lijn-zacht); stroke-width: 2.5; stroke-dasharray: 4 9; stroke-linecap: round; }
+.bp-zonbril__spoor { fill: none; stroke: transparent; stroke-width: 76; stroke-linecap: round; }
+.bp-zonbril__schuif { cursor: grab; }
+.bp-zonbril.is-sleept .bp-zonbril__schuif { cursor: grabbing; }
+.bp-zonbril__stralen { transition: opacity .3s; }
+.bp-zonbril__stralen path { fill: none; stroke: rgba(255, 214, 107, .55); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 2 14; animation: bp-zonbril-straal .7s linear infinite; }
+@keyframes bp-zonbril-straal { to { stroke-dashoffset: -16; } }
+.bp-zonbril__krans { transform-box: fill-box; transform-origin: center; animation: bp-zonbril-draai 16s linear infinite; }
+.bp-zonbril__krans path { fill: none; stroke: #FFD66B; stroke-width: 4; stroke-linecap: round; }
+@keyframes bp-zonbril-draai { to { transform: rotate(360deg); } }
+.bp-zonbril__schijf { fill: #FFD66B; stroke: #FFF3C4; stroke-width: 3; }
+.bp-zonbril__kern { fill: #FFEBA8; opacity: .75; }
+
+/* De flesjes */
+.bp-zonbril__bier { fill: #E7A92B; opacity: .92; transition: fill .6s; }
+.bp-zonbril__fles[data-niveau="1"] .bp-zonbril__bier { fill: #CBA53C; }
+.bp-zonbril__fles[data-niveau="2"] .bp-zonbril__bier { fill: #A3A23E; }
+.bp-zonbril__licht { fill: #FFF0B8; opacity: calc(var(--bp-zonbril-licht, 0) * .5); transition: opacity .3s; }
+.bp-zonbril__fles--bruin .bp-zonbril__licht { display: none; }
+.bp-zonbril__glas { stroke: none; }
+.bp-zonbril__fles--bruin .bp-zonbril__glas { opacity: .9; }
+.bp-zonbril__stank path { fill: none; stroke: #B9CC4C; stroke-width: 3; stroke-linecap: round; opacity: 0; transition: opacity .4s; transform-box: fill-box; }
+.bp-zonbril__fles[data-niveau="1"] .bp-zonbril__stank path { opacity: .5; }
+.bp-zonbril__fles[data-niveau="2"] .bp-zonbril__stank path { opacity: 1; animation: bp-zonbril-stank 1.2s ease-in-out infinite alternate; }
+.bp-zonbril__fles[data-niveau="2"] .bp-zonbril__stank path + path { animation-delay: -.6s; }
+@keyframes bp-zonbril-stank { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
+
+/* Kartonnen labeltjes: Fris → Geraakt → Stinkdier! */
+.bp-zonbril__kaart { fill: #F3E6BE; stroke: #8C7434; stroke-width: 1.5; transition: fill .3s; }
+.bp-zonbril__gat { fill: #12261A; stroke: #8C7434; stroke-width: 1.2; }
+.bp-zonbril__tekst { font-family: var(--font-body); font-size: 22px; font-weight: 800; fill: #1E5A34; text-anchor: middle; transition: fill .3s; }
+.bp-zonbril__label[data-niveau="1"] .bp-zonbril__kaart { fill: #F2C46B; }
+.bp-zonbril__label[data-niveau="1"] .bp-zonbril__tekst { fill: #5A3A0A; }
+.bp-zonbril__label[data-niveau="2"] .bp-zonbril__kaart { fill: #D9552F; stroke: #7A2A12; }
+.bp-zonbril__label[data-niveau="2"] .bp-zonbril__tekst { fill: #FFF6E6; }
+.bp-zonbril__kaartje { transform-box: fill-box; transform-origin: 50% 0%; }
+.bp-zonbril__kaartje.is-hop { animation: bp-zonbril-hop .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes bp-zonbril-hop {
+    0% { transform: none; }
+    40% { transform: translateY(-8px) rotate(-4deg); }
+    100% { transform: none; }
+}
+
+/* Het zonnebrilletje voor de bruine fles */
+.bp-zonbril__bril { opacity: 0; transform-box: fill-box; transform-origin: center; transform: translateY(-46px) scale(1.4); }
+.bp-zonbril.is-bril .bp-zonbril__bril { animation: bp-zonbril-bril .6s cubic-bezier(.3, 1.5, .5, 1) .15s forwards; }
+@keyframes bp-zonbril-bril {
+    0% { opacity: 0; transform: translateY(-46px) scale(1.4) rotate(-12deg); }
+    60% { opacity: 1; transform: translateY(3px) scale(.95) rotate(3deg); }
+    100% { opacity: 1; transform: none; }
+}
+.bp-zonbril__lens { fill: #121212; stroke: #F7E59D; stroke-width: 1.2; }
+.bp-zonbril__brug, .bp-zonbril__poot { fill: none; stroke: #121212; stroke-width: 2.8; stroke-linecap: round; }
+.bp-zonbril__schittering { fill: none; stroke: rgba(255, 255, 255, .8); stroke-width: 1.8; stroke-linecap: round; }
+
+/* De flesjes in scène A krijgen zon */
+.bp-stap[data-stap="8"] .bp-scherm--a .bp-ketel__svg { transition: filter .4s; }
+.bp-stap.is-zonnig[data-stap="8"] .bp-scherm--a .bp-ketel__svg { filter: drop-shadow(0 0 14px rgba(255, 214, 107, .45)); }
+
+
+/* =================== 9. DE WARME KAMER (.bp-warmk) =================== */
+.bp-warmk__gloed { fill: url(#bp-grad-gloed); opacity: .55; animation: bp-warmk-lamp 5s ease-in-out infinite alternate; }
+@keyframes bp-warmk-lamp { from { opacity: .42; } to { opacity: .66; } }
+.bp-warmk__peer { fill: #FFE9A0; }
+.bp-warmk__krijt path { fill: none; stroke: #ECE6D2; stroke-width: 3.2; stroke-linecap: round; opacity: 0; transition: opacity .25s; }
+.bp-warmk__krijt path.is-aan { opacity: .78; }
+.bp-warmk__krijttekst { font-family: var(--font-logo); font-size: 24px; fill: #ECE6D2; opacity: .82; }
+.bp-warmk__krijttekst--rechts { text-anchor: end; }
+.bp-warmk__spijker { fill: var(--bp-lijn); }
+
+/* Flesopener aan de spijker */
+.bp-warmk__opener { transform-box: view-box; transform-origin: 0 0; transform: translate(80px, 126px); }
+.bp-warmk__staal { fill: #C9CDD0; stroke: var(--bp-lijn); stroke-width: 1.5; stroke-linejoin: round; }
+.bp-warmk__gat { fill: #12261A; stroke: #8E9396; stroke-width: 1.2; }
+.bp-warmk__lip { fill: none; stroke: #6E7376; stroke-width: 1.4; stroke-linecap: round; }
+.bp-warmk.is-open .bp-warmk__opener { animation: bp-warmk-wip .9s cubic-bezier(.4, .1, .3, 1) both; }
+@keyframes bp-warmk-wip {
+    0% { transform: translate(80px, 126px) rotate(0); }
+    35% { transform: translate(150px, 152px) rotate(80deg); }
+    58% { transform: translate(150px, 148px) rotate(128deg); }
+    100% { transform: translate(80px, 126px) rotate(0); }
+}
+
+/* Drukmeter */
+.bp-warmk__meter { transition: opacity .4s; }
+.bp-warmk.is-schenk .bp-warmk__meter, .bp-warmk.is-geschonken .bp-warmk__meter { opacity: 0; }
+.bp-warmk__schaal { fill: none; stroke: rgba(255, 255, 255, .16); stroke-width: 6; stroke-linecap: round; }
+.bp-warmk__zone { fill: none; stroke: rgba(247, 229, 157, .75); stroke-width: 6; stroke-linecap: round; }
+.bp-warmk__wijzer { transition: transform .35s var(--bp-ease); }
+.bp-warmk__wijzer path { fill: none; stroke: var(--bp-ovaal); stroke-width: 3; stroke-linecap: round; }
+.bp-warmk__wijzer circle { fill: var(--bp-ovaal); }
+.bp-warmk__getal { font-family: var(--font-body); font-size: 22px; font-weight: 800; fill: var(--bp-ovaal); text-anchor: middle; }
+.bp-warmk__eenheid { font-family: var(--font-body); font-size: 22px; font-weight: 700; fill: var(--bp-lijn); text-anchor: middle; letter-spacing: .06em; }
+
+/* De fles */
+.bp-warmk__drager { transition: transform .45s var(--bp-ease), opacity .45s; }
+.bp-warmk.is-weg .bp-warmk__drager { transform: translateX(-70px); opacity: 0; }
+.bp-warmk.is-komt .bp-warmk__drager { transform: translateY(-60px); opacity: 0; }
+.bp-warmk__fles { transform-box: view-box; transform-origin: 150px 275px; transition: transform .6s cubic-bezier(.4, .1, .3, 1); }
+.bp-warmk.is-schenk .bp-warmk__fles { transform: translate(108px, -96px) rotate(118deg); }
+.bp-warmk__bruin { fill: url(#bp-grad-bruinglas); opacity: .78; }
+.bp-warmk__bier { fill: url(#bp-grad-bier); opacity: .72; transition: transform 1.3s ease-in-out; }
+.bp-warmk.is-straal .bp-warmk__bier, .bp-warmk.is-geschonken .bp-warmk__bier { transform: translateY(118px); }
+.bp-warmk__suiker circle { fill: #FFF3C4; stroke: #B98A2E; stroke-width: .8; opacity: var(--bp-warmk-suiker, 1); transition: opacity .3s; }
+.bp-warmk__opgelost circle { fill: rgba(255, 255, 255, .85); opacity: calc(var(--bp-warmk-opgelost, 0) * .8); transition: opacity .5s; }
+.bp-warmk.is-straal .bp-warmk__opgelost circle, .bp-warmk.is-geschonken .bp-warmk__opgelost circle,
+.bp-warmk.is-straal .bp-warmk__gisting, .bp-warmk.is-geschonken .bp-warmk__gisting { opacity: 0; }
+.bp-warmk__gisting { opacity: var(--bp-warmk-gisting, 0); }
+.bp-warmk__gisting circle { fill: none; stroke: rgba(255, 255, 255, .85); stroke-width: 1; transform-box: fill-box; animation: bp-warmk-bel 2.4s ease-in var(--d, 0s) infinite; }
+@keyframes bp-warmk-bel {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-80px); opacity: 0; }
+}
+.bp-warmk__depot { fill: #EADBA9; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--bp-warmk-depot, 0)); }
+.bp-warmk__depotstip circle { fill: #F2E6BE; opacity: var(--bp-warmk-depot, 0); }
+.bp-warmk__halsschuim { fill: #FFF8E6; opacity: 0; transition: opacity .5s .2s; }
+.bp-warmk.is-goed .bp-warmk__halsschuim { opacity: .95; }
+.bp-warmk.is-geschonken .bp-warmk__halsschuim { opacity: 0; }
+
+/* Kroonkurk, psst en schuim */
+.bp-warmk__kurk { transform-box: fill-box; transform-origin: center; }
+.bp-warmk__kartel { fill: none; stroke: var(--bp-lijn); stroke-width: 1.2; }
+.bp-warmk__kurkring { fill: none; stroke: #F7E59D; stroke-width: 3; opacity: 0; pointer-events: none; transform-box: fill-box; transform-origin: center; }
+.bp-warmk.is-klaar .bp-warmk__kurk { animation: bp-warmk-klop 1s ease-in-out infinite; }
+.bp-warmk.is-klaar .bp-warmk__kurkring { animation: bp-d3-puls 1.4s ease-out infinite; }
+@keyframes bp-warmk-klop {
+    0%, 100% { transform: none; }
+    50% { transform: translateY(-4px) scale(1.06); }
+}
+.bp-warmk.is-open .bp-warmk__kurk { animation: bp-warmk-kurk .75s cubic-bezier(.2, .7, .4, 1) .32s both; }
+@keyframes bp-warmk-kurk {
+    0% { transform: none; opacity: 1; }
+    100% { transform: translate(64px, -116px) rotate(230deg); opacity: 0; }
+}
+.bp-warmk__psst path { fill: none; stroke: var(--bp-ovaal); stroke-width: 3; stroke-linecap: round; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+.bp-warmk.is-prik .bp-warmk__psst path, .bp-warmk.is-goed .bp-warmk__psst path { animation: bp-warmk-psst .9s ease-out .32s both; }
+@keyframes bp-warmk-psst {
+    0% { opacity: 0; transform: scale(.4); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+.bp-warmk__zucht { fill: none; stroke: rgba(236, 230, 210, .7); stroke-width: 2; stroke-linecap: round; opacity: 0; }
+.bp-warmk.is-plat .bp-warmk__zucht { animation: bp-warmk-zucht 1.2s ease-out .35s both; }
+@keyframes bp-warmk-zucht {
+    0% { opacity: 0; transform: translateY(6px); }
+    30% { opacity: .8; }
+    100% { opacity: 0; transform: translateY(-14px); }
+}
+.bp-warmk__overloop { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+.bp-warmk__overloop path:first-child { fill: #FFF8E6; stroke: var(--bp-lijn); stroke-width: 1; }
+.bp-warmk__overloop path:last-child { fill: none; stroke: #FFF8E6; stroke-width: 5; stroke-linecap: round; }
+.bp-warmk.is-goed .bp-warmk__overloop { animation: bp-warmk-over 1.2s ease-out .4s both; }
+@keyframes bp-warmk-over {
+    0% { opacity: 0; transform: translateY(10px) scale(.3); }
+    30% { opacity: 1; transform: scale(1.1); }
+    75% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: none; }
+}
+
+/* Het Rolduc-kelkglas */
+.bp-warmk__kelkglas { fill: rgba(255, 255, 255, .06); }
+.bp-warmk__kelkbier { fill: url(#bp-grad-bier); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0); transition: transform 1.3s cubic-bezier(.3, .1, .3, 1); }
+.bp-warmk.is-vol .bp-warmk__kelkbier { transform: none; }
+.bp-warmk__kelkschuim { fill: #FFF8E6; stroke: var(--bp-lijn); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; transform: translateY(14px) scaleY(.4); transition: opacity .4s, transform .6s var(--bp-ease); }
+.bp-warmk.is-kraag .bp-warmk__kelkschuim { opacity: 1; transform: none; }
+.bp-warmk__pareling circle { fill: rgba(255, 255, 255, .85); opacity: 0; transform-box: fill-box; }
+.bp-warmk.is-kraag .bp-warmk__pareling circle { animation: bp-warmk-parel 2.2s ease-in var(--d, 0s) infinite; }
+@keyframes bp-warmk-parel {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-64px); opacity: 0; }
+}
+.bp-warmk__gravure { color: var(--bp-lijn); opacity: .45; }
+.bp-warmk__straal { fill: none; stroke: #E9B43C; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
+.bp-warmk.is-straal .bp-warmk__straal { opacity: 1; animation: bp-warmk-straal .35s ease-in forwards; }
+@keyframes bp-warmk-straal { to { stroke-dashoffset: 0; } }
+
+/* De fles in scène A leeft mee */
+.bp-stap.is-warm-klaar[data-stap="9"] .bp-scherm--a .bp-kroonkurk { fill: #F7E59D; }
+
+
+/* =================== Minder beweging =================== */
+@media (prefers-reduced-motion: reduce) {
+    .bp-koud *, .bp-zonbril *, .bp-warmk * { animation: none !important; transition: none !important; }
+    .bp-d3__knop.bp-pulse .bp-d3__puls { opacity: .95; }
+    .bp-koud.is-helder .bp-koud__sterren path { opacity: .9; }
+    .bp-zonbril.is-bril .bp-zonbril__bril { opacity: 1; transform: none; }
+    .bp-warmk.is-klaar .bp-warmk__kurkring { opacity: .95; }
+    .bp-warmk.is-open .bp-warmk__kurk { opacity: 0; }
+    .bp-warmk.is-kraag .bp-warmk__pareling circle { opacity: .8; }
+}

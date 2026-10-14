@@ -1,0 +1,224 @@
+/* =====================================================================
+   Brouwerij Rolduc — De Brouwreis: scène B ("Doen") voor stap 1, 2 en 3
+   Hoort bij js/brouwproces-doen-1.js.
+
+   Voorvoegsels: bp-d1 (gedeeld door deze drie), bp-rooster (stap 1),
+   bp-molen2 (stap 2), bp-maisch2 (stap 3).
+   Eindeloze sfeeranimaties lopen alleen als scène B open is (.is-open)
+   en vallen weg bij prefers-reduced-motion; de informatieve eindtoestand
+   (kleur, stand van de naald, het hoopje suiker) blijft altijd staan.
+   ===================================================================== */
+
+/* ---------------------------- gedeeld ------------------------------- */
+.bp-d1 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.bp-d1__svg { display: block; width: 100%; height: 100%; overflow: hidden; }
+.bp-d1 text { -webkit-user-select: none; user-select: none; pointer-events: none; }
+
+.bp-d1-hot { cursor: pointer; outline: none; touch-action: none; }
+.bp-d1-hit { fill: #000; fill-opacity: 0; stroke: none; pointer-events: all; }
+
+/* Focusring (toetsenbord) en de gouden puls van de hint (.bp-pulse zet de app). */
+.bp-d1-ring { fill: none; pointer-events: none; opacity: 0; }
+.bp-d1-ring--focus { stroke: #F7E59D; stroke-width: 3px; vector-effect: non-scaling-stroke; }
+.bp-d1-hot:focus-visible .bp-d1-ring--focus { opacity: 1; }
+.bp-d1 .bp-d1-hot:focus, .bp-d1 .bp-d1-hot:focus-visible { outline: none; }   /* de ring hierboven is de focusring */
+.bp-d1-ring--puls { stroke: #F7E59D; stroke-width: 4; }
+.bp-d1-hot.bp-pulse { animation: none; }
+.bp-d1-hot.bp-pulse .bp-d1-ring--puls { animation: bp-d1-puls 1.6s ease-out infinite; }
+@keyframes bp-d1-puls { 0% { opacity: .95; stroke-width: 3; } 100% { opacity: 0; stroke-width: 26; } }
+
+/* Schaartjes (enzymen) */
+.bp-d1-schaar { --schaar: #F5C842; }
+.bp-d1-schaar__mes { fill: var(--schaar); stroke: rgba(0, 0, 0, .35); stroke-width: .6; }
+.bp-d1-schaar__arm, .bp-d1-schaar__ring { fill: none; stroke: var(--schaar); stroke-width: 2.4; stroke-linecap: round; }
+.bp-d1-schaar__spil { fill: #0B1C12; stroke: var(--schaar); stroke-width: 1.2; }
+.bp-d1-schaar, .bp-d1-schaar * { transition: fill .4s, stroke .4s; }
+
+
+/* --------------------- stap 1: rooster de mout ---------------------- */
+.bp-rooster__jute { fill: none; stroke: var(--bp-lijn, #EDE0A2); stroke-width: .9; opacity: .16; }
+.bp-rooster__opening { fill: #0A2015; }
+.bp-rooster__hoop { fill: url(#bp-grad-mout) #E6C77F; opacity: .92; }
+
+/* het kaartje "enzymen" */
+.bp-rooster__stok { fill: none; stroke: #A88A4A; stroke-width: 4; stroke-linecap: round; }
+.bp-rooster__kaart { fill: #F3E6BE; stroke: #7A6524; stroke-width: 1.5; }
+.bp-rooster__gaatje { fill: #12261A; }
+.bp-rooster__kaarttekst { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-weight: 800; fill: #1E3A2A; text-anchor: middle; }
+.bp-rooster__enzym { --schaar: #2C6B3F; transition: opacity .5s; }
+.bp-rooster__enzym .bp-d1-schaar__spil { fill: #F3E6BE; }
+.bp-rooster__enzym.is-uit { --schaar: #B4A57E; opacity: .6; }
+
+/* proefglas */
+.bp-rooster__onderzetter { fill: rgba(0, 0, 0, .28); }
+.bp-rooster__bier, .bp-rooster__schuim { transition: fill .3s linear; }
+.bp-rooster__glasrand { fill: none; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.bp-rooster__glans { fill: none; stroke: rgba(255, 255, 255, .35); stroke-width: 3; stroke-linecap: round; }
+.bp-rooster__bubbels circle { fill: rgba(255, 255, 255, .7); }
+.bp-rooster.is-open .bp-rooster__bubbels circle { transform-box: fill-box; animation: bp-rooster-bubbel 2.4s ease-in var(--d) infinite; }
+@keyframes bp-rooster-bubbel { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-80px); opacity: 0; } }
+
+/* de roostertrommel: gloeiende spiraal, hete lucht, kijkraam met tuimelende korrels */
+.bp-rooster__spiraal { fill: none; stroke: #5A4A3A; stroke-width: 5; stroke-linecap: round; }
+.bp-rooster__gloei path { fill: none; stroke: #FF8A2A; stroke-width: 3.4; stroke-linecap: round; }
+.bp-rooster.is-open .bp-rooster__gloei path { animation: bp-rooster-flakker .7s ease-in-out infinite alternate; }
+@keyframes bp-rooster-flakker { from { opacity: .65; } to { opacity: 1; } }
+.bp-rooster__lucht path { fill: none; stroke: rgba(255, 196, 130, .75); stroke-width: 2.2; stroke-linecap: round; }
+.bp-rooster.is-open .bp-rooster__lucht path { transform-box: fill-box; animation: bp-rooster-hitte 1.1s ease-in-out var(--d) infinite; }
+@keyframes bp-rooster-hitte { 0% { transform: translateY(5px); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(-9px); opacity: 0; } }
+.bp-rooster__schoepen { fill: none; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 3; stroke-linecap: round; opacity: .75; }
+.bp-rooster__raam { fill: #0A1A10; }
+.bp-rooster__raamrand { fill: none; stroke: var(--bp-goud, #D4AF37); stroke-width: 5; transition: stroke .4s; }
+.bp-rooster__hot.is-heet .bp-rooster__raamrand { stroke: #F5A35A; }
+.bp-rooster__glim { fill: none; stroke: rgba(255, 255, 255, .28); stroke-width: 3; stroke-linecap: round; }
+.bp-rooster__gloed { pointer-events: none; }
+.bp-rooster__temp { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-weight: 800; fill: var(--bp-ovaal, #F7E59D); text-anchor: middle; font-variant-numeric: tabular-nums; }
+.bp-rooster__korrel { fill: var(--mout, #F2DC9A); stroke: var(--mout-rand, #7A5520); stroke-width: 1.2; }
+.bp-rooster__naad { fill: none; stroke: var(--mout-rand, #7A5520); stroke-width: 1.1; stroke-linecap: round; opacity: .8; }
+
+/* rook en het label met de moutsoort */
+.bp-rooster__rook, .bp-rooster__label { pointer-events: none; }
+.bp-rooster__rook path { fill: none; stroke: #8E9088; stroke-width: 7; stroke-linecap: round; opacity: .55; }
+.bp-rooster.is-open .bp-rooster__rook path { transform-box: fill-box; animation: bp-rooster-rook 2.6s ease-out var(--d) infinite; }
+@keyframes bp-rooster-rook { 0% { transform: translateY(14px); opacity: 0; } 30% { opacity: .6; } 100% { transform: translateY(-26px); opacity: 0; } }
+.bp-rooster__label { opacity: 0; transition: opacity .25s; }
+.bp-rooster__label.is-zichtbaar { opacity: 1; }
+.bp-rooster__label rect { fill: rgba(11, 28, 18, .85); stroke: var(--bp-lijn-zacht, rgba(237, 224, 162, .32)); stroke-width: 1.5; }
+.bp-rooster__label text { font-family: var(--font-logo, Georgia, serif); font-size: 26px; fill: #F5EEDA; text-anchor: middle; }
+.bp-rooster__label.is-nieuw text { transform-box: fill-box; transform-origin: center; animation: bp-rooster-pop .45s cubic-bezier(.22, .8, .24, 1); }
+@keyframes bp-rooster-pop { 0% { transform: scale(.7); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: none; } }
+
+/* scène A leeft mee: de mout in de zak kleurt met het roosteren mee */
+.bp-stap.bp-rooster-koppel .bp-ketel .bp-korrels-hoop ellipse,
+.bp-stap.bp-rooster-koppel .bp-ketel .bp-mouthoop { fill: var(--bp-rooster-mout, #F2DC9A); transition: fill .3s linear; }
+
+
+/* --------------------- stap 2: plet de korrel ----------------------- */
+.bp-molen2__hoop { fill: url(#bp-grad-mout) #E6C77F; opacity: .92; }
+.bp-molen2__val ellipse { fill: url(#bp-grad-mout) #E6C77F; stroke: #7A5520; stroke-width: .8; opacity: 0; }
+.bp-molen2.is-open .is-malend .bp-molen2__val ellipse { transform-box: fill-box; animation: bp-molen2-val .8s ease-in var(--d) infinite; }
+@keyframes bp-molen2-val { 0% { transform: translateY(-6px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(44px); opacity: 0; } }
+.bp-molen2__stroom path { fill: var(--bp-goud-licht, #E8D595); opacity: 0; }
+.bp-molen2.is-open .is-malend .bp-molen2__stroom path { transform-box: fill-box; animation: bp-molen2-stroom .55s ease-in var(--d) infinite; }
+@keyframes bp-molen2-stroom { 0% { transform: translateY(-4px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(16px); opacity: 0; } }
+
+/* walsplaatje: heel / goed / poeder */
+.bp-molen2__plaat { fill: #0A2116; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 2; }
+.bp-molen2__vak { fill: none; stroke-width: 10; opacity: .45; transition: opacity .25s; }
+.bp-molen2__vak--heel { stroke: #CFC6A2; }
+.bp-molen2__vak--goed { stroke: #8FD3A3; }
+.bp-molen2__vak--poeder { stroke: #F2A285; }
+.bp-molen2__svg[data-zone="heel"] .bp-molen2__vak--heel,
+.bp-molen2__svg[data-zone="perfect"] .bp-molen2__vak--goed,
+.bp-molen2__svg[data-zone="poeder"] .bp-molen2__vak--poeder { opacity: 1; }
+.bp-molen2__naald { fill: none; stroke: var(--bp-ovaal, #F7E59D); stroke-width: 3.2; stroke-linecap: round; }
+
+/* slingerwiel */
+.bp-molen2__wielhot { cursor: grab; }
+.bp-molen2__wielhot.is-actief { cursor: grabbing; }
+.bp-molen2__velg { stroke: var(--bp-lijn, #EDE0A2); stroke-width: 4; }
+.bp-molen2__greep { fill: var(--bp-ovaal, #F7E59D); stroke: var(--bp-bg-diep, #0B1C12); stroke-width: 2.5; transition: fill .2s; }
+.bp-molen2__greepkern { fill: #C9A84E; }
+.bp-molen2__wielhot.is-actief .bp-molen2__greep { fill: #FFF6CF; }
+.bp-molen2__pijl { fill: none; stroke: var(--bp-ovaal, #F7E59D); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; opacity: .85; transition: opacity .3s; }
+.bp-molen2__svg.is-bediend .bp-molen2__pijl { opacity: 0; }
+
+/* de schep */
+.bp-molen2__bak { fill: #3B2A17; }
+.bp-molen2__nerf { fill: none; stroke: #6B4C2A; stroke-width: 1.4; opacity: .8; }
+.bp-molen2__rand { fill: none; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 1.8; }
+.bp-molen2 .bp-kf { opacity: 0; transition: opacity .35s; }
+.bp-molen2__korrels[data-fase="0"] .bp-kf--0, .bp-molen2__korrels[data-fase="1"] .bp-kf--1,
+.bp-molen2__korrels[data-fase="2"] .bp-kf--2, .bp-molen2__korrels[data-fase="3"] .bp-kf--3,
+.bp-molen2__korrels[data-fase="4"] .bp-kf--4, .bp-molen2__groot .bp-kf--2 { opacity: 1; }
+.bp-molen2 .bp-kf__kaf { fill: url(#bp-grad-mout) #E6C77F; stroke: #7A5520; stroke-width: 1; }
+.bp-molen2 .bp-kf__lijn { fill: none; stroke: #7A5520; stroke-width: 1; }
+.bp-molen2 .bp-kf__barst { fill: none; stroke: #FFF6DC; stroke-width: 1.5; stroke-linecap: round; }
+.bp-molen2 .bp-kf__meel { fill: #FFF8E8; }
+.bp-molen2 .bp-kf__gruis { fill: #FFF3D6; }
+.bp-molen2 .bp-kf__poeder { fill: #F4EBD4; }
+.bp-molen2 .bp-kf__snipper { fill: none; stroke: #C79A48; stroke-width: 1.6; stroke-linecap: round; }
+
+/* de loep na het slagen */
+.bp-molen2__loep { opacity: 0; pointer-events: none; transition: opacity .3s; }
+.bp-molen2__loep.is-zichtbaar { opacity: 1; }
+.bp-molen2.is-open .bp-molen2__loep.is-zichtbaar { transform-box: view-box; transform-origin: 130px 322px; animation: bp-molen2-zoom .5s cubic-bezier(.22, .8, .24, 1); }
+@keyframes bp-molen2-zoom { from { transform: scale(.55); opacity: 0; } to { transform: none; opacity: 1; } }
+.bp-molen2__loepglas { fill: #0B1C12; }
+.bp-molen2__loeprand { fill: none; stroke: var(--bp-goud, #D4AF37); stroke-width: 7; }
+.bp-molen2__loepsteel { fill: none; stroke: #6B4A2A; stroke-width: 14; stroke-linecap: round; }
+.bp-molen2__vink rect { fill: var(--bp-ovaal, #F7E59D); }
+.bp-molen2__vink text { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-weight: 800; fill: #12261A; }
+
+/* scène A leeft mee: de molen draait sneller zolang jij draait */
+.bp-stap.is-malend[data-stap="2"] .bp-ketel .bp-draai { animation-duration: .8s; }
+.bp-stap.is-malend[data-stap="2"] .bp-ketel .bp-draai--traag { animation-duration: 1.6s; }
+
+
+/* --------------------- stap 3: wek de enzymen ----------------------- */
+.bp-maisch2__stoom path { fill: none; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 1.8; stroke-linecap: round; }
+.bp-maisch2.is-open .bp-maisch2__stoom path { transform-box: fill-box; animation: bp-maisch2-stoom 3.2s ease-out var(--d) infinite; }
+@keyframes bp-maisch2-stoom { 0% { transform: translateY(8px) scaleY(.6); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-16px) scaleY(1.1); opacity: 0; } }
+.bp-maisch2__vlam-buiten { fill: #F59E0B; }
+.bp-maisch2__vlam-binnen { fill: #FDE68A; }
+.bp-maisch2.is-open .bp-maisch2__vlam > g { transform-box: fill-box; transform-origin: 50% 100%; animation: bp-maisch2-vlam .35s ease-in-out var(--d) infinite alternate; }
+@keyframes bp-maisch2-vlam { from { transform: scale(1.04, .86); } to { transform: scale(.95, 1.06); } }
+.bp-maisch2__rood { pointer-events: none; }
+
+/* de patrijspoort met de zetmeelketen */
+.bp-maisch2__poort { fill: none; stroke: var(--bp-goud, #D4AF37); stroke-width: 9; }
+.bp-maisch2__bouten circle { fill: #0B1C12; }
+.bp-maisch2__binding { fill: none; stroke: #CDBF94; stroke-width: 2.4; }
+.bp-maisch2__kraal { fill: #E8DDB8; stroke: #8A7A4E; stroke-width: 1.2; }
+.bp-maisch2__stuk--maltose circle { fill: #F5C842; stroke: #8A6A12; stroke-width: 1; }
+.bp-maisch2__stuk--dextrine circle { fill: #D08A3A; stroke: #6E3F12; stroke-width: 1; }
+.bp-maisch2__schaar--beta { --schaar: #F5C842; }
+.bp-maisch2__schaar--alfa { --schaar: #EFA35C; }
+.bp-maisch2__schaar.is-uit { --schaar: #7E877F; }
+.bp-maisch2__zzz text { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-style: italic; font-weight: 700; fill: var(--bp-lijn, #EDE0A2); opacity: 0; transition: opacity .4s; }
+.bp-maisch2__zzz.is-zichtbaar text { opacity: .8; }
+.bp-maisch2.is-open .bp-maisch2__zzz.is-zichtbaar text { animation: bp-maisch2-zzz 2.4s ease-in-out infinite; }
+.bp-maisch2.is-open .bp-maisch2__zzz.is-zichtbaar text:nth-child(2) { animation-delay: -.8s; }
+.bp-maisch2.is-open .bp-maisch2__zzz.is-zichtbaar text:nth-child(3) { animation-delay: -1.6s; }
+@keyframes bp-maisch2-zzz { 0%, 100% { opacity: .2; } 50% { opacity: .9; } }
+
+/* de thermometer */
+.bp-maisch2__thermo { cursor: ns-resize; }
+.bp-maisch2__buis { fill: #0A2116; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 2.4; }
+.bp-maisch2__band--beta { fill: rgba(245, 200, 66, .5); stroke: #F5C842; stroke-width: 1.5; }
+.bp-maisch2__band--alfa { fill: rgba(239, 163, 92, .55); stroke: #EFA35C; stroke-width: 1.5; }
+.bp-maisch2__stop { fill: none; stroke: #F5EEDA; stroke-width: 3; stroke-dasharray: 6 4; }
+.bp-maisch2__streepjes { fill: none; stroke: var(--bp-lijn-zacht, rgba(237, 224, 162, .32)); stroke-width: 1.4; }
+.bp-maisch2__kwik { fill: #E2483C; }
+.bp-maisch2__bol { fill: #E2483C; stroke: var(--bp-lijn, #EDE0A2); stroke-width: 2.4; }
+.bp-maisch2__glans { fill: none; stroke: rgba(255, 255, 255, .16); stroke-width: 3; stroke-linecap: round; }
+.bp-maisch2__lab { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.bp-maisch2__lab--beta { fill: #F5C842; }
+.bp-maisch2__lab--alfa { fill: #EFA35C; }
+.bp-maisch2__lab--stop { fill: #F5EEDA; }
+.bp-maisch2__vink { opacity: 0; transition: opacity .3s; }
+.bp-maisch2__vink.is-aan { opacity: 1; }
+.bp-maisch2__vink circle { fill: #2F7D54; stroke: #CDEFD7; stroke-width: 1.5; }
+.bp-maisch2__vink path { fill: none; stroke: #FFFFFF; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.bp-maisch2__greep circle { fill: var(--bp-ovaal, #F7E59D); stroke: #0B1C12; stroke-width: 3; transition: fill .2s; }
+.bp-maisch2__greep text { font-family: var(--font-body, system-ui, sans-serif); font-size: 22px; font-weight: 800; fill: #0B1C12; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.bp-maisch2__thermo.is-actief .bp-maisch2__greep circle { fill: #FFF6CF; }
+.bp-maisch2__pijl { fill: none; stroke: var(--bp-ovaal, #F7E59D); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; transition: opacity .3s; }
+.bp-maisch2__svg.is-bediend .bp-maisch2__pijl { opacity: 0; }
+
+
+/* ------------------------- minder beweging -------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .bp-d1 *, .bp-d1 *::before, .bp-d1 *::after { animation: none !important; transition: none !important; }
+    .bp-d1-hot.bp-pulse .bp-d1-ring--puls { opacity: .9; stroke-width: 6; }
+    .bp-maisch2__zzz.is-zichtbaar text { opacity: .7; }
+}
