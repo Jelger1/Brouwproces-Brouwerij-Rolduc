@@ -36,6 +36,18 @@
         });
     }
 
+    // Buiten de hoofdsite (bijvoorbeeld de demo op GitHub Pages) staan webshop,
+    // productpagina's en privacy niet naast deze pagina: laat die links dan
+    // naar brouwerij-rolduc.nl zelf wijzen. Op de hoofdsite en lokaal: niets.
+    var host = location.hostname;
+    var lokaal = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\]|10\.|192\.168\.)/.test(host);
+    if (!lokaal && !/(^|\.)brouwerij-rolduc\.nl$/.test(host)) {
+        document.querySelectorAll('a[data-extern][href]').forEach(function (a) {
+            var doel = a.getAttribute('href');
+            if (!/^([a-z]+:|\/\/|#)/i.test(doel)) a.setAttribute('href', 'https://www.brouwerij-rolduc.nl/' + doel.replace(/^\.?\//, ''));
+        });
+    }
+
     /* ==================================================================
        1. Startscherm
        ================================================================== */

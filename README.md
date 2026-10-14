@@ -199,10 +199,16 @@ zodat iPads en browsers de nieuwe versie ophalen.
 Zet `brouwproces.html`, de map `css/` (zes bestanden), de map `js/` (tien bestanden),
 `assets/brouwproces/` en `video/` in de hoofdmap van de website. De gedeelde bestanden (font,
 logo, favicons, `assets/klein/`) staan daar al. Niet uploaden: `scripts/`, `README.md`,
-`brouwproces.jpeg`.
+`brouwproces.jpeg`, en vooral **niet `index.html` en `.nojekyll`**: die zijn alleen voor de
+demo op GitHub Pages, en `index.html` zou de homepage van de hoofdsite overschrijven.
 
 De app linkt zelf naar `index.html#proeflokaal`, `webshop.html`, `product.html?id=…` en de
 privacy- en cookiepagina (alleen in de webmodus). Vanuit de website: `<a href="brouwproces.html">De Brouwreis</a>`.
+
+**Demo op GitHub Pages:** <https://jelger1.github.io/Brouwproces-Brouwerij-Rolduc/>. Daar
+stuurt `index.html` je door naar `brouwproces.html` (met `?modus=…`, `?bier=…` en `#stap-…`
+erbij), en wijzen de links naar webshop, producten en privacy vanzelf naar
+`https://www.brouwerij-rolduc.nl/`. Elke push naar `main` staat binnen een paar minuten online.
 
 ---
 
